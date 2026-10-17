@@ -1,0 +1,27 @@
+# P1 人工筛选 · 第 1 轮剔除清单（用户口述，2026-10-17 20:32）
+# 用户原文最后三个文件名前缀误写为 coco_，实为 voc_2007/voc_2010 同名文件，已按正确名字记录。
+
+# --- 用户直接点名的 18 个 coco_* ---
+coco_167159.jpg
+coco_170278.jpg
+coco_254368.jpg
+coco_270883.jpg
+coco_345385.jpg
+coco_347174.jpg
+coco_61960.jpg
+coco_73946.jpg
+coco_120777.jpg
+coco_252294.jpg
+coco_45472.jpg
+coco_62025.jpg
+coco_91500.jpg
+coco_91779.jpg
+coco_160556.jpg
+coco_292446.jpg
+coco_294831.jpg
+coco_35279.jpg
+
+# --- 用户写作 coco_002545 / 002668 / 005764，实为以下 VOC 文件 ---
+voc_2007_002545.jpg
+voc_2007_002668.jpg
+voc_2010_005764.jpg
