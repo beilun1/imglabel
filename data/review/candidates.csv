@@ -1,0 +1,355 @@
+﻿序号,文件名,来源,宽,高,处理后路径,类别提示,类别编号
+1,coco_10092.jpg,COCO 2017 val,640,426,data/images/coco_10092.jpg,bed,9
+2,coco_106389.jpg,COCO 2017 val,640,480,data/images/coco_106389.jpg,bed,9
+3,coco_10995.jpg,COCO 2017 val,640,480,data/images/coco_10995.jpg,bed,9
+4,coco_113403.jpg,COCO 2017 val,640,451,data/images/coco_113403.jpg,bed,9
+5,coco_116479.jpg,COCO 2017 val,411,640,data/images/coco_116479.jpg,bed,9
+6,coco_116825.jpg,COCO 2017 val,640,360,data/images/coco_116825.jpg,bed,9
+7,coco_137106.jpg,COCO 2017 val,640,427,data/images/coco_137106.jpg,bed,9
+8,coco_14038.jpg,COCO 2017 val,640,427,data/images/coco_14038.jpg,bed,9
+9,coco_14831.jpg,COCO 2017 val,480,640,data/images/coco_14831.jpg,bed,9
+10,coco_159458.jpg,COCO 2017 val,640,480,data/images/coco_159458.jpg,bed,9
+11,coco_167159.jpg,COCO 2017 val,500,375,data/images/coco_167159.jpg,bed,9
+12,coco_169076.jpg,COCO 2017 val,612,612,data/images/coco_169076.jpg,bed,9
+13,coco_170191.jpg,COCO 2017 val,640,531,data/images/coco_170191.jpg,bed,9
+14,coco_170278.jpg,COCO 2017 val,640,504,data/images/coco_170278.jpg,bed,9
+15,coco_171757.jpg,COCO 2017 val,640,480,data/images/coco_171757.jpg,bed,9
+16,coco_190637.jpg,COCO 2017 val,428,640,data/images/coco_190637.jpg,bed,9
+17,coco_190648.jpg,COCO 2017 val,640,480,data/images/coco_190648.jpg,bed,9
+18,coco_193494.jpg,COCO 2017 val,426,640,data/images/coco_193494.jpg,bed,9
+19,coco_1993.jpg,COCO 2017 val,640,419,data/images/coco_1993.jpg,bed,9
+20,coco_199551.jpg,COCO 2017 val,640,428,data/images/coco_199551.jpg,bed,9
+21,coco_200252.jpg,COCO 2017 val,500,375,data/images/coco_200252.jpg,bed,9
+22,coco_200421.jpg,COCO 2017 val,640,480,data/images/coco_200421.jpg,bed,9
+23,coco_202445.jpg,COCO 2017 val,612,612,data/images/coco_202445.jpg,bed,9
+24,coco_213422.jpg,COCO 2017 val,640,428,data/images/coco_213422.jpg,bed,9
+25,coco_217219.jpg,COCO 2017 val,640,359,data/images/coco_217219.jpg,bed,9
+26,coco_218091.jpg,COCO 2017 val,640,429,data/images/coco_218091.jpg,bed,9
+27,coco_22192.jpg,COCO 2017 val,640,426,data/images/coco_22192.jpg,bed,9
+28,coco_223747.jpg,COCO 2017 val,500,370,data/images/coco_223747.jpg,bed,9
+29,coco_226408.jpg,COCO 2017 val,640,469,data/images/coco_226408.jpg,bed,9
+30,coco_226592.jpg,COCO 2017 val,640,480,data/images/coco_226592.jpg,bed,9
+31,coco_235399.jpg,COCO 2017 val,500,375,data/images/coco_235399.jpg,bed,9
+32,coco_239347.jpg,COCO 2017 val,640,480,data/images/coco_239347.jpg,bed,9
+33,coco_249550.jpg,COCO 2017 val,415,625,data/images/coco_249550.jpg,bed,9
+34,coco_254368.jpg,COCO 2017 val,392,640,data/images/coco_254368.jpg,bed,9
+35,coco_263644.jpg,COCO 2017 val,473,640,data/images/coco_263644.jpg,bed,9
+36,coco_267300.jpg,COCO 2017 val,640,480,data/images/coco_267300.jpg,bed,9
+37,coco_270883.jpg,COCO 2017 val,640,393,data/images/coco_270883.jpg,bed,9
+38,coco_274687.jpg,COCO 2017 val,640,480,data/images/coco_274687.jpg,bed,9
+39,coco_291490.jpg,COCO 2017 val,640,393,data/images/coco_291490.jpg,bed,9
+40,coco_294783.jpg,COCO 2017 val,640,428,data/images/coco_294783.jpg,bed,9
+41,coco_297353.jpg,COCO 2017 val,640,640,data/images/coco_297353.jpg,bed,9
+42,coco_317999.jpg,COCO 2017 val,612,612,data/images/coco_317999.jpg,bed,9
+43,coco_318238.jpg,COCO 2017 val,478,640,data/images/coco_318238.jpg,bed,9
+44,coco_319935.jpg,COCO 2017 val,640,398,data/images/coco_319935.jpg,bed,9
+45,coco_329080.jpg,COCO 2017 val,640,480,data/images/coco_329080.jpg,bed,9
+46,coco_333237.jpg,COCO 2017 val,640,409,data/images/coco_333237.jpg,bed,9
+47,coco_345385.jpg,COCO 2017 val,640,480,data/images/coco_345385.jpg,bed,9
+48,coco_347174.jpg,COCO 2017 val,427,640,data/images/coco_347174.jpg,bed,9
+49,coco_347693.jpg,COCO 2017 val,640,427,data/images/coco_347693.jpg,bed,9
+50,coco_35062.jpg,COCO 2017 val,425,640,data/images/coco_35062.jpg,bed,9
+51,coco_355257.jpg,COCO 2017 val,640,427,data/images/coco_355257.jpg,bed,9
+52,coco_39769.jpg,COCO 2017 val,640,480,data/images/coco_39769.jpg,bed,9
+53,coco_39956.jpg,COCO 2017 val,640,427,data/images/coco_39956.jpg,bed,9
+54,coco_40757.jpg,COCO 2017 val,425,640,data/images/coco_40757.jpg,bed,9
+55,coco_41872.jpg,COCO 2017 val,640,426,data/images/coco_41872.jpg,bed,9
+56,coco_46048.jpg,COCO 2017 val,640,480,data/images/coco_46048.jpg,bed,9
+57,coco_50828.jpg,COCO 2017 val,640,480,data/images/coco_50828.jpg,bed,9
+58,coco_51738.jpg,COCO 2017 val,500,375,data/images/coco_51738.jpg,bed,9
+59,coco_60835.jpg,COCO 2017 val,640,480,data/images/coco_60835.jpg,bed,9
+60,coco_61333.jpg,COCO 2017 val,500,361,data/images/coco_61333.jpg,bed,9
+61,coco_61960.jpg,COCO 2017 val,640,371,data/images/coco_61960.jpg,bed,9
+62,coco_632.jpg,COCO 2017 val,640,483,data/images/coco_632.jpg,bed,9
+63,coco_65074.jpg,COCO 2017 val,424,640,data/images/coco_65074.jpg,bed,9
+64,coco_66523.jpg,COCO 2017 val,480,640,data/images/coco_66523.jpg,bed,9
+65,coco_68286.jpg,COCO 2017 val,640,366,data/images/coco_68286.jpg,bed,9
+66,coco_71226.jpg,COCO 2017 val,640,426,data/images/coco_71226.jpg,bed,9
+67,coco_71451.jpg,COCO 2017 val,383,640,data/images/coco_71451.jpg,bed,9
+68,coco_71938.jpg,COCO 2017 val,640,480,data/images/coco_71938.jpg,bed,9
+69,coco_72813.jpg,COCO 2017 val,640,480,data/images/coco_72813.jpg,bed,9
+70,coco_73946.jpg,COCO 2017 val,640,428,data/images/coco_73946.jpg,bed,9
+71,coco_776.jpg,COCO 2017 val,428,640,data/images/coco_776.jpg,bed,9
+72,coco_7795.jpg,COCO 2017 val,640,427,data/images/coco_7795.jpg,bed,9
+73,coco_99182.jpg,COCO 2017 val,500,334,data/images/coco_99182.jpg,bed,9
+74,voc_2007_000661.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_000661.jpg,chair | couch | potted plant,1 | 3 | 8
+75,voc_2007_001027.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_001027.jpg,chair | couch | tv,1 | 3 | 4
+76,voc_2007_001901.jpg,Pascal VOC 2012,375,500,data/images/voc_2007_001901.jpg,chair | dining table | couch,1 | 2 | 3
+77,voc_2007_002368.jpg,Pascal VOC 2012,333,500,data/images/voc_2007_002368.jpg,chair | dining table | couch,1 | 2 | 3
+78,voc_2007_003011.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_003011.jpg,chair | dining table | couch | tv,1 | 2 | 3 | 4
+79,voc_2007_003451.jpg,Pascal VOC 2012,500,333,data/images/voc_2007_003451.jpg,chair | couch | tv | bottle,1 | 3 | 4 | 7
+80,voc_2007_004166.jpg,Pascal VOC 2012,500,332,data/images/voc_2007_004166.jpg,chair | dining table | couch | tv,1 | 2 | 3 | 4
+81,voc_2007_004193.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_004193.jpg,chair | tv | bottle,1 | 4 | 7
+82,voc_2007_005266.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_005266.jpg,chair | couch | potted plant,1 | 3 | 8
+83,voc_2007_006066.jpg,Pascal VOC 2012,500,333,data/images/voc_2007_006066.jpg,chair | couch | tv,1 | 3 | 4
+84,voc_2007_006086.jpg,Pascal VOC 2012,500,476,data/images/voc_2007_006086.jpg,chair | dining table | bottle,1 | 2 | 7
+85,voc_2007_006241.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_006241.jpg,chair | dining table | bottle,1 | 2 | 7
+86,voc_2008_000043.jpg,Pascal VOC 2012,500,374,data/images/voc_2008_000043.jpg,chair | dining table | potted plant,1 | 2 | 8
+87,voc_2008_000495.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_000495.jpg,chair | tv | bottle,1 | 4 | 7
+88,voc_2008_001809.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_001809.jpg,chair | dining table | couch | bottle,1 | 2 | 3 | 7
+89,voc_2008_002082.jpg,Pascal VOC 2012,500,335,data/images/voc_2008_002082.jpg,chair | dining table | couch | tv | bottle,1 | 2 | 3 | 4 | 7
+90,voc_2008_002119.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_002119.jpg,chair | couch | tv | potted plant,1 | 3 | 4 | 8
+91,voc_2008_002379.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_002379.jpg,chair | dining table | potted plant,1 | 2 | 8
+92,voc_2008_002481.jpg,Pascal VOC 2012,500,377,data/images/voc_2008_002481.jpg,chair | dining table | tv,1 | 2 | 4
+93,voc_2008_003264.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_003264.jpg,chair | dining table | tv,1 | 2 | 4
+94,voc_2008_004619.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_004619.jpg,chair | tv | potted plant,1 | 4 | 8
+95,voc_2008_004661.jpg,Pascal VOC 2012,500,333,data/images/voc_2008_004661.jpg,chair | dining table | couch | tv | potted plant,1 | 2 | 3 | 4 | 8
+96,voc_2008_005248.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_005248.jpg,chair | bottle | potted plant,1 | 7 | 8
+97,voc_2008_005257.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_005257.jpg,chair | dining table | tv | bottle,1 | 2 | 4 | 7
+98,voc_2008_005342.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_005342.jpg,chair | dining table | tv | bottle,1 | 2 | 4 | 7
+99,voc_2008_005954.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_005954.jpg,chair | dining table | couch | tv | potted plant,1 | 2 | 3 | 4 | 8
+100,voc_2008_006624.jpg,Pascal VOC 2012,333,500,data/images/voc_2008_006624.jpg,chair | tv | potted plant,1 | 4 | 8
+101,voc_2008_006719.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_006719.jpg,chair | couch | tv | bottle,1 | 3 | 4 | 7
+102,voc_2008_008330.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_008330.jpg,chair | dining table | bottle | potted plant,1 | 2 | 7 | 8
+103,voc_2008_008402.jpg,Pascal VOC 2012,500,377,data/images/voc_2008_008402.jpg,chair | dining table | couch | potted plant,1 | 2 | 3 | 8
+104,voc_2009_002571.jpg,Pascal VOC 2012,500,334,data/images/voc_2009_002571.jpg,chair | dining table | couch | potted plant,1 | 2 | 3 | 8
+105,voc_2009_002688.jpg,Pascal VOC 2012,500,376,data/images/voc_2009_002688.jpg,chair | dining table | bottle | potted plant,1 | 2 | 7 | 8
+106,voc_2010_000669.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_000669.jpg,chair | dining table | tv | potted plant,1 | 2 | 4 | 8
+107,voc_2010_004358.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_004358.jpg,chair | couch | tv | potted plant,1 | 3 | 4 | 8
+108,voc_2010_006056.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_006056.jpg,chair | dining table | couch | bottle,1 | 2 | 3 | 7
+109,voc_2011_002814.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_002814.jpg,chair | dining table | couch | tv | bottle | potted plant,1 | 2 | 3 | 4 | 7 | 8
+110,voc_2007_001149.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_001149.jpg,couch | tv | potted plant,3 | 4 | 8
+111,voc_2008_001781.jpg,Pascal VOC 2012,468,312,data/images/voc_2008_001781.jpg,couch | tv | potted plant,3 | 4 | 8
+112,voc_2008_006543.jpg,Pascal VOC 2012,333,500,data/images/voc_2008_006543.jpg,couch | bottle | potted plant,3 | 7 | 8
+113,coco_102707.jpg,COCO 2017 val,612,612,data/images/coco_102707.jpg,cup,6
+114,coco_108253.jpg,COCO 2017 val,480,640,data/images/coco_108253.jpg,cup,6
+115,coco_109313.jpg,COCO 2017 val,480,640,data/images/coco_109313.jpg,cup,6
+116,coco_110999.jpg,COCO 2017 val,359,640,data/images/coco_110999.jpg,cup,6
+117,coco_113720.jpg,COCO 2017 val,640,426,data/images/coco_113720.jpg,cup,6
+118,coco_115870.jpg,COCO 2017 val,640,426,data/images/coco_115870.jpg,cup,6
+119,coco_116206.jpg,COCO 2017 val,640,480,data/images/coco_116206.jpg,cup,6
+120,coco_116208.jpg,COCO 2017 val,640,480,data/images/coco_116208.jpg,cup,6
+121,coco_117425.jpg,COCO 2017 val,640,426,data/images/coco_117425.jpg,cup,6
+122,coco_117719.jpg,COCO 2017 val,640,425,data/images/coco_117719.jpg,cup,6
+123,coco_120777.jpg,COCO 2017 val,500,375,data/images/coco_120777.jpg,cup,6
+124,coco_120853.jpg,COCO 2017 val,640,428,data/images/coco_120853.jpg,cup,6
+125,coco_12576.jpg,COCO 2017 val,480,640,data/images/coco_12576.jpg,cup,6
+126,coco_127394.jpg,COCO 2017 val,409,640,data/images/coco_127394.jpg,cup,6
+127,coco_128476.jpg,COCO 2017 val,640,427,data/images/coco_128476.jpg,cup,6
+128,coco_135561.jpg,COCO 2017 val,640,480,data/images/coco_135561.jpg,cup,6
+129,coco_13729.jpg,COCO 2017 val,640,480,data/images/coco_13729.jpg,cup,6
+130,coco_140987.jpg,COCO 2017 val,425,640,data/images/coco_140987.jpg,cup,6
+131,coco_142620.jpg,COCO 2017 val,640,426,data/images/coco_142620.jpg,cup,6
+132,coco_144798.jpg,COCO 2017 val,425,640,data/images/coco_144798.jpg,cup,6
+133,coco_145597.jpg,COCO 2017 val,640,480,data/images/coco_145597.jpg,cup,6
+134,coco_150417.jpg,COCO 2017 val,640,480,data/images/coco_150417.jpg,cup,6
+135,coco_15335.jpg,COCO 2017 val,640,480,data/images/coco_15335.jpg,cup,6
+136,coco_17714.jpg,COCO 2017 val,640,480,data/images/coco_17714.jpg,cup,6
+137,coco_17899.jpg,COCO 2017 val,480,640,data/images/coco_17899.jpg,cup,6
+138,coco_18380.jpg,COCO 2017 val,640,426,data/images/coco_18380.jpg,cup,6
+139,coco_192904.jpg,COCO 2017 val,640,436,data/images/coco_192904.jpg,cup | bed,6 | 9
+140,coco_20553.jpg,COCO 2017 val,500,375,data/images/coco_20553.jpg,cup,6
+141,coco_2157.jpg,COCO 2017 val,640,427,data/images/coco_2157.jpg,cup,6
+142,coco_218439.jpg,COCO 2017 val,480,640,data/images/coco_218439.jpg,cup | bed,6 | 9
+143,coco_231549.jpg,COCO 2017 val,640,480,data/images/coco_231549.jpg,cup | bed,6 | 9
+144,coco_24243.jpg,COCO 2017 val,640,480,data/images/coco_24243.jpg,cup,6
+145,coco_2431.jpg,COCO 2017 val,457,640,data/images/coco_2431.jpg,cup,6
+146,coco_252294.jpg,COCO 2017 val,375,500,data/images/coco_252294.jpg,cup | bed,6 | 9
+147,coco_25394.jpg,COCO 2017 val,480,640,data/images/coco_25394.jpg,cup,6
+148,coco_25560.jpg,COCO 2017 val,640,480,data/images/coco_25560.jpg,cup,6
+149,coco_25603.jpg,COCO 2017 val,640,480,data/images/coco_25603.jpg,cup,6
+150,coco_2592.jpg,COCO 2017 val,640,366,data/images/coco_2592.jpg,cup,6
+151,coco_25986.jpg,COCO 2017 val,640,480,data/images/coco_25986.jpg,cup,6
+152,coco_2685.jpg,COCO 2017 val,640,555,data/images/coco_2685.jpg,cup,6
+153,coco_273420.jpg,COCO 2017 val,500,400,data/images/coco_273420.jpg,cup | bed,6 | 9
+154,coco_283412.jpg,COCO 2017 val,640,427,data/images/coco_283412.jpg,cup | bed,6 | 9
+155,coco_29596.jpg,COCO 2017 val,640,428,data/images/coco_29596.jpg,cup,6
+156,coco_31296.jpg,COCO 2017 val,640,425,data/images/coco_31296.jpg,cup,6
+157,coco_31620.jpg,COCO 2017 val,480,640,data/images/coco_31620.jpg,cup,6
+158,coco_32901.jpg,COCO 2017 val,640,546,data/images/coco_32901.jpg,cup,6
+159,coco_34873.jpg,COCO 2017 val,640,480,data/images/coco_34873.jpg,cup,6
+160,coco_35682.jpg,COCO 2017 val,480,640,data/images/coco_35682.jpg,cup,6
+161,coco_36494.jpg,COCO 2017 val,640,434,data/images/coco_36494.jpg,cup,6
+162,coco_3661.jpg,COCO 2017 val,640,384,data/images/coco_3661.jpg,cup,6
+163,coco_36844.jpg,COCO 2017 val,640,480,data/images/coco_36844.jpg,cup,6
+164,coco_36936.jpg,COCO 2017 val,640,404,data/images/coco_36936.jpg,cup,6
+165,coco_3845.jpg,COCO 2017 val,500,375,data/images/coco_3845.jpg,cup,6
+166,coco_38678.jpg,COCO 2017 val,480,640,data/images/coco_38678.jpg,cup,6
+167,coco_3934.jpg,COCO 2017 val,375,500,data/images/coco_3934.jpg,cup,6
+168,coco_40471.jpg,COCO 2017 val,427,640,data/images/coco_40471.jpg,cup,6
+169,coco_45472.jpg,COCO 2017 val,640,428,data/images/coco_45472.jpg,cup,6
+170,coco_48396.jpg,COCO 2017 val,640,427,data/images/coco_48396.jpg,cup,6
+171,coco_52413.jpg,COCO 2017 val,500,375,data/images/coco_52413.jpg,cup,6
+172,coco_52996.jpg,COCO 2017 val,640,426,data/images/coco_52996.jpg,cup,6
+173,coco_54605.jpg,COCO 2017 val,612,612,data/images/coco_54605.jpg,cup,6
+174,coco_56127.jpg,COCO 2017 val,580,640,data/images/coco_56127.jpg,cup,6
+175,coco_62025.jpg,COCO 2017 val,480,640,data/images/coco_62025.jpg,cup,6
+176,coco_63047.jpg,COCO 2017 val,640,561,data/images/coco_63047.jpg,cup,6
+177,coco_66706.jpg,COCO 2017 val,612,612,data/images/coco_66706.jpg,cup,6
+178,coco_66771.jpg,COCO 2017 val,640,480,data/images/coco_66771.jpg,cup,6
+179,coco_70048.jpg,COCO 2017 val,640,480,data/images/coco_70048.jpg,cup,6
+180,coco_74209.jpg,COCO 2017 val,640,480,data/images/coco_74209.jpg,cup,6
+181,coco_74733.jpg,COCO 2017 val,612,612,data/images/coco_74733.jpg,cup,6
+182,coco_78426.jpg,COCO 2017 val,500,334,data/images/coco_78426.jpg,cup,6
+183,coco_80340.jpg,COCO 2017 val,640,427,data/images/coco_80340.jpg,cup,6
+184,coco_80932.jpg,COCO 2017 val,480,640,data/images/coco_80932.jpg,cup,6
+185,coco_82696.jpg,COCO 2017 val,427,640,data/images/coco_82696.jpg,cup,6
+186,coco_83531.jpg,COCO 2017 val,500,275,data/images/coco_83531.jpg,cup,6
+187,coco_85157.jpg,COCO 2017 val,640,480,data/images/coco_85157.jpg,cup,6
+188,coco_88040.jpg,COCO 2017 val,427,640,data/images/coco_88040.jpg,cup,6
+189,coco_91500.jpg,COCO 2017 val,640,480,data/images/coco_91500.jpg,cup,6
+190,coco_91615.jpg,COCO 2017 val,640,425,data/images/coco_91615.jpg,cup,6
+191,coco_91779.jpg,COCO 2017 val,640,480,data/images/coco_91779.jpg,cup,6
+192,coco_92053.jpg,COCO 2017 val,640,427,data/images/coco_92053.jpg,cup,6
+193,coco_92660.jpg,COCO 2017 val,640,427,data/images/coco_92660.jpg,cup,6
+194,coco_92939.jpg,COCO 2017 val,424,640,data/images/coco_92939.jpg,cup,6
+195,coco_93437.jpg,COCO 2017 val,640,361,data/images/coco_93437.jpg,cup,6
+196,coco_95786.jpg,COCO 2017 val,500,334,data/images/coco_95786.jpg,cup,6
+197,coco_9590.jpg,COCO 2017 val,640,427,data/images/coco_9590.jpg,cup,6
+198,coco_10707.jpg,COCO 2017 val,640,480,data/images/coco_10707.jpg,laptop | cup,5 | 6
+199,coco_110449.jpg,COCO 2017 val,500,375,data/images/coco_110449.jpg,laptop,5
+200,coco_111609.jpg,COCO 2017 val,640,429,data/images/coco_111609.jpg,laptop | bed,5 | 9
+201,coco_112798.jpg,COCO 2017 val,640,359,data/images/coco_112798.jpg,laptop,5
+202,coco_115885.jpg,COCO 2017 val,500,375,data/images/coco_115885.jpg,laptop | bed,5 | 9
+203,coco_11813.jpg,COCO 2017 val,333,500,data/images/coco_11813.jpg,laptop,5
+204,coco_119365.jpg,COCO 2017 val,480,640,data/images/coco_119365.jpg,laptop,5
+205,coco_119828.jpg,COCO 2017 val,500,375,data/images/coco_119828.jpg,laptop | cup,5 | 6
+206,coco_124659.jpg,COCO 2017 val,640,480,data/images/coco_124659.jpg,laptop,5
+207,coco_131138.jpg,COCO 2017 val,640,480,data/images/coco_131138.jpg,laptop | cup,5 | 6
+208,coco_134112.jpg,COCO 2017 val,500,357,data/images/coco_134112.jpg,laptop | bed,5 | 9
+209,coco_134882.jpg,COCO 2017 val,640,639,data/images/coco_134882.jpg,laptop | bed,5 | 9
+210,coco_135872.jpg,COCO 2017 val,640,427,data/images/coco_135872.jpg,laptop | cup,5 | 6
+211,coco_13659.jpg,COCO 2017 val,640,480,data/images/coco_13659.jpg,laptop | cup,5 | 6
+212,coco_136600.jpg,COCO 2017 val,640,457,data/images/coco_136600.jpg,laptop,5
+213,coco_139077.jpg,COCO 2017 val,500,375,data/images/coco_139077.jpg,laptop,5
+214,coco_14226.jpg,COCO 2017 val,640,480,data/images/coco_14226.jpg,laptop,5
+215,coco_147415.jpg,COCO 2017 val,640,480,data/images/coco_147415.jpg,laptop | cup,5 | 6
+216,coco_148620.jpg,COCO 2017 val,500,375,data/images/coco_148620.jpg,laptop,5
+217,coco_1503.jpg,COCO 2017 val,320,240,data/images/coco_1503.jpg,laptop,5
+218,coco_154705.jpg,COCO 2017 val,640,464,data/images/coco_154705.jpg,laptop,5
+219,coco_160556.jpg,COCO 2017 val,640,428,data/images/coco_160556.jpg,laptop,5
+220,coco_16439.jpg,COCO 2017 val,640,480,data/images/coco_16439.jpg,laptop,5
+221,coco_166478.jpg,COCO 2017 val,640,426,data/images/coco_166478.jpg,laptop,5
+222,coco_172595.jpg,COCO 2017 val,640,360,data/images/coco_172595.jpg,laptop,5
+223,coco_174231.jpg,COCO 2017 val,375,500,data/images/coco_174231.jpg,laptop,5
+224,coco_176446.jpg,COCO 2017 val,640,480,data/images/coco_176446.jpg,laptop,5
+225,coco_177015.jpg,COCO 2017 val,640,480,data/images/coco_177015.jpg,laptop,5
+226,coco_178469.jpg,COCO 2017 val,640,427,data/images/coco_178469.jpg,laptop | cup,5 | 6
+227,coco_181499.jpg,COCO 2017 val,640,513,data/images/coco_181499.jpg,laptop,5
+228,coco_182162.jpg,COCO 2017 val,640,425,data/images/coco_182162.jpg,laptop,5
+229,coco_182202.jpg,COCO 2017 val,640,385,data/images/coco_182202.jpg,laptop,5
+230,coco_190236.jpg,COCO 2017 val,640,393,data/images/coco_190236.jpg,laptop | cup,5 | 6
+231,coco_195918.jpg,COCO 2017 val,640,428,data/images/coco_195918.jpg,laptop,5
+232,coco_19786.jpg,COCO 2017 val,500,375,data/images/coco_19786.jpg,laptop,5
+233,coco_198641.jpg,COCO 2017 val,640,479,data/images/coco_198641.jpg,laptop,5
+234,coco_206218.jpg,COCO 2017 val,640,480,data/images/coco_206218.jpg,laptop,5
+235,coco_215778.jpg,COCO 2017 val,640,427,data/images/coco_215778.jpg,laptop | cup,5 | 6
+236,coco_222299.jpg,COCO 2017 val,500,375,data/images/coco_222299.jpg,laptop | bed,5 | 9
+237,coco_22371.jpg,COCO 2017 val,425,282,data/images/coco_22371.jpg,laptop,5
+238,coco_225757.jpg,COCO 2017 val,500,367,data/images/coco_225757.jpg,laptop,5
+239,coco_226171.jpg,COCO 2017 val,640,480,data/images/coco_226171.jpg,laptop | cup,5 | 6
+240,coco_229659.jpg,COCO 2017 val,640,480,data/images/coco_229659.jpg,laptop,5
+241,coco_232088.jpg,COCO 2017 val,640,480,data/images/coco_232088.jpg,laptop,5
+242,coco_232684.jpg,COCO 2017 val,640,427,data/images/coco_232684.jpg,laptop,5
+243,coco_239318.jpg,COCO 2017 val,375,500,data/images/coco_239318.jpg,laptop,5
+244,coco_243199.jpg,COCO 2017 val,500,333,data/images/coco_243199.jpg,laptop | bed,5 | 9
+245,coco_24610.jpg,COCO 2017 val,640,480,data/images/coco_24610.jpg,laptop,5
+246,coco_246308.jpg,COCO 2017 val,480,640,data/images/coco_246308.jpg,laptop,5
+247,coco_248314.jpg,COCO 2017 val,640,480,data/images/coco_248314.jpg,laptop,5
+248,coco_248631.jpg,COCO 2017 val,640,480,data/images/coco_248631.jpg,laptop,5
+249,coco_255165.jpg,COCO 2017 val,640,480,data/images/coco_255165.jpg,laptop | cup,5 | 6
+250,coco_262227.jpg,COCO 2017 val,474,640,data/images/coco_262227.jpg,laptop,5
+251,coco_26465.jpg,COCO 2017 val,500,375,data/images/coco_26465.jpg,laptop,5
+252,coco_26564.jpg,COCO 2017 val,640,426,data/images/coco_26564.jpg,laptop,5
+253,coco_271728.jpg,COCO 2017 val,640,427,data/images/coco_271728.jpg,laptop | cup,5 | 6
+254,coco_275749.jpg,COCO 2017 val,500,375,data/images/coco_275749.jpg,laptop | cup,5 | 6
+255,coco_27620.jpg,COCO 2017 val,640,480,data/images/coco_27620.jpg,laptop,5
+256,coco_278463.jpg,COCO 2017 val,640,480,data/images/coco_278463.jpg,laptop | cup,5 | 6
+257,coco_287347.jpg,COCO 2017 val,478,640,data/images/coco_287347.jpg,laptop | cup,5 | 6
+258,coco_290843.jpg,COCO 2017 val,428,640,data/images/coco_290843.jpg,laptop | bed,5 | 9
+259,coco_292446.jpg,COCO 2017 val,612,612,data/images/coco_292446.jpg,laptop,5
+260,coco_294162.jpg,COCO 2017 val,480,640,data/images/coco_294162.jpg,laptop,5
+261,coco_294831.jpg,COCO 2017 val,640,361,data/images/coco_294831.jpg,laptop | cup,5 | 6
+262,coco_301421.jpg,COCO 2017 val,640,427,data/images/coco_301421.jpg,laptop,5
+263,coco_302030.jpg,COCO 2017 val,640,359,data/images/coco_302030.jpg,laptop,5
+264,coco_306139.jpg,COCO 2017 val,640,426,data/images/coco_306139.jpg,laptop,5
+265,coco_32610.jpg,COCO 2017 val,640,427,data/images/coco_32610.jpg,laptop,5
+266,coco_332845.jpg,COCO 2017 val,640,480,data/images/coco_332845.jpg,laptop | bed,5 | 9
+267,coco_35279.jpg,COCO 2017 val,640,463,data/images/coco_35279.jpg,laptop,5
+268,coco_37740.jpg,COCO 2017 val,640,480,data/images/coco_37740.jpg,laptop,5
+269,coco_46031.jpg,COCO 2017 val,640,480,data/images/coco_46031.jpg,laptop,5
+270,coco_4795.jpg,COCO 2017 val,640,480,data/images/coco_4795.jpg,laptop,5
+271,coco_51008.jpg,COCO 2017 val,640,480,data/images/coco_51008.jpg,laptop,5
+272,coco_51610.jpg,COCO 2017 val,640,427,data/images/coco_51610.jpg,laptop | bed,5 | 9
+273,coco_59598.jpg,COCO 2017 val,640,480,data/images/coco_59598.jpg,laptop,5
+274,coco_60449.jpg,COCO 2017 val,480,640,data/images/coco_60449.jpg,laptop,5
+275,coco_63602.jpg,COCO 2017 val,640,425,data/images/coco_63602.jpg,laptop | cup,5 | 6
+276,coco_63740.jpg,COCO 2017 val,640,480,data/images/coco_63740.jpg,laptop | cup,5 | 6
+277,coco_76547.jpg,COCO 2017 val,640,480,data/images/coco_76547.jpg,laptop,5
+278,coco_76731.jpg,COCO 2017 val,640,406,data/images/coco_76731.jpg,laptop,5
+279,coco_77396.jpg,COCO 2017 val,640,480,data/images/coco_77396.jpg,laptop,5
+280,coco_77595.jpg,COCO 2017 val,640,425,data/images/coco_77595.jpg,laptop | bed,5 | 9
+281,coco_78420.jpg,COCO 2017 val,640,480,data/images/coco_78420.jpg,laptop,5
+282,coco_80949.jpg,COCO 2017 val,640,438,data/images/coco_80949.jpg,laptop | cup,5 | 6
+283,coco_82765.jpg,COCO 2017 val,426,640,data/images/coco_82765.jpg,laptop | bed,5 | 9
+284,coco_86582.jpg,COCO 2017 val,640,427,data/images/coco_86582.jpg,laptop,5
+285,coco_89648.jpg,COCO 2017 val,640,427,data/images/coco_89648.jpg,laptop,5
+286,coco_9400.jpg,COCO 2017 val,640,480,data/images/coco_9400.jpg,laptop | cup,5 | 6
+287,coco_97994.jpg,COCO 2017 val,640,427,data/images/coco_97994.jpg,laptop | cup,5 | 6
+288,coco_99428.jpg,COCO 2017 val,640,480,data/images/coco_99428.jpg,laptop,5
+289,voc_2007_000762.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_000762.jpg,person | dining table | bottle,0 | 2 | 7
+290,voc_2007_001185.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_001185.jpg,person | dining table | bottle,0 | 2 | 7
+291,voc_2007_001408.jpg,Pascal VOC 2012,333,500,data/images/voc_2007_001408.jpg,person | bottle | potted plant,0 | 7 | 8
+292,voc_2007_001430.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_001430.jpg,person | dining table | tv | potted plant,0 | 2 | 4 | 8
+293,voc_2007_001585.jpg,Pascal VOC 2012,500,434,data/images/voc_2007_001585.jpg,person | couch | bottle,0 | 3 | 7
+294,voc_2007_001678.jpg,Pascal VOC 2012,500,333,data/images/voc_2007_001678.jpg,person | chair | tv,0 | 1 | 4
+295,voc_2007_001717.jpg,Pascal VOC 2012,500,404,data/images/voc_2007_001717.jpg,person | chair | tv,0 | 1 | 4
+296,voc_2007_002545.jpg,Pascal VOC 2012,375,500,data/images/voc_2007_002545.jpg,person | couch | bottle,0 | 3 | 7
+297,voc_2007_002668.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_002668.jpg,person | dining table | potted plant,0 | 2 | 8
+298,voc_2007_004392.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_004392.jpg,person | chair | potted plant,0 | 1 | 8
+299,voc_2007_004712.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_004712.jpg,person | chair | dining table | bottle | potted plant,0 | 1 | 2 | 7 | 8
+300,voc_2007_005086.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_005086.jpg,person | chair | dining table,0 | 1 | 2
+301,voc_2007_007795.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_007795.jpg,person | chair | potted plant,0 | 1 | 8
+302,voc_2007_007996.jpg,Pascal VOC 2012,500,333,data/images/voc_2007_007996.jpg,person | chair | couch | tv,0 | 1 | 3 | 4
+303,voc_2007_008204.jpg,Pascal VOC 2012,500,374,data/images/voc_2007_008204.jpg,person | tv | bottle,0 | 4 | 7
+304,voc_2007_009068.jpg,Pascal VOC 2012,500,375,data/images/voc_2007_009068.jpg,person | chair | couch | potted plant,0 | 1 | 3 | 8
+305,voc_2007_009554.jpg,Pascal VOC 2012,500,370,data/images/voc_2007_009554.jpg,person | couch | tv,0 | 3 | 4
+306,voc_2008_000023.jpg,Pascal VOC 2012,333,500,data/images/voc_2008_000023.jpg,person | tv | bottle,0 | 4 | 7
+307,voc_2008_000041.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_000041.jpg,person | chair | dining table | potted plant,0 | 1 | 2 | 8
+308,voc_2008_000202.jpg,Pascal VOC 2012,500,333,data/images/voc_2008_000202.jpg,person | chair | tv | bottle,0 | 1 | 4 | 7
+309,voc_2008_000493.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_000493.jpg,person | chair | dining table | couch,0 | 1 | 2 | 3
+310,voc_2008_001230.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_001230.jpg,person | chair | dining table | bottle,0 | 1 | 2 | 7
+311,voc_2008_001333.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_001333.jpg,person | chair | couch | bottle,0 | 1 | 3 | 7
+312,voc_2008_001434.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_001434.jpg,person | chair | dining table | potted plant,0 | 1 | 2 | 8
+313,voc_2008_001461.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_001461.jpg,person | chair | couch | tv,0 | 1 | 3 | 4
+314,voc_2008_001862.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_001862.jpg,person | chair | bottle | potted plant,0 | 1 | 7 | 8
+315,voc_2008_001928.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_001928.jpg,person | chair | dining table | bottle,0 | 1 | 2 | 7
+316,voc_2008_002086.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_002086.jpg,person | chair | bottle | potted plant,0 | 1 | 7 | 8
+317,voc_2008_002098.jpg,Pascal VOC 2012,336,448,data/images/voc_2008_002098.jpg,person | dining table | potted plant,0 | 2 | 8
+318,voc_2008_002362.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_002362.jpg,person | chair | dining table | couch | bottle,0 | 1 | 2 | 3 | 7
+319,voc_2008_002776.jpg,Pascal VOC 2012,500,333,data/images/voc_2008_002776.jpg,person | chair | couch | tv | bottle,0 | 1 | 3 | 4 | 7
+320,voc_2008_003280.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_003280.jpg,person | chair | tv | bottle,0 | 1 | 4 | 7
+321,voc_2008_004321.jpg,Pascal VOC 2012,500,333,data/images/voc_2008_004321.jpg,person | chair | dining table | couch | tv,0 | 1 | 2 | 3 | 4
+322,voc_2008_004435.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_004435.jpg,person | chair | couch | bottle | potted plant,0 | 1 | 3 | 7 | 8
+323,voc_2008_004778.jpg,Pascal VOC 2012,258,400,data/images/voc_2008_004778.jpg,person | chair | couch | bottle,0 | 1 | 3 | 7
+324,voc_2008_005090.jpg,Pascal VOC 2012,375,500,data/images/voc_2008_005090.jpg,person | couch | tv | bottle,0 | 3 | 4 | 7
+325,voc_2008_006288.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_006288.jpg,person | tv | potted plant,0 | 4 | 8
+326,voc_2008_006295.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_006295.jpg,person | dining table | tv | bottle | potted plant,0 | 2 | 4 | 7 | 8
+327,voc_2008_006864.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_006864.jpg,person | couch | potted plant,0 | 3 | 8
+328,voc_2008_006952.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_006952.jpg,person | dining table | couch | bottle,0 | 2 | 3 | 7
+329,voc_2008_007097.jpg,Pascal VOC 2012,480,360,data/images/voc_2008_007097.jpg,person | chair | dining table | tv | bottle,0 | 1 | 2 | 4 | 7
+330,voc_2008_007261.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_007261.jpg,person | chair | dining table | bottle | potted plant,0 | 1 | 2 | 7 | 8
+331,voc_2008_007281.jpg,Pascal VOC 2012,500,375,data/images/voc_2008_007281.jpg,person | chair | couch | tv | bottle | potted plant,0 | 1 | 3 | 4 | 7 | 8
+332,voc_2009_001000.jpg,Pascal VOC 2012,500,121,data/images/voc_2009_001000.jpg,person | chair | tv | potted plant,0 | 1 | 4 | 8
+333,voc_2009_001605.jpg,Pascal VOC 2012,500,375,data/images/voc_2009_001605.jpg,person | couch | tv | bottle,0 | 3 | 4 | 7
+334,voc_2009_001608.jpg,Pascal VOC 2012,375,500,data/images/voc_2009_001608.jpg,person | chair | dining table | couch | tv,0 | 1 | 2 | 3 | 4
+335,voc_2009_001864.jpg,Pascal VOC 2012,500,333,data/images/voc_2009_001864.jpg,person | chair | tv | potted plant,0 | 1 | 4 | 8
+336,voc_2009_002139.jpg,Pascal VOC 2012,500,375,data/images/voc_2009_002139.jpg,person | chair | dining table | tv,0 | 1 | 2 | 4
+337,voc_2009_003191.jpg,Pascal VOC 2012,375,500,data/images/voc_2009_003191.jpg,person | chair | dining table | tv | bottle,0 | 1 | 2 | 4 | 7
+338,voc_2009_003795.jpg,Pascal VOC 2012,500,375,data/images/voc_2009_003795.jpg,person | dining table | couch | bottle,0 | 2 | 3 | 7
+339,voc_2009_004794.jpg,Pascal VOC 2012,500,374,data/images/voc_2009_004794.jpg,person | dining table | bottle | potted plant,0 | 2 | 7 | 8
+340,voc_2009_005038.jpg,Pascal VOC 2012,375,500,data/images/voc_2009_005038.jpg,person | dining table | bottle | potted plant,0 | 2 | 7 | 8
+341,voc_2010_000178.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_000178.jpg,person | chair | dining table | couch | tv | potted plant,0 | 1 | 2 | 3 | 4 | 8
+342,voc_2010_000386.jpg,Pascal VOC 2012,500,333,data/images/voc_2010_000386.jpg,person | chair | couch | tv | bottle,0 | 1 | 3 | 4 | 7
+343,voc_2010_000968.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_000968.jpg,person | chair | couch | potted plant,0 | 1 | 3 | 8
+344,voc_2010_002742.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_002742.jpg,person | chair | dining table | tv | bottle | potted plant,0 | 1 | 2 | 4 | 7 | 8
+345,voc_2010_003597.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_003597.jpg,person | dining table | couch | bottle | potted plant,0 | 2 | 3 | 7 | 8
+346,voc_2010_005170.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_005170.jpg,person | chair | dining table | couch,0 | 1 | 2 | 3
+347,voc_2010_005764.jpg,Pascal VOC 2012,500,375,data/images/voc_2010_005764.jpg,person | chair | dining table | tv,0 | 1 | 2 | 4
+348,voc_2011_000072.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_000072.jpg,person | chair | couch | tv | potted plant,0 | 1 | 3 | 4 | 8
+349,voc_2011_000947.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_000947.jpg,person | chair | dining table | couch | bottle,0 | 1 | 2 | 3 | 7
+350,voc_2011_001058.jpg,Pascal VOC 2012,500,333,data/images/voc_2011_001058.jpg,person | dining table | tv | bottle,0 | 2 | 4 | 7
+351,voc_2011_001820.jpg,Pascal VOC 2012,500,392,data/images/voc_2011_001820.jpg,person | dining table | couch | bottle | potted plant,0 | 2 | 3 | 7 | 8
+352,voc_2011_001845.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_001845.jpg,person | couch | bottle | potted plant,0 | 3 | 7 | 8
+353,voc_2011_002966.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_002966.jpg,person | dining table | tv | bottle,0 | 2 | 4 | 7
+354,voc_2011_003038.jpg,Pascal VOC 2012,500,375,data/images/voc_2011_003038.jpg,person | couch | bottle | potted plant,0 | 3 | 7 | 8

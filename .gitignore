@@ -71,3 +71,22 @@ desktop.ini
 *.log
 *.tmp
 ~$*
+
+# ======================================================================
+# P1 数据准备相关（2026-10-17 追加）
+# ======================================================================
+# 原始候选图：放在项目外的 D:\imglabel_raw，此处仅作防呆
+raw_originals/
+candidates/
+
+# 候选池图片（3478 张，约 158MB）：不进 git，按需重新生成
+# 最终保留的 150 张会由 tools/finalize_dataset.py 复制到 data/dataset_final/，
+# 该目录必须纳入 git（任务书要求图片随包提交）。
+data/images/
+
+# 预览缩略图可由 tools/make_review.py 重新生成，不进 git
+data/review/thumbs/
+data/review/preview/page_*.html
+
+# 压缩/处理报告的 json 明细体积较大，只保留 md 摘要
+data/images/_compress_report.json
