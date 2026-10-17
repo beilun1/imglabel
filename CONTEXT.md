@@ -12,17 +12,17 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] 当前阶段：**P1 数据准备 已完成**（2026-10-17）—— 328 张 / 10 类，全部硬门槛通过
-- [ ] 最近一次 git commit：见 `git log`（P1: 数据获取与筛选完成）
-- [ ] 上一步完成：P0 全部（环境 imglabel / Python 3.10.22 / 阿里云源 / 私有仓库 beilun1/imglabel）
-- [ ] 本步已完成：
-  - 数据通道：VOC2012 走 PaddleSeg 百度云镜像（官方站 0.03MB/s 不可用，镜像 12.8MB/s）；COCO val 走 hf-mirror parquet（7.9MB/s）
-  - 机器初筛 + 压缩：VOC 3229 张 + COCO 249 张 → 3478 张候选，长边≤960 / JPG85 全部合规，失败 0
-  - 分层抽样后候选池 **354 张**，十类全覆盖；人工筛选剔除 26 张
-  - **最终数据集 328 张 / 10 类**，见 `data/curated/`（images 328 张 + filelist.txt + stats.md）
-  - `提交信息.txt` 草稿已建（数字与 stats.json 逐项核对一致）
-- [ ] **下一步待办**：P2 flask UI 骨架 + 画布三模式（app.py / canvas/ / 启动.bat / requirements.txt）
-- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**
+- [x] 当前阶段：**P2 flask UI 骨架 + 画布三模式 初版已提交**（2026-10-17），**等待 Qoder 接手修复用户试用反馈**
+- [ ] 最近一次 git commit：见 `git log`（P2: 交互画布初版，Trae 完成）
+- [ ] 上一步完成：
+  - P2 画布初版全量：app.py / canvas/（app.js + style.css）/ templates/（index + annotate）/ 启动.bat / requirements.txt / prelabel.py 占位
+  - 三模式 Tab（1/2/3）+ 数据联动（掩码为真值源，框=外接矩形、语义=按类合并实时派生）
+  - 框编辑（拖角/拖边/平移/新建/Delete/换类）、掩码编辑（画笔 W/橡皮 E/多边形 P/移动 V）
+  - 加分项：修正计数条（本次 N / 目标 60）、撤销重做（Ctrl+Z / Ctrl+Shift+Z，计数联动）、双栏对比
+  - 标注存储：每图 `data/annotations/{图名}.json`（GET/POST 已验证）
+  - 接口实测全过：列表 328 卡、清单 328、标注存取往返、静态资源；`node --check` 语法通过
+- [ ] **下一步待办（Qoder）**：按 `P2-修正提示词.md` 修复用户试用反馈（**4 个交互问题 + 浅色主题**），修复后回归验证并留痕
+- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）
 
 ### P1 最终数据统计
 
