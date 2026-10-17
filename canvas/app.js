@@ -37,6 +37,35 @@ const state = {
   spaceHeld: false,
 };
 
+/* ---------- 致命错误：页面顶部红条显式提示，不再静默空白 ---------- */
+function showFatal(msg) {
+  let bar = document.getElementById("fatalBar");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.id = "fatalBar"; bar.className = "fatal-bar";
+    document.body.prepend(bar);
+  }
+  bar.textContent = "⚠ " + msg;
+}
+window.addEventListener("error", e => {
+  if (!document.getElementById("fatalBar"))
+    showFatal(`脚本错误：${e.message}（${(e.filename || "").split("/").pop()}:${e.lineno}）`);
+});
+window.addEventListener("unhandledrejection", e =>
+  showFatal(`脚本错误：${(e.reason && e.reason.message) || e.reason}`));
+
+// 模板与脚本版本不一致（如旧服务进程缓存了旧模板）时，缺元素会让整页脚本崩溃
+const REQUIRED_IDS = ["cvMain", "cvCompare", "boxMain", "boxLeft", "canvasArea", "classSel", "selInfo",
+  "cntMod", "legend", "overlayLabel", "brushSize", "brushVal", "btnHand", "maskTools", "btnFit",
+  "btnUndo", "btnRedo", "btnSave", "btnCompare", "btnSaveNext", "btnSaveNext2", "btnPrev", "btnNext"];
+const missingIds = REQUIRED_IDS.filter(id => !document.getElementById(id));
+if (missingIds.length) {
+  const msg = `页面模板与脚本版本不一致（缺少 #${missingIds.join(", #")}）。` +
+              "多半是旧的服务窗口还开着：请关闭所有标注服务窗口，重新运行 启动.bat 后刷新本页。";
+  showFatal(msg);
+  throw new Error(msg);
+}
+
 /* ---------- DOM ---------- */
 const cvMain = document.getElementById("cvMain");
 const cvComp = document.getElementById("cvCompare");
@@ -367,7 +396,10 @@ function drawOne(ctx, withOverlay) {
   const w = ctx.canvas.width, h = ctx.canvas.height;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.fillStyle = BG_CANVAS; ctx.fillRect(0, 0, w, h);
-  if (!state.imgW) return;
+  if (!state.imgW) {
+    if (withOverlay) drawCenterText(ctx, state.loadError || "图片加载中…", !!state.loadError);
+    return;
+  }
   ctx.setTransform(state.scale, 0, 0, state.scale, state.ox, state.oy);
   ctx.imageSmoothingEnabled = true;
   ctx.drawImage(state.img, 0, 0, state.imgW, state.imgH);
@@ -468,16 +500,19 @@ function drawEmptyHint(ctx) {
     mask: "按 W 用画笔涂抹 / 按 P 多边形打点，创建实例掩码",
     semantic: "暂无实例：语义图由实例掩码按类合并生成",
   };
-  const text = tips[state.mode];
+  drawCenterText(ctx, tips[state.mode], false);
+}
+
+function drawCenterText(ctx, text, isError) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.font = `600 15px "Segoe UI", "Microsoft YaHei", sans-serif`;
   const tw = ctx.measureText(text).width;
   const cx = ctx.canvas.width / 2, cy = ctx.canvas.height / 2;
-  ctx.fillStyle = "rgba(255,255,255,.88)";
+  ctx.fillStyle = isError ? "rgba(255,238,238,.96)" : "rgba(255,255,255,.88)";
   ctx.fillRect(cx - tw / 2 - 16, cy - 20, tw + 32, 40);
-  ctx.strokeStyle = "#d9dde3"; ctx.lineWidth = 1;
+  ctx.strokeStyle = isError ? "#e5484d" : "#d9dde3"; ctx.lineWidth = 1;
   ctx.strokeRect(cx - tw / 2 - 16 + 0.5, cy - 20 + 0.5, tw + 32, 40);
-  ctx.fillStyle = "#1f2328"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillStyle = isError ? "#b4232a" : "#1f2328"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
   ctx.fillText(text, cx, cy);
   ctx.textAlign = "start"; ctx.textBaseline = "alphabetic";
 }
@@ -548,6 +583,7 @@ function updateCursor() {
 
 /* ---------- 保存 / 导航 ---------- */
 async function saveCurrent() {
+  if (!state.annLoaded) return false;
   const doc = { image: state.name, width: state.imgW, height: state.imgH,
                 instances: state.instances, modified_count: state.modifiedCount };
   try {
@@ -560,10 +596,11 @@ async function saveCurrent() {
 }
 async function goImage(newIdx) {
   if (newIdx < 0 || newIdx >= state.total) return;
-  if (!(await saveCurrent())) { flashSave(false); return; }
+  if (state.annLoaded && !(await saveCurrent())) { flashSave(false); return; }
   window.location.href = "/annotate/" + encodeURIComponent(names[newIdx]);
 }
 async function saveAndNext() {
+  if (!state.annLoaded) { flashSave(false); return; }
   const ok = await saveCurrent();
   flashSave(ok);
   if (ok && state.idx + 1 < state.total)
@@ -932,18 +969,32 @@ async function load() {
   } catch (_) {}
   const img = new Image();
   img.src = "/image/" + encodeURIComponent(CONF.name);
-  await new Promise(res => { img.onload = res; img.onerror = res; });
+  const loaded = await new Promise(res => { img.onload = () => res(true); img.onerror = () => res(false); });
+  if (!loaded || !img.naturalWidth) {
+    let why = "文件无法解码";
+    try {
+      const h = await fetch(img.src, { method: "HEAD", cache: "no-store" });
+      if (!h.ok) why = `HTTP ${h.status}`;
+    } catch (e) { why = "服务未响应"; }
+    state.loadError = `图片加载失败：${CONF.name}（${why}）`;
+    showFatal(state.loadError + "，已禁止保存以免覆盖已有标注。");
+    draw();
+    return;
+  }
   state.img = img; state.imgW = img.naturalWidth; state.imgH = img.naturalHeight;
   fit(); draw();
   try {
     const r = await fetch("/api/annotation/" + encodeURIComponent(CONF.name));
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const doc = await r.json();
     state.instances = doc.instances || [];
     state.modifiedCount = doc.modified_count || 0;
-    state.imgW = doc.width || state.imgW;
-    state.imgH = doc.height || state.imgH;
-    fit(); draw();
-  } catch (_) { draw(); }
+    state.annLoaded = true;
+    draw();
+  } catch (e) {
+    showFatal(`标注读取失败（${e.message}），已禁止保存以免覆盖已有标注。`);
+    draw();
+  }
 }
 
 new ResizeObserver(() => draw()).observe(area);

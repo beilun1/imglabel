@@ -5,8 +5,10 @@
         → P5 从这里导出三种格式（YOLO txt / 实例掩码 / 语义 PNG）
 """
 import os
+import sys
 import json
 import time
+import socket
 from flask import Flask, render_template, request, jsonify, send_from_directory, abort
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -18,7 +20,20 @@ CANVAS_DIR = os.path.join(BASE, "canvas")
 CLASSES = ["person", "chair", "dining table", "couch", "tv",
            "laptop", "cup", "bottle", "potted plant", "bed"]
 
+PORT = 5000
+
 app = Flask(__name__)
+# 非 debug 模式下 Jinja 默认缓存模板：改了 templates/ 不重启就会"新 JS + 旧模板"
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+
+@app.after_request
+def no_cache(resp):
+    """开发阶段：页面与前端资源禁用缓存，改完代码普通刷新即可生效"""
+    p = request.path
+    if p == "/" or p.startswith("/canvas/") or p.startswith("/annotate/"):
+        resp.headers["Cache-Control"] = "no-store, max-age=0"
+    return resp
 
 
 def list_images():
@@ -151,6 +166,18 @@ def canvas_static(fn):
     return send_from_directory(CANVAS_DIR, fn)
 
 
+def port_in_use(port):
+    """Windows 上 Werkzeug 用 SO_REUSEADDR，旧服务没关时新服务也能"启动成功"，
+    但请求仍被旧进程接走，所以启动前主动探测"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.5)
+        return s.connect_ex(("127.0.0.1", port)) == 0
+
+
 if __name__ == "__main__":
     os.makedirs(ANN_DIR, exist_ok=True)
-    app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
+    if port_in_use(PORT):
+        print(f"[错误] 端口 {PORT} 已被占用——很可能是之前打开的标注服务窗口还没关。")
+        print("       请先关闭旧的服务窗口（或在任务管理器结束旧的 python.exe），再重新启动。")
+        sys.exit(1)
+    app.run(host="127.0.0.1", port=PORT, debug=False, threaded=True)

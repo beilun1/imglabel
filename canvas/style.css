@@ -98,3 +98,6 @@ body.compare #boxMain { flex: 1; }
 .navbar { display: flex; align-items: center; gap: 10px; padding: 8px 16px;
   background: var(--panel); border-top: 1px solid var(--line); }
 .nav-hint { margin-left: auto; color: var(--dim); font-size: 12px; }
+
+.fatal-bar { padding: 8px 16px; background: #fdecec; color: #b4232a; border-bottom: 1px solid #f3b4b4;
+  font-weight: 600; font-size: 13px; }
