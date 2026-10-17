@@ -103,6 +103,29 @@ git push                 # 推到私有仓库异地备份
 > 原始下载包与原始分辨率候选图在 **项目外** `D:\imglabel_raw\`。
 
 
+## 6.2 阶段文件归属速查表（每任务"哪些文件归它 / 哪些不许动"）
+
+**三条总规则（任何阶段通用）：**
+- **提交包结构不许动**：app.py、canvas/、prelabel.py、train.py、dataset/、model/、records/、demo/、ai_log.md、提交信息.txt、README.md——必须按任务书结构留在源码根，不管哪个阶段都不许移。
+- **开发辅助可归档**：`P*-提示词.md`、`执行打卡看板.html` 是"人用"文档，agent 不依赖，可归档到对应阶段文件夹（p0/、p1/……）。
+- **根目录常驻不许动**：CONTEXT.md、README.md、任务书.docx、.gitignore——任何阶段不许移，agent 交接必读；.gitignore 禁止在子目录留副本。
+
+| 阶段 | 该阶段产出/相关文件 | 可否归档 |
+|---|---|---|
+| P0 | P0-提示词.md | ✅ 可入 p0/ |
+| | .gitignore（根目录版） | ❌ 留根目录，勿复制副本 |
+| P1 | P1-提示词.md | ✅ 可入 p1/ |
+| | tools/（extract_voc/extract_coco/compress_images/make_review） | ✅ 保持 tools/ |
+| | data/images/、data/review/、source_log.md | ✅ 保持 data/（images 在 P3-P5 复用） |
+| P2 | app.py、canvas/、启动.bat、requirements.txt | ❌ 提交包结构，留源码根 |
+| P3 | prelabel.py；权重 yoloworld.pt/yolo26n-seg.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
+| P4 | records/（修正记录） | ❌ 提交包结构 |
+| P5 | train.py、dataset/（三格式）、model/best.pt | ❌ 提交包结构 |
+| P6 | R1 对比结果（平台导出） | ❌ 归 records/ 或提交包 |
+| P7 | demo/、ai_log.md、提交信息.txt、README.md 最终版 | ❌ 提交包结构 |
+
+> 归档动作 = `git mv`（或移动后 git add -A）并更新本表；移动过、复制过、恢复过都要在"当前状态"记一笔（见 6 节第 ⑦ 条教训）。
+
 ## 7. 测试/验证命令（换工具后先跑，确认环境没坏）
 
 ```bash
