@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>人机协同图像标注系统 · 图片列表</title>
+<link rel="stylesheet" href="/canvas/style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1>人机协同图像标注系统</h1>
+  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
+</header>
+
+<main class="list-main">
+  <div class="grid">
+    {% for it in items %}
+    <a class="card" href="/annotate/{{ it.name }}">
+      <img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy" class="thumb">
+      <div class="card-foot">
+        <span class="fname" title="{{ it.name }}">{{ it.name }}</span>
+        <span class="badge {{ 'b-mod' if it.status=='已修改' else ('b-done' if it.status=='已标' else ('b-ex' if it.status=='异常' else 'b-none')) }}">{{ it.status }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</main>
+</body>
+</html>
