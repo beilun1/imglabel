@@ -80,9 +80,11 @@ raw_originals/
 candidates/
 
 # 候选池图片（3478 张，约 158MB）：不进 git，按需重新生成
-# 最终保留的 150 张会由 tools/finalize_dataset.py 复制到 data/dataset_final/，
+# 最终保留的 328 张由 tools/finalize_dataset.py 复制到 data/curated/images/，
 # 该目录必须纳入 git（任务书要求图片随包提交）。
+# 命名注意：不叫 dataset_final，避免与任务书的 dataset/（P5 三格式导出目录）混淆。
 data/images/
+!data/curated/images/
 
 # 预览缩略图可由 tools/make_review.py 重新生成，不进 git
 data/review/thumbs/

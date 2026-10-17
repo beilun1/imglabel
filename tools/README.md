@@ -12,6 +12,9 @@ PY="C:/Users/H/miniforge3/envs/imglabel/python.exe"
 | 2 | `extract_coco.py` | 从 COCO val parquet 中提取 laptop / cup / bed 候选图 |
 | 3 | `compress_images.py` | **交付脚本**：长边≤960 等比缩放、JPG 质量 85，输出 `data/images/` |
 | 4 | `make_review.py` | 分层抽样 + 生成候选清单、类别提示、九宫格分批预览 |
+| 5 | `score_candidates.py` | 按分辨率/清晰度/对比度/目标占比做风险打分，排出最可疑的图 |
+| 6 | `make_review2.py` | 生成单页可勾选复核页（点选标记剔除，可一键复制/下载清单） |
+| 7 | `finalize_dataset.py` | **整理最终数据集**：剔除后复制到 `data/curated/images/`，校验硬门槛并出统计 |
 
 ## 完整命令
 
@@ -33,7 +36,22 @@ $PY tools/compress_images.py \
 
 # 4. 生成筛选材料（--pool all 则不抽样，给全部 3478 张）
 $PY tools/make_review.py
+
+# 5-6. 复核辅助
+$PY tools/score_candidates.py
+$PY tools/make_review2.py
+
+# 7. 整理最终数据集（--extra-drop / --extra-keep 可临时增删）
+$PY tools/finalize_dataset.py
 ```
+
+## 产物位置
+
+| 路径 | 内容 | 进 git |
+|---|---|---|
+| `data/images/` | 3478 张候选池 | 否 |
+| `data/review/` | 清单、预览、复核页、来源记录 | 是 |
+| `data/curated/images/` | **最终 328 张**（P3 预标注用这个） | 是 |
 
 ## 下载地址（本机实测可用）
 

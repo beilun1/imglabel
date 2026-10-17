@@ -1,0 +1,4355 @@
+{
+ "generated_at": "2026-10-17 20:39:11",
+ "spec": {
+  "max_long_side": 960,
+  "jpg_quality": 85
+ },
+ "threshold": {
+  "min_total": 150,
+  "min_classes": 6,
+  "min_per_class": 15
+ },
+ "candidates": 354,
+ "dropped": 26,
+ "kept": 328,
+ "classes_covered": 10,
+ "per_class": {
+  "person": 61,
+  "chair": 74,
+  "dining table": 53,
+  "couch": 51,
+  "tv": 52,
+  "laptop": 86,
+  "cup": 98,
+  "bottle": 53,
+  "potted plant": 48,
+  "bed": 80
+ },
+ "per_source": {
+  "COCO 2017 val": 228,
+  "Pascal VOC 2012": 100
+ },
+ "pass": {
+  "total": true,
+  "classes": true,
+  "per_class": true,
+  "all": true
+ },
+ "failed": [],
+ "dropped_detail": {
+  "coco_110999.jpg": "静物油画，非真实室内照片",
+  "coco_120777.jpg": "用户第 1 轮点名剔除",
+  "coco_137106.jpg": "被子局部+一只手，无卧室场景",
+  "coco_160556.jpg": "用户第 1 轮点名剔除",
+  "coco_167159.jpg": "用户第 1 轮点名剔除",
+  "coco_170278.jpg": "用户第 1 轮点名剔除",
+  "coco_232684.jpg": "暗光下笔记本，画面近全黑",
+  "coco_252294.jpg": "用户第 1 轮点名剔除",
+  "coco_254368.jpg": "用户第 1 轮点名剔除",
+  "coco_270883.jpg": "用户第 1 轮点名剔除",
+  "coco_292446.jpg": "用户第 1 轮点名剔除",
+  "coco_294831.jpg": "用户第 1 轮点名剔除",
+  "coco_345385.jpg": "用户第 1 轮点名剔除",
+  "coco_347174.jpg": "用户第 1 轮点名剔除",
+  "coco_35279.jpg": "用户第 1 轮点名剔除",
+  "coco_45472.jpg": "用户第 1 轮点名剔除",
+  "coco_61960.jpg": "用户第 1 轮点名剔除",
+  "coco_62025.jpg": "用户第 1 轮点名剔除",
+  "coco_73946.jpg": "用户第 1 轮点名剔除",
+  "coco_91500.jpg": "用户第 1 轮点名剔除",
+  "coco_91779.jpg": "用户第 1 轮点名剔除",
+  "voc_2007_002545.jpg": "用户第 1 轮点名剔除",
+  "voc_2007_002668.jpg": "用户第 1 轮点名剔除",
+  "voc_2008_002098.jpg": "人物大头照，非室内场景照（预勾选，未逐条确认）",
+  "voc_2008_004778.jpg": "母婴合影，床/椅仅为背景（预勾选，未逐条确认）",
+  "voc_2010_005764.jpg": "用户第 1 轮点名剔除"
+ },
+ "files": [
+  {
+   "filename": "coco_10092.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 59.3
+  },
+  {
+   "filename": "coco_106389.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 79.4
+  },
+  {
+   "filename": "coco_10995.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 49.0
+  },
+  {
+   "filename": "coco_113403.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 451,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 78.1
+  },
+  {
+   "filename": "coco_116479.jpg",
+   "source": "COCO 2017 val",
+   "width": 411,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 62.8
+  },
+  {
+   "filename": "coco_116825.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 360,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 44.1
+  },
+  {
+   "filename": "coco_14038.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 64.8
+  },
+  {
+   "filename": "coco_14831.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 80.6
+  },
+  {
+   "filename": "coco_159458.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 54.4
+  },
+  {
+   "filename": "coco_169076.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 51.1
+  },
+  {
+   "filename": "coco_170191.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 531,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 68.4
+  },
+  {
+   "filename": "coco_171757.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 61.7
+  },
+  {
+   "filename": "coco_190637.jpg",
+   "source": "COCO 2017 val",
+   "width": 428,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 42.7
+  },
+  {
+   "filename": "coco_190648.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 53.4
+  },
+  {
+   "filename": "coco_193494.jpg",
+   "source": "COCO 2017 val",
+   "width": 426,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 87.1
+  },
+  {
+   "filename": "coco_1993.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 419,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 63.9
+  },
+  {
+   "filename": "coco_199551.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 53.6
+  },
+  {
+   "filename": "coco_200252.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 30.9
+  },
+  {
+   "filename": "coco_200421.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 73.7
+  },
+  {
+   "filename": "coco_202445.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 65.5
+  },
+  {
+   "filename": "coco_213422.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 50.3
+  },
+  {
+   "filename": "coco_217219.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 359,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 52.2
+  },
+  {
+   "filename": "coco_218091.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 429,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 48.9
+  },
+  {
+   "filename": "coco_22192.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 55.7
+  },
+  {
+   "filename": "coco_223747.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 370,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 27.4
+  },
+  {
+   "filename": "coco_226408.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 469,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 58.3
+  },
+  {
+   "filename": "coco_226592.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 118.5
+  },
+  {
+   "filename": "coco_235399.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 47.6
+  },
+  {
+   "filename": "coco_239347.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 57.9
+  },
+  {
+   "filename": "coco_249550.jpg",
+   "source": "COCO 2017 val",
+   "width": 415,
+   "height": 625,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 72.2
+  },
+  {
+   "filename": "coco_263644.jpg",
+   "source": "COCO 2017 val",
+   "width": 473,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 67.5
+  },
+  {
+   "filename": "coco_267300.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 64.9
+  },
+  {
+   "filename": "coco_274687.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 85.5
+  },
+  {
+   "filename": "coco_291490.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 393,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 47.7
+  },
+  {
+   "filename": "coco_294783.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 75.2
+  },
+  {
+   "filename": "coco_297353.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 60.6
+  },
+  {
+   "filename": "coco_317999.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 62.9
+  },
+  {
+   "filename": "coco_318238.jpg",
+   "source": "COCO 2017 val",
+   "width": 478,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 69.1
+  },
+  {
+   "filename": "coco_319935.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 398,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 60.8
+  },
+  {
+   "filename": "coco_329080.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 56.3
+  },
+  {
+   "filename": "coco_333237.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 409,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 80.1
+  },
+  {
+   "filename": "coco_347693.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 66.4
+  },
+  {
+   "filename": "coco_35062.jpg",
+   "source": "COCO 2017 val",
+   "width": 425,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 38.3
+  },
+  {
+   "filename": "coco_355257.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 59.1
+  },
+  {
+   "filename": "coco_39769.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 94.8
+  },
+  {
+   "filename": "coco_39956.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 66.6
+  },
+  {
+   "filename": "coco_40757.jpg",
+   "source": "COCO 2017 val",
+   "width": 425,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 35.3
+  },
+  {
+   "filename": "coco_41872.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 55.5
+  },
+  {
+   "filename": "coco_46048.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 67.7
+  },
+  {
+   "filename": "coco_50828.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 40.4
+  },
+  {
+   "filename": "coco_51738.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 26.8
+  },
+  {
+   "filename": "coco_60835.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 109.6
+  },
+  {
+   "filename": "coco_61333.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 361,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 37.2
+  },
+  {
+   "filename": "coco_632.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 483,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 97.0
+  },
+  {
+   "filename": "coco_65074.jpg",
+   "source": "COCO 2017 val",
+   "width": 424,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 56.3
+  },
+  {
+   "filename": "coco_66523.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 60.8
+  },
+  {
+   "filename": "coco_68286.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 366,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 51.7
+  },
+  {
+   "filename": "coco_71226.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 87.6
+  },
+  {
+   "filename": "coco_71451.jpg",
+   "source": "COCO 2017 val",
+   "width": 383,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 34.7
+  },
+  {
+   "filename": "coco_71938.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 43.9
+  },
+  {
+   "filename": "coco_72813.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 60.7
+  },
+  {
+   "filename": "coco_776.jpg",
+   "source": "COCO 2017 val",
+   "width": 428,
+   "height": 640,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 101.5
+  },
+  {
+   "filename": "coco_7795.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 60.7
+  },
+  {
+   "filename": "coco_99182.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 334,
+   "hint_classes": [
+    "bed"
+   ],
+   "kb": 40.4
+  },
+  {
+   "filename": "voc_2007_000661.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 34.3
+  },
+  {
+   "filename": "voc_2007_001027.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv"
+   ],
+   "kb": 42.3
+  },
+  {
+   "filename": "voc_2007_001901.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch"
+   ],
+   "kb": 25.8
+  },
+  {
+   "filename": "voc_2007_002368.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch"
+   ],
+   "kb": 30.8
+  },
+  {
+   "filename": "voc_2007_003011.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv"
+   ],
+   "kb": 37.2
+  },
+  {
+   "filename": "voc_2007_003451.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 28.7
+  },
+  {
+   "filename": "voc_2007_004166.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 332,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv"
+   ],
+   "kb": 61.4
+  },
+  {
+   "filename": "voc_2007_004193.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "tv",
+    "bottle"
+   ],
+   "kb": 49.6
+  },
+  {
+   "filename": "voc_2007_005266.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 59.0
+  },
+  {
+   "filename": "voc_2007_006066.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv"
+   ],
+   "kb": 36.4
+  },
+  {
+   "filename": "voc_2007_006086.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 476,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 90.9
+  },
+  {
+   "filename": "voc_2007_006241.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 39.6
+  },
+  {
+   "filename": "voc_2008_000043.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 374,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "potted plant"
+   ],
+   "kb": 37.3
+  },
+  {
+   "filename": "voc_2008_000495.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "tv",
+    "bottle"
+   ],
+   "kb": 34.3
+  },
+  {
+   "filename": "voc_2008_001809.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 39.7
+  },
+  {
+   "filename": "voc_2008_002082.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 335,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 34.6
+  },
+  {
+   "filename": "voc_2008_002119.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 45.4
+  },
+  {
+   "filename": "voc_2008_002379.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "potted plant"
+   ],
+   "kb": 30.7
+  },
+  {
+   "filename": "voc_2008_002481.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 377,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "tv"
+   ],
+   "kb": 30.0
+  },
+  {
+   "filename": "voc_2008_003264.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "tv"
+   ],
+   "kb": 34.8
+  },
+  {
+   "filename": "voc_2008_004619.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 37.7
+  },
+  {
+   "filename": "voc_2008_004661.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 41.5
+  },
+  {
+   "filename": "voc_2008_005248.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 43.5
+  },
+  {
+   "filename": "voc_2008_005257.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 52.1
+  },
+  {
+   "filename": "voc_2008_005342.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 48.6
+  },
+  {
+   "filename": "voc_2008_005954.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 47.5
+  },
+  {
+   "filename": "voc_2008_006624.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 36.6
+  },
+  {
+   "filename": "voc_2008_006719.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 29.4
+  },
+  {
+   "filename": "voc_2008_008330.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 44.0
+  },
+  {
+   "filename": "voc_2008_008402.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 377,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 44.0
+  },
+  {
+   "filename": "voc_2009_002571.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 334,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 35.6
+  },
+  {
+   "filename": "voc_2009_002688.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 376,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 44.4
+  },
+  {
+   "filename": "voc_2010_000669.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 38.8
+  },
+  {
+   "filename": "voc_2010_004358.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 39.7
+  },
+  {
+   "filename": "voc_2010_006056.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 33.0
+  },
+  {
+   "filename": "voc_2011_002814.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 46.0
+  },
+  {
+   "filename": "voc_2007_001149.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 51.4
+  },
+  {
+   "filename": "voc_2008_001781.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 468,
+   "height": 312,
+   "hint_classes": [
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 18.6
+  },
+  {
+   "filename": "voc_2008_006543.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 33.1
+  },
+  {
+   "filename": "coco_102707.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 105.7
+  },
+  {
+   "filename": "coco_108253.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 60.4
+  },
+  {
+   "filename": "coco_109313.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 73.3
+  },
+  {
+   "filename": "coco_113720.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 55.9
+  },
+  {
+   "filename": "coco_115870.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 83.5
+  },
+  {
+   "filename": "coco_116206.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 67.6
+  },
+  {
+   "filename": "coco_116208.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 101.0
+  },
+  {
+   "filename": "coco_117425.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 57.9
+  },
+  {
+   "filename": "coco_117719.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 74.7
+  },
+  {
+   "filename": "coco_120853.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 67.3
+  },
+  {
+   "filename": "coco_12576.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 84.3
+  },
+  {
+   "filename": "coco_127394.jpg",
+   "source": "COCO 2017 val",
+   "width": 409,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 76.9
+  },
+  {
+   "filename": "coco_128476.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 82.3
+  },
+  {
+   "filename": "coco_135561.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 56.0
+  },
+  {
+   "filename": "coco_13729.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 76.5
+  },
+  {
+   "filename": "coco_140987.jpg",
+   "source": "COCO 2017 val",
+   "width": 425,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 55.4
+  },
+  {
+   "filename": "coco_142620.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 98.0
+  },
+  {
+   "filename": "coco_144798.jpg",
+   "source": "COCO 2017 val",
+   "width": 425,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 34.4
+  },
+  {
+   "filename": "coco_145597.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 111.1
+  },
+  {
+   "filename": "coco_150417.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 71.4
+  },
+  {
+   "filename": "coco_15335.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 73.1
+  },
+  {
+   "filename": "coco_17714.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 57.1
+  },
+  {
+   "filename": "coco_17899.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 99.0
+  },
+  {
+   "filename": "coco_18380.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 94.6
+  },
+  {
+   "filename": "coco_192904.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 436,
+   "hint_classes": [
+    "cup",
+    "bed"
+   ],
+   "kb": 48.8
+  },
+  {
+   "filename": "coco_20553.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 59.4
+  },
+  {
+   "filename": "coco_2157.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 73.0
+  },
+  {
+   "filename": "coco_218439.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup",
+    "bed"
+   ],
+   "kb": 91.0
+  },
+  {
+   "filename": "coco_231549.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup",
+    "bed"
+   ],
+   "kb": 46.8
+  },
+  {
+   "filename": "coco_24243.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 80.7
+  },
+  {
+   "filename": "coco_2431.jpg",
+   "source": "COCO 2017 val",
+   "width": 457,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 47.3
+  },
+  {
+   "filename": "coco_25394.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 74.2
+  },
+  {
+   "filename": "coco_25560.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 54.0
+  },
+  {
+   "filename": "coco_25603.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 59.6
+  },
+  {
+   "filename": "coco_2592.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 366,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 68.0
+  },
+  {
+   "filename": "coco_25986.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 65.6
+  },
+  {
+   "filename": "coco_2685.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 555,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 90.4
+  },
+  {
+   "filename": "coco_273420.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 400,
+   "hint_classes": [
+    "cup",
+    "bed"
+   ],
+   "kb": 33.9
+  },
+  {
+   "filename": "coco_283412.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup",
+    "bed"
+   ],
+   "kb": 46.0
+  },
+  {
+   "filename": "coco_29596.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 52.2
+  },
+  {
+   "filename": "coco_31296.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 82.4
+  },
+  {
+   "filename": "coco_31620.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 54.6
+  },
+  {
+   "filename": "coco_32901.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 546,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 84.1
+  },
+  {
+   "filename": "coco_34873.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 60.5
+  },
+  {
+   "filename": "coco_35682.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 54.4
+  },
+  {
+   "filename": "coco_36494.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 434,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 86.6
+  },
+  {
+   "filename": "coco_3661.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 384,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 34.5
+  },
+  {
+   "filename": "coco_36844.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 66.1
+  },
+  {
+   "filename": "coco_36936.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 404,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 68.8
+  },
+  {
+   "filename": "coco_3845.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 52.1
+  },
+  {
+   "filename": "coco_38678.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 53.5
+  },
+  {
+   "filename": "coco_3934.jpg",
+   "source": "COCO 2017 val",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 48.8
+  },
+  {
+   "filename": "coco_40471.jpg",
+   "source": "COCO 2017 val",
+   "width": 427,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 66.4
+  },
+  {
+   "filename": "coco_48396.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 47.3
+  },
+  {
+   "filename": "coco_52413.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 34.8
+  },
+  {
+   "filename": "coco_52996.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 65.0
+  },
+  {
+   "filename": "coco_54605.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 80.4
+  },
+  {
+   "filename": "coco_56127.jpg",
+   "source": "COCO 2017 val",
+   "width": 580,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 97.2
+  },
+  {
+   "filename": "coco_63047.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 561,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 134.2
+  },
+  {
+   "filename": "coco_66706.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 101.8
+  },
+  {
+   "filename": "coco_66771.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 61.6
+  },
+  {
+   "filename": "coco_70048.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 78.9
+  },
+  {
+   "filename": "coco_74209.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 57.0
+  },
+  {
+   "filename": "coco_74733.jpg",
+   "source": "COCO 2017 val",
+   "width": 612,
+   "height": 612,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 92.5
+  },
+  {
+   "filename": "coco_78426.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 334,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 27.5
+  },
+  {
+   "filename": "coco_80340.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 92.3
+  },
+  {
+   "filename": "coco_80932.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 80.1
+  },
+  {
+   "filename": "coco_82696.jpg",
+   "source": "COCO 2017 val",
+   "width": 427,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 64.5
+  },
+  {
+   "filename": "coco_83531.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 275,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 36.2
+  },
+  {
+   "filename": "coco_85157.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 98.5
+  },
+  {
+   "filename": "coco_88040.jpg",
+   "source": "COCO 2017 val",
+   "width": 427,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 94.0
+  },
+  {
+   "filename": "coco_91615.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 62.0
+  },
+  {
+   "filename": "coco_92053.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 44.0
+  },
+  {
+   "filename": "coco_92660.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 73.3
+  },
+  {
+   "filename": "coco_92939.jpg",
+   "source": "COCO 2017 val",
+   "width": 424,
+   "height": 640,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 65.6
+  },
+  {
+   "filename": "coco_93437.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 361,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 67.3
+  },
+  {
+   "filename": "coco_95786.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 334,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 20.9
+  },
+  {
+   "filename": "coco_9590.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "cup"
+   ],
+   "kb": 58.3
+  },
+  {
+   "filename": "coco_10707.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 70.2
+  },
+  {
+   "filename": "coco_110449.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 27.2
+  },
+  {
+   "filename": "coco_111609.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 429,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 81.1
+  },
+  {
+   "filename": "coco_112798.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 359,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 46.7
+  },
+  {
+   "filename": "coco_115885.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 37.8
+  },
+  {
+   "filename": "coco_11813.jpg",
+   "source": "COCO 2017 val",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 26.6
+  },
+  {
+   "filename": "coco_119365.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 65.2
+  },
+  {
+   "filename": "coco_119828.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 34.8
+  },
+  {
+   "filename": "coco_124659.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 69.7
+  },
+  {
+   "filename": "coco_131138.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 64.4
+  },
+  {
+   "filename": "coco_134112.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 357,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 39.4
+  },
+  {
+   "filename": "coco_134882.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 639,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 88.8
+  },
+  {
+   "filename": "coco_135872.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 77.1
+  },
+  {
+   "filename": "coco_13659.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 74.6
+  },
+  {
+   "filename": "coco_136600.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 457,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 46.3
+  },
+  {
+   "filename": "coco_139077.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 46.0
+  },
+  {
+   "filename": "coco_14226.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 66.7
+  },
+  {
+   "filename": "coco_147415.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 52.7
+  },
+  {
+   "filename": "coco_148620.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 36.2
+  },
+  {
+   "filename": "coco_1503.jpg",
+   "source": "COCO 2017 val",
+   "width": 320,
+   "height": 240,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 14.3
+  },
+  {
+   "filename": "coco_154705.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 464,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 69.0
+  },
+  {
+   "filename": "coco_16439.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 64.8
+  },
+  {
+   "filename": "coco_166478.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 54.9
+  },
+  {
+   "filename": "coco_172595.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 360,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 71.9
+  },
+  {
+   "filename": "coco_174231.jpg",
+   "source": "COCO 2017 val",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 28.5
+  },
+  {
+   "filename": "coco_176446.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 82.0
+  },
+  {
+   "filename": "coco_177015.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 87.5
+  },
+  {
+   "filename": "coco_178469.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 69.3
+  },
+  {
+   "filename": "coco_181499.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 513,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 58.6
+  },
+  {
+   "filename": "coco_182162.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 57.3
+  },
+  {
+   "filename": "coco_182202.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 385,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 54.3
+  },
+  {
+   "filename": "coco_190236.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 393,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 65.1
+  },
+  {
+   "filename": "coco_195918.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 428,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 54.0
+  },
+  {
+   "filename": "coco_19786.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 30.6
+  },
+  {
+   "filename": "coco_198641.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 479,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 72.8
+  },
+  {
+   "filename": "coco_206218.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 58.4
+  },
+  {
+   "filename": "coco_215778.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 84.0
+  },
+  {
+   "filename": "coco_222299.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 60.5
+  },
+  {
+   "filename": "coco_22371.jpg",
+   "source": "COCO 2017 val",
+   "width": 425,
+   "height": 282,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 17.4
+  },
+  {
+   "filename": "coco_225757.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 367,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 46.0
+  },
+  {
+   "filename": "coco_226171.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 76.9
+  },
+  {
+   "filename": "coco_229659.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 71.0
+  },
+  {
+   "filename": "coco_232088.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 47.7
+  },
+  {
+   "filename": "coco_239318.jpg",
+   "source": "COCO 2017 val",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 33.9
+  },
+  {
+   "filename": "coco_243199.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 33.8
+  },
+  {
+   "filename": "coco_24610.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 56.5
+  },
+  {
+   "filename": "coco_246308.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 88.8
+  },
+  {
+   "filename": "coco_248314.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 85.7
+  },
+  {
+   "filename": "coco_248631.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 37.0
+  },
+  {
+   "filename": "coco_255165.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 76.7
+  },
+  {
+   "filename": "coco_262227.jpg",
+   "source": "COCO 2017 val",
+   "width": 474,
+   "height": 640,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 53.8
+  },
+  {
+   "filename": "coco_26465.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 31.5
+  },
+  {
+   "filename": "coco_26564.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 63.5
+  },
+  {
+   "filename": "coco_271728.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 55.8
+  },
+  {
+   "filename": "coco_275749.jpg",
+   "source": "COCO 2017 val",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 30.0
+  },
+  {
+   "filename": "coco_27620.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 75.2
+  },
+  {
+   "filename": "coco_278463.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 67.6
+  },
+  {
+   "filename": "coco_287347.jpg",
+   "source": "COCO 2017 val",
+   "width": 478,
+   "height": 640,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 72.3
+  },
+  {
+   "filename": "coco_290843.jpg",
+   "source": "COCO 2017 val",
+   "width": 428,
+   "height": 640,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 40.9
+  },
+  {
+   "filename": "coco_294162.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 47.3
+  },
+  {
+   "filename": "coco_301421.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 53.7
+  },
+  {
+   "filename": "coco_302030.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 359,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 49.5
+  },
+  {
+   "filename": "coco_306139.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 426,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 61.3
+  },
+  {
+   "filename": "coco_32610.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 87.9
+  },
+  {
+   "filename": "coco_332845.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 40.0
+  },
+  {
+   "filename": "coco_37740.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 63.6
+  },
+  {
+   "filename": "coco_46031.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 73.1
+  },
+  {
+   "filename": "coco_4795.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 90.3
+  },
+  {
+   "filename": "coco_51008.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 81.4
+  },
+  {
+   "filename": "coco_51610.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 26.8
+  },
+  {
+   "filename": "coco_59598.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 70.7
+  },
+  {
+   "filename": "coco_60449.jpg",
+   "source": "COCO 2017 val",
+   "width": 480,
+   "height": 640,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 76.3
+  },
+  {
+   "filename": "coco_63602.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 47.3
+  },
+  {
+   "filename": "coco_63740.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 67.4
+  },
+  {
+   "filename": "coco_76547.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 85.4
+  },
+  {
+   "filename": "coco_76731.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 406,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 48.8
+  },
+  {
+   "filename": "coco_77396.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 74.2
+  },
+  {
+   "filename": "coco_77595.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 425,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 49.4
+  },
+  {
+   "filename": "coco_78420.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 70.0
+  },
+  {
+   "filename": "coco_80949.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 438,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 57.4
+  },
+  {
+   "filename": "coco_82765.jpg",
+   "source": "COCO 2017 val",
+   "width": 426,
+   "height": 640,
+   "hint_classes": [
+    "laptop",
+    "bed"
+   ],
+   "kb": 42.9
+  },
+  {
+   "filename": "coco_86582.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 61.1
+  },
+  {
+   "filename": "coco_89648.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 61.1
+  },
+  {
+   "filename": "coco_9400.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 61.6
+  },
+  {
+   "filename": "coco_97994.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 427,
+   "hint_classes": [
+    "laptop",
+    "cup"
+   ],
+   "kb": 49.5
+  },
+  {
+   "filename": "coco_99428.jpg",
+   "source": "COCO 2017 val",
+   "width": 640,
+   "height": 480,
+   "hint_classes": [
+    "laptop"
+   ],
+   "kb": 55.7
+  },
+  {
+   "filename": "voc_2007_000762.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 42.1
+  },
+  {
+   "filename": "voc_2007_001185.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 40.9
+  },
+  {
+   "filename": "voc_2007_001408.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 47.4
+  },
+  {
+   "filename": "voc_2007_001430.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 47.4
+  },
+  {
+   "filename": "voc_2007_001585.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 434,
+   "hint_classes": [
+    "person",
+    "couch",
+    "bottle"
+   ],
+   "kb": 37.8
+  },
+  {
+   "filename": "voc_2007_001678.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv"
+   ],
+   "kb": 50.0
+  },
+  {
+   "filename": "voc_2007_001717.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 404,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv"
+   ],
+   "kb": 67.3
+  },
+  {
+   "filename": "voc_2007_004392.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "potted plant"
+   ],
+   "kb": 40.6
+  },
+  {
+   "filename": "voc_2007_004712.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 35.9
+  },
+  {
+   "filename": "voc_2007_005086.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table"
+   ],
+   "kb": 62.3
+  },
+  {
+   "filename": "voc_2007_007795.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "potted plant"
+   ],
+   "kb": 60.5
+  },
+  {
+   "filename": "voc_2007_007996.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv"
+   ],
+   "kb": 46.9
+  },
+  {
+   "filename": "voc_2007_008204.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 374,
+   "hint_classes": [
+    "person",
+    "tv",
+    "bottle"
+   ],
+   "kb": 25.8
+  },
+  {
+   "filename": "voc_2007_009068.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 53.2
+  },
+  {
+   "filename": "voc_2007_009554.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 370,
+   "hint_classes": [
+    "person",
+    "couch",
+    "tv"
+   ],
+   "kb": 51.5
+  },
+  {
+   "filename": "voc_2008_000023.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 333,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "tv",
+    "bottle"
+   ],
+   "kb": 33.0
+  },
+  {
+   "filename": "voc_2008_000041.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "potted plant"
+   ],
+   "kb": 34.4
+  },
+  {
+   "filename": "voc_2008_000202.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv",
+    "bottle"
+   ],
+   "kb": 42.0
+  },
+  {
+   "filename": "voc_2008_000493.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch"
+   ],
+   "kb": 36.6
+  },
+  {
+   "filename": "voc_2008_001230.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 48.1
+  },
+  {
+   "filename": "voc_2008_001333.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "bottle"
+   ],
+   "kb": 31.5
+  },
+  {
+   "filename": "voc_2008_001434.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "potted plant"
+   ],
+   "kb": 51.8
+  },
+  {
+   "filename": "voc_2008_001461.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv"
+   ],
+   "kb": 30.9
+  },
+  {
+   "filename": "voc_2008_001862.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "chair",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 45.3
+  },
+  {
+   "filename": "voc_2008_001928.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "bottle"
+   ],
+   "kb": 47.1
+  },
+  {
+   "filename": "voc_2008_002086.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 38.1
+  },
+  {
+   "filename": "voc_2008_002362.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 49.6
+  },
+  {
+   "filename": "voc_2008_002776.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 33.2
+  },
+  {
+   "filename": "voc_2008_003280.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv",
+    "bottle"
+   ],
+   "kb": 27.1
+  },
+  {
+   "filename": "voc_2008_004321.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "tv"
+   ],
+   "kb": 33.3
+  },
+  {
+   "filename": "voc_2008_004435.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 50.4
+  },
+  {
+   "filename": "voc_2008_005090.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 36.8
+  },
+  {
+   "filename": "voc_2008_006288.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 45.1
+  },
+  {
+   "filename": "voc_2008_006295.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "tv",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 58.6
+  },
+  {
+   "filename": "voc_2008_006864.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 57.1
+  },
+  {
+   "filename": "voc_2008_006952.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 53.4
+  },
+  {
+   "filename": "voc_2008_007097.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 480,
+   "height": 360,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 37.5
+  },
+  {
+   "filename": "voc_2008_007261.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 32.3
+  },
+  {
+   "filename": "voc_2008_007281.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 47.1
+  },
+  {
+   "filename": "voc_2009_001000.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 121,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 20.7
+  },
+  {
+   "filename": "voc_2009_001605.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 50.3
+  },
+  {
+   "filename": "voc_2009_001608.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "tv"
+   ],
+   "kb": 46.9
+  },
+  {
+   "filename": "voc_2009_001864.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 34.8
+  },
+  {
+   "filename": "voc_2009_002139.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "tv"
+   ],
+   "kb": 51.6
+  },
+  {
+   "filename": "voc_2009_003191.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 40.0
+  },
+  {
+   "filename": "voc_2009_003795.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 36.6
+  },
+  {
+   "filename": "voc_2009_004794.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 374,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 48.0
+  },
+  {
+   "filename": "voc_2009_005038.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 375,
+   "height": 500,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 42.5
+  },
+  {
+   "filename": "voc_2010_000178.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 42.6
+  },
+  {
+   "filename": "voc_2010_000386.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv",
+    "bottle"
+   ],
+   "kb": 32.2
+  },
+  {
+   "filename": "voc_2010_000968.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "potted plant"
+   ],
+   "kb": 36.8
+  },
+  {
+   "filename": "voc_2010_002742.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "tv",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 44.2
+  },
+  {
+   "filename": "voc_2010_003597.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 50.3
+  },
+  {
+   "filename": "voc_2010_005170.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch"
+   ],
+   "kb": 45.8
+  },
+  {
+   "filename": "voc_2011_000072.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "couch",
+    "tv",
+    "potted plant"
+   ],
+   "kb": 37.8
+  },
+  {
+   "filename": "voc_2011_000947.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "bottle"
+   ],
+   "kb": 34.3
+  },
+  {
+   "filename": "voc_2011_001058.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 333,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 37.9
+  },
+  {
+   "filename": "voc_2011_001820.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 392,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 49.8
+  },
+  {
+   "filename": "voc_2011_001845.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 53.2
+  },
+  {
+   "filename": "voc_2011_002966.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "dining table",
+    "tv",
+    "bottle"
+   ],
+   "kb": 56.8
+  },
+  {
+   "filename": "voc_2011_003038.jpg",
+   "source": "Pascal VOC 2012",
+   "width": 500,
+   "height": 375,
+   "hint_classes": [
+    "person",
+    "couch",
+    "bottle",
+    "potted plant"
+   ],
+   "kb": 36.3
+  }
+ ],
+ "per_class_files": {
+  "person": [
+   "voc_2007_000762.jpg",
+   "voc_2007_001185.jpg",
+   "voc_2007_001408.jpg",
+   "voc_2007_001430.jpg",
+   "voc_2007_001585.jpg",
+   "voc_2007_001678.jpg",
+   "voc_2007_001717.jpg",
+   "voc_2007_004392.jpg",
+   "voc_2007_004712.jpg",
+   "voc_2007_005086.jpg",
+   "voc_2007_007795.jpg",
+   "voc_2007_007996.jpg",
+   "voc_2007_008204.jpg",
+   "voc_2007_009068.jpg",
+   "voc_2007_009554.jpg",
+   "voc_2008_000023.jpg",
+   "voc_2008_000041.jpg",
+   "voc_2008_000202.jpg",
+   "voc_2008_000493.jpg",
+   "voc_2008_001230.jpg",
+   "voc_2008_001333.jpg",
+   "voc_2008_001434.jpg",
+   "voc_2008_001461.jpg",
+   "voc_2008_001862.jpg",
+   "voc_2008_001928.jpg",
+   "voc_2008_002086.jpg",
+   "voc_2008_002362.jpg",
+   "voc_2008_002776.jpg",
+   "voc_2008_003280.jpg",
+   "voc_2008_004321.jpg",
+   "voc_2008_004435.jpg",
+   "voc_2008_005090.jpg",
+   "voc_2008_006288.jpg",
+   "voc_2008_006295.jpg",
+   "voc_2008_006864.jpg",
+   "voc_2008_006952.jpg",
+   "voc_2008_007097.jpg",
+   "voc_2008_007261.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001000.jpg",
+   "voc_2009_001605.jpg",
+   "voc_2009_001608.jpg",
+   "voc_2009_001864.jpg",
+   "voc_2009_002139.jpg",
+   "voc_2009_003191.jpg",
+   "voc_2009_003795.jpg",
+   "voc_2009_004794.jpg",
+   "voc_2009_005038.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_000386.jpg",
+   "voc_2010_000968.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2010_003597.jpg",
+   "voc_2010_005170.jpg",
+   "voc_2011_000072.jpg",
+   "voc_2011_000947.jpg",
+   "voc_2011_001058.jpg",
+   "voc_2011_001820.jpg",
+   "voc_2011_001845.jpg",
+   "voc_2011_002966.jpg",
+   "voc_2011_003038.jpg"
+  ],
+  "chair": [
+   "voc_2007_000661.jpg",
+   "voc_2007_001027.jpg",
+   "voc_2007_001901.jpg",
+   "voc_2007_002368.jpg",
+   "voc_2007_003011.jpg",
+   "voc_2007_003451.jpg",
+   "voc_2007_004166.jpg",
+   "voc_2007_004193.jpg",
+   "voc_2007_005266.jpg",
+   "voc_2007_006066.jpg",
+   "voc_2007_006086.jpg",
+   "voc_2007_006241.jpg",
+   "voc_2008_000043.jpg",
+   "voc_2008_000495.jpg",
+   "voc_2008_001809.jpg",
+   "voc_2008_002082.jpg",
+   "voc_2008_002119.jpg",
+   "voc_2008_002379.jpg",
+   "voc_2008_002481.jpg",
+   "voc_2008_003264.jpg",
+   "voc_2008_004619.jpg",
+   "voc_2008_004661.jpg",
+   "voc_2008_005248.jpg",
+   "voc_2008_005257.jpg",
+   "voc_2008_005342.jpg",
+   "voc_2008_005954.jpg",
+   "voc_2008_006624.jpg",
+   "voc_2008_006719.jpg",
+   "voc_2008_008330.jpg",
+   "voc_2008_008402.jpg",
+   "voc_2009_002571.jpg",
+   "voc_2009_002688.jpg",
+   "voc_2010_000669.jpg",
+   "voc_2010_004358.jpg",
+   "voc_2010_006056.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2007_001678.jpg",
+   "voc_2007_001717.jpg",
+   "voc_2007_004392.jpg",
+   "voc_2007_004712.jpg",
+   "voc_2007_005086.jpg",
+   "voc_2007_007795.jpg",
+   "voc_2007_007996.jpg",
+   "voc_2007_009068.jpg",
+   "voc_2008_000041.jpg",
+   "voc_2008_000202.jpg",
+   "voc_2008_000493.jpg",
+   "voc_2008_001230.jpg",
+   "voc_2008_001333.jpg",
+   "voc_2008_001434.jpg",
+   "voc_2008_001461.jpg",
+   "voc_2008_001862.jpg",
+   "voc_2008_001928.jpg",
+   "voc_2008_002086.jpg",
+   "voc_2008_002362.jpg",
+   "voc_2008_002776.jpg",
+   "voc_2008_003280.jpg",
+   "voc_2008_004321.jpg",
+   "voc_2008_004435.jpg",
+   "voc_2008_007097.jpg",
+   "voc_2008_007261.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001000.jpg",
+   "voc_2009_001608.jpg",
+   "voc_2009_001864.jpg",
+   "voc_2009_002139.jpg",
+   "voc_2009_003191.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_000386.jpg",
+   "voc_2010_000968.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2010_005170.jpg",
+   "voc_2011_000072.jpg",
+   "voc_2011_000947.jpg"
+  ],
+  "dining table": [
+   "voc_2007_001901.jpg",
+   "voc_2007_002368.jpg",
+   "voc_2007_003011.jpg",
+   "voc_2007_004166.jpg",
+   "voc_2007_006086.jpg",
+   "voc_2007_006241.jpg",
+   "voc_2008_000043.jpg",
+   "voc_2008_001809.jpg",
+   "voc_2008_002082.jpg",
+   "voc_2008_002379.jpg",
+   "voc_2008_002481.jpg",
+   "voc_2008_003264.jpg",
+   "voc_2008_004661.jpg",
+   "voc_2008_005257.jpg",
+   "voc_2008_005342.jpg",
+   "voc_2008_005954.jpg",
+   "voc_2008_008330.jpg",
+   "voc_2008_008402.jpg",
+   "voc_2009_002571.jpg",
+   "voc_2009_002688.jpg",
+   "voc_2010_000669.jpg",
+   "voc_2010_006056.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2007_000762.jpg",
+   "voc_2007_001185.jpg",
+   "voc_2007_001430.jpg",
+   "voc_2007_004712.jpg",
+   "voc_2007_005086.jpg",
+   "voc_2008_000041.jpg",
+   "voc_2008_000493.jpg",
+   "voc_2008_001230.jpg",
+   "voc_2008_001434.jpg",
+   "voc_2008_001928.jpg",
+   "voc_2008_002362.jpg",
+   "voc_2008_004321.jpg",
+   "voc_2008_006295.jpg",
+   "voc_2008_006952.jpg",
+   "voc_2008_007097.jpg",
+   "voc_2008_007261.jpg",
+   "voc_2009_001608.jpg",
+   "voc_2009_002139.jpg",
+   "voc_2009_003191.jpg",
+   "voc_2009_003795.jpg",
+   "voc_2009_004794.jpg",
+   "voc_2009_005038.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2010_003597.jpg",
+   "voc_2010_005170.jpg",
+   "voc_2011_000947.jpg",
+   "voc_2011_001058.jpg",
+   "voc_2011_001820.jpg",
+   "voc_2011_002966.jpg"
+  ],
+  "couch": [
+   "voc_2007_000661.jpg",
+   "voc_2007_001027.jpg",
+   "voc_2007_001901.jpg",
+   "voc_2007_002368.jpg",
+   "voc_2007_003011.jpg",
+   "voc_2007_003451.jpg",
+   "voc_2007_004166.jpg",
+   "voc_2007_005266.jpg",
+   "voc_2007_006066.jpg",
+   "voc_2008_001809.jpg",
+   "voc_2008_002082.jpg",
+   "voc_2008_002119.jpg",
+   "voc_2008_004661.jpg",
+   "voc_2008_005954.jpg",
+   "voc_2008_006719.jpg",
+   "voc_2008_008402.jpg",
+   "voc_2009_002571.jpg",
+   "voc_2010_004358.jpg",
+   "voc_2010_006056.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2007_001149.jpg",
+   "voc_2008_001781.jpg",
+   "voc_2008_006543.jpg",
+   "voc_2007_001585.jpg",
+   "voc_2007_007996.jpg",
+   "voc_2007_009068.jpg",
+   "voc_2007_009554.jpg",
+   "voc_2008_000493.jpg",
+   "voc_2008_001333.jpg",
+   "voc_2008_001461.jpg",
+   "voc_2008_002362.jpg",
+   "voc_2008_002776.jpg",
+   "voc_2008_004321.jpg",
+   "voc_2008_004435.jpg",
+   "voc_2008_005090.jpg",
+   "voc_2008_006864.jpg",
+   "voc_2008_006952.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001605.jpg",
+   "voc_2009_001608.jpg",
+   "voc_2009_003795.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_000386.jpg",
+   "voc_2010_000968.jpg",
+   "voc_2010_003597.jpg",
+   "voc_2010_005170.jpg",
+   "voc_2011_000072.jpg",
+   "voc_2011_000947.jpg",
+   "voc_2011_001820.jpg",
+   "voc_2011_001845.jpg",
+   "voc_2011_003038.jpg"
+  ],
+  "tv": [
+   "voc_2007_001027.jpg",
+   "voc_2007_003011.jpg",
+   "voc_2007_003451.jpg",
+   "voc_2007_004166.jpg",
+   "voc_2007_004193.jpg",
+   "voc_2007_006066.jpg",
+   "voc_2008_000495.jpg",
+   "voc_2008_002082.jpg",
+   "voc_2008_002119.jpg",
+   "voc_2008_002481.jpg",
+   "voc_2008_003264.jpg",
+   "voc_2008_004619.jpg",
+   "voc_2008_004661.jpg",
+   "voc_2008_005257.jpg",
+   "voc_2008_005342.jpg",
+   "voc_2008_005954.jpg",
+   "voc_2008_006624.jpg",
+   "voc_2008_006719.jpg",
+   "voc_2010_000669.jpg",
+   "voc_2010_004358.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2007_001149.jpg",
+   "voc_2008_001781.jpg",
+   "voc_2007_001430.jpg",
+   "voc_2007_001678.jpg",
+   "voc_2007_001717.jpg",
+   "voc_2007_007996.jpg",
+   "voc_2007_008204.jpg",
+   "voc_2007_009554.jpg",
+   "voc_2008_000023.jpg",
+   "voc_2008_000202.jpg",
+   "voc_2008_001461.jpg",
+   "voc_2008_002776.jpg",
+   "voc_2008_003280.jpg",
+   "voc_2008_004321.jpg",
+   "voc_2008_005090.jpg",
+   "voc_2008_006288.jpg",
+   "voc_2008_006295.jpg",
+   "voc_2008_007097.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001000.jpg",
+   "voc_2009_001605.jpg",
+   "voc_2009_001608.jpg",
+   "voc_2009_001864.jpg",
+   "voc_2009_002139.jpg",
+   "voc_2009_003191.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_000386.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2011_000072.jpg",
+   "voc_2011_001058.jpg",
+   "voc_2011_002966.jpg"
+  ],
+  "laptop": [
+   "coco_10707.jpg",
+   "coco_110449.jpg",
+   "coco_111609.jpg",
+   "coco_112798.jpg",
+   "coco_115885.jpg",
+   "coco_11813.jpg",
+   "coco_119365.jpg",
+   "coco_119828.jpg",
+   "coco_124659.jpg",
+   "coco_131138.jpg",
+   "coco_134112.jpg",
+   "coco_134882.jpg",
+   "coco_135872.jpg",
+   "coco_13659.jpg",
+   "coco_136600.jpg",
+   "coco_139077.jpg",
+   "coco_14226.jpg",
+   "coco_147415.jpg",
+   "coco_148620.jpg",
+   "coco_1503.jpg",
+   "coco_154705.jpg",
+   "coco_16439.jpg",
+   "coco_166478.jpg",
+   "coco_172595.jpg",
+   "coco_174231.jpg",
+   "coco_176446.jpg",
+   "coco_177015.jpg",
+   "coco_178469.jpg",
+   "coco_181499.jpg",
+   "coco_182162.jpg",
+   "coco_182202.jpg",
+   "coco_190236.jpg",
+   "coco_195918.jpg",
+   "coco_19786.jpg",
+   "coco_198641.jpg",
+   "coco_206218.jpg",
+   "coco_215778.jpg",
+   "coco_222299.jpg",
+   "coco_22371.jpg",
+   "coco_225757.jpg",
+   "coco_226171.jpg",
+   "coco_229659.jpg",
+   "coco_232088.jpg",
+   "coco_239318.jpg",
+   "coco_243199.jpg",
+   "coco_24610.jpg",
+   "coco_246308.jpg",
+   "coco_248314.jpg",
+   "coco_248631.jpg",
+   "coco_255165.jpg",
+   "coco_262227.jpg",
+   "coco_26465.jpg",
+   "coco_26564.jpg",
+   "coco_271728.jpg",
+   "coco_275749.jpg",
+   "coco_27620.jpg",
+   "coco_278463.jpg",
+   "coco_287347.jpg",
+   "coco_290843.jpg",
+   "coco_294162.jpg",
+   "coco_301421.jpg",
+   "coco_302030.jpg",
+   "coco_306139.jpg",
+   "coco_32610.jpg",
+   "coco_332845.jpg",
+   "coco_37740.jpg",
+   "coco_46031.jpg",
+   "coco_4795.jpg",
+   "coco_51008.jpg",
+   "coco_51610.jpg",
+   "coco_59598.jpg",
+   "coco_60449.jpg",
+   "coco_63602.jpg",
+   "coco_63740.jpg",
+   "coco_76547.jpg",
+   "coco_76731.jpg",
+   "coco_77396.jpg",
+   "coco_77595.jpg",
+   "coco_78420.jpg",
+   "coco_80949.jpg",
+   "coco_82765.jpg",
+   "coco_86582.jpg",
+   "coco_89648.jpg",
+   "coco_9400.jpg",
+   "coco_97994.jpg",
+   "coco_99428.jpg"
+  ],
+  "cup": [
+   "coco_102707.jpg",
+   "coco_108253.jpg",
+   "coco_109313.jpg",
+   "coco_113720.jpg",
+   "coco_115870.jpg",
+   "coco_116206.jpg",
+   "coco_116208.jpg",
+   "coco_117425.jpg",
+   "coco_117719.jpg",
+   "coco_120853.jpg",
+   "coco_12576.jpg",
+   "coco_127394.jpg",
+   "coco_128476.jpg",
+   "coco_135561.jpg",
+   "coco_13729.jpg",
+   "coco_140987.jpg",
+   "coco_142620.jpg",
+   "coco_144798.jpg",
+   "coco_145597.jpg",
+   "coco_150417.jpg",
+   "coco_15335.jpg",
+   "coco_17714.jpg",
+   "coco_17899.jpg",
+   "coco_18380.jpg",
+   "coco_192904.jpg",
+   "coco_20553.jpg",
+   "coco_2157.jpg",
+   "coco_218439.jpg",
+   "coco_231549.jpg",
+   "coco_24243.jpg",
+   "coco_2431.jpg",
+   "coco_25394.jpg",
+   "coco_25560.jpg",
+   "coco_25603.jpg",
+   "coco_2592.jpg",
+   "coco_25986.jpg",
+   "coco_2685.jpg",
+   "coco_273420.jpg",
+   "coco_283412.jpg",
+   "coco_29596.jpg",
+   "coco_31296.jpg",
+   "coco_31620.jpg",
+   "coco_32901.jpg",
+   "coco_34873.jpg",
+   "coco_35682.jpg",
+   "coco_36494.jpg",
+   "coco_3661.jpg",
+   "coco_36844.jpg",
+   "coco_36936.jpg",
+   "coco_3845.jpg",
+   "coco_38678.jpg",
+   "coco_3934.jpg",
+   "coco_40471.jpg",
+   "coco_48396.jpg",
+   "coco_52413.jpg",
+   "coco_52996.jpg",
+   "coco_54605.jpg",
+   "coco_56127.jpg",
+   "coco_63047.jpg",
+   "coco_66706.jpg",
+   "coco_66771.jpg",
+   "coco_70048.jpg",
+   "coco_74209.jpg",
+   "coco_74733.jpg",
+   "coco_78426.jpg",
+   "coco_80340.jpg",
+   "coco_80932.jpg",
+   "coco_82696.jpg",
+   "coco_83531.jpg",
+   "coco_85157.jpg",
+   "coco_88040.jpg",
+   "coco_91615.jpg",
+   "coco_92053.jpg",
+   "coco_92660.jpg",
+   "coco_92939.jpg",
+   "coco_93437.jpg",
+   "coco_95786.jpg",
+   "coco_9590.jpg",
+   "coco_10707.jpg",
+   "coco_119828.jpg",
+   "coco_131138.jpg",
+   "coco_135872.jpg",
+   "coco_13659.jpg",
+   "coco_147415.jpg",
+   "coco_178469.jpg",
+   "coco_190236.jpg",
+   "coco_215778.jpg",
+   "coco_226171.jpg",
+   "coco_255165.jpg",
+   "coco_271728.jpg",
+   "coco_275749.jpg",
+   "coco_278463.jpg",
+   "coco_287347.jpg",
+   "coco_63602.jpg",
+   "coco_63740.jpg",
+   "coco_80949.jpg",
+   "coco_9400.jpg",
+   "coco_97994.jpg"
+  ],
+  "bottle": [
+   "voc_2007_003451.jpg",
+   "voc_2007_004193.jpg",
+   "voc_2007_006086.jpg",
+   "voc_2007_006241.jpg",
+   "voc_2008_000495.jpg",
+   "voc_2008_001809.jpg",
+   "voc_2008_002082.jpg",
+   "voc_2008_005248.jpg",
+   "voc_2008_005257.jpg",
+   "voc_2008_005342.jpg",
+   "voc_2008_006719.jpg",
+   "voc_2008_008330.jpg",
+   "voc_2009_002688.jpg",
+   "voc_2010_006056.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2008_006543.jpg",
+   "voc_2007_000762.jpg",
+   "voc_2007_001185.jpg",
+   "voc_2007_001408.jpg",
+   "voc_2007_001585.jpg",
+   "voc_2007_004712.jpg",
+   "voc_2007_008204.jpg",
+   "voc_2008_000023.jpg",
+   "voc_2008_000202.jpg",
+   "voc_2008_001230.jpg",
+   "voc_2008_001333.jpg",
+   "voc_2008_001862.jpg",
+   "voc_2008_001928.jpg",
+   "voc_2008_002086.jpg",
+   "voc_2008_002362.jpg",
+   "voc_2008_002776.jpg",
+   "voc_2008_003280.jpg",
+   "voc_2008_004435.jpg",
+   "voc_2008_005090.jpg",
+   "voc_2008_006295.jpg",
+   "voc_2008_006952.jpg",
+   "voc_2008_007097.jpg",
+   "voc_2008_007261.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001605.jpg",
+   "voc_2009_003191.jpg",
+   "voc_2009_003795.jpg",
+   "voc_2009_004794.jpg",
+   "voc_2009_005038.jpg",
+   "voc_2010_000386.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2010_003597.jpg",
+   "voc_2011_000947.jpg",
+   "voc_2011_001058.jpg",
+   "voc_2011_001820.jpg",
+   "voc_2011_001845.jpg",
+   "voc_2011_002966.jpg",
+   "voc_2011_003038.jpg"
+  ],
+  "potted plant": [
+   "voc_2007_000661.jpg",
+   "voc_2007_005266.jpg",
+   "voc_2008_000043.jpg",
+   "voc_2008_002119.jpg",
+   "voc_2008_002379.jpg",
+   "voc_2008_004619.jpg",
+   "voc_2008_004661.jpg",
+   "voc_2008_005248.jpg",
+   "voc_2008_005954.jpg",
+   "voc_2008_006624.jpg",
+   "voc_2008_008330.jpg",
+   "voc_2008_008402.jpg",
+   "voc_2009_002571.jpg",
+   "voc_2009_002688.jpg",
+   "voc_2010_000669.jpg",
+   "voc_2010_004358.jpg",
+   "voc_2011_002814.jpg",
+   "voc_2007_001149.jpg",
+   "voc_2008_001781.jpg",
+   "voc_2008_006543.jpg",
+   "voc_2007_001408.jpg",
+   "voc_2007_001430.jpg",
+   "voc_2007_004392.jpg",
+   "voc_2007_004712.jpg",
+   "voc_2007_007795.jpg",
+   "voc_2007_009068.jpg",
+   "voc_2008_000041.jpg",
+   "voc_2008_001434.jpg",
+   "voc_2008_001862.jpg",
+   "voc_2008_002086.jpg",
+   "voc_2008_004435.jpg",
+   "voc_2008_006288.jpg",
+   "voc_2008_006295.jpg",
+   "voc_2008_006864.jpg",
+   "voc_2008_007261.jpg",
+   "voc_2008_007281.jpg",
+   "voc_2009_001000.jpg",
+   "voc_2009_001864.jpg",
+   "voc_2009_004794.jpg",
+   "voc_2009_005038.jpg",
+   "voc_2010_000178.jpg",
+   "voc_2010_000968.jpg",
+   "voc_2010_002742.jpg",
+   "voc_2010_003597.jpg",
+   "voc_2011_000072.jpg",
+   "voc_2011_001820.jpg",
+   "voc_2011_001845.jpg",
+   "voc_2011_003038.jpg"
+  ],
+  "bed": [
+   "coco_10092.jpg",
+   "coco_106389.jpg",
+   "coco_10995.jpg",
+   "coco_113403.jpg",
+   "coco_116479.jpg",
+   "coco_116825.jpg",
+   "coco_14038.jpg",
+   "coco_14831.jpg",
+   "coco_159458.jpg",
+   "coco_169076.jpg",
+   "coco_170191.jpg",
+   "coco_171757.jpg",
+   "coco_190637.jpg",
+   "coco_190648.jpg",
+   "coco_193494.jpg",
+   "coco_1993.jpg",
+   "coco_199551.jpg",
+   "coco_200252.jpg",
+   "coco_200421.jpg",
+   "coco_202445.jpg",
+   "coco_213422.jpg",
+   "coco_217219.jpg",
+   "coco_218091.jpg",
+   "coco_22192.jpg",
+   "coco_223747.jpg",
+   "coco_226408.jpg",
+   "coco_226592.jpg",
+   "coco_235399.jpg",
+   "coco_239347.jpg",
+   "coco_249550.jpg",
+   "coco_263644.jpg",
+   "coco_267300.jpg",
+   "coco_274687.jpg",
+   "coco_291490.jpg",
+   "coco_294783.jpg",
+   "coco_297353.jpg",
+   "coco_317999.jpg",
+   "coco_318238.jpg",
+   "coco_319935.jpg",
+   "coco_329080.jpg",
+   "coco_333237.jpg",
+   "coco_347693.jpg",
+   "coco_35062.jpg",
+   "coco_355257.jpg",
+   "coco_39769.jpg",
+   "coco_39956.jpg",
+   "coco_40757.jpg",
+   "coco_41872.jpg",
+   "coco_46048.jpg",
+   "coco_50828.jpg",
+   "coco_51738.jpg",
+   "coco_60835.jpg",
+   "coco_61333.jpg",
+   "coco_632.jpg",
+   "coco_65074.jpg",
+   "coco_66523.jpg",
+   "coco_68286.jpg",
+   "coco_71226.jpg",
+   "coco_71451.jpg",
+   "coco_71938.jpg",
+   "coco_72813.jpg",
+   "coco_776.jpg",
+   "coco_7795.jpg",
+   "coco_99182.jpg",
+   "coco_192904.jpg",
+   "coco_218439.jpg",
+   "coco_231549.jpg",
+   "coco_273420.jpg",
+   "coco_283412.jpg",
+   "coco_111609.jpg",
+   "coco_115885.jpg",
+   "coco_134112.jpg",
+   "coco_134882.jpg",
+   "coco_222299.jpg",
+   "coco_243199.jpg",
+   "coco_290843.jpg",
+   "coco_332845.jpg",
+   "coco_51610.jpg",
+   "coco_77595.jpg",
+   "coco_82765.jpg"
+  ]
+ }
+}

@@ -12,25 +12,40 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] 当前阶段：P1 数据准备 **进行中** —— 候选图已下载压缩完毕，**停在人工筛选暂停点**（2026-10-17）
-- [ ] 最近一次 git commit：见 `git log`（P1: 候选图下载与压缩、筛选材料生成）
+- [x] 当前阶段：**P1 数据准备 已完成**（2026-10-17）—— 328 张 / 10 类，全部硬门槛通过
+- [ ] 最近一次 git commit：见 `git log`（P1: 数据获取与筛选完成）
 - [ ] 上一步完成：P0 全部（环境 imglabel / Python 3.10.22 / 阿里云源 / 私有仓库 beilun1/imglabel）
 - [ ] 本步已完成：
   - 数据通道：VOC2012 走 PaddleSeg 百度云镜像（官方站 0.03MB/s 不可用，镜像 12.8MB/s）；COCO val 走 hf-mirror parquet（7.9MB/s）
   - 机器初筛 + 压缩：VOC 3229 张 + COCO 249 张 → 3478 张候选，长边≤960 / JPG85 全部合规，失败 0
-  - 分层抽样后候选池 **354 张**，十类全覆盖，每类 ≥50 张
-  - 筛选材料：`data/review/`（candidates.csv、category_hints.csv、preview/index.html 共 10 批）
-- [ ] **下一步待办（阻塞中）**：等用户回话给保留清单 → 再执行第六步续（统计保留数、整理数据集、写提交信息.txt、git 提交）
-- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档；⑦ GitHub 平时可 push（已成功推 c466e0d），但**大文件并发下载时会超时**，需等下载结束再 push
+  - 分层抽样后候选池 **354 张**，十类全覆盖；人工筛选剔除 26 张
+  - **最终数据集 328 张 / 10 类**，见 `data/curated/`（images 328 张 + filelist.txt + stats.md）
+  - `提交信息.txt` 草稿已建（数字与 stats.json 逐项核对一致）
+- [ ] **下一步待办**：P2 flask UI 骨架 + 画布三模式（app.py / canvas/ / 启动.bat / requirements.txt）
+- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**
 
-### P1 数据统计（截至暂停点）
+### P1 最终数据统计
 
 | 项目 | 数量 |
 |---|---|
-| 原始候选（机器初筛后） | 3478（VOC 3229 / COCO 249） |
-| 压缩输出 `data/images/` | 3478，失败 0，超规格 0，398.7MB→155.3MB |
-| 送审候选池 | 354，10 批预览 |
-| 待用户给出 | 保留清单（目标 ≥150 张 / ≥6 类 / 每类 ≥15） |
+| 原始候选（机器初筛后） | 3,478（VOC 3,229 / COCO 249） |
+| 压缩输出 `data/images/`（不进 git） | 3,478，失败 0，超规格 0，398.7MB→155.3MB |
+| 送审候选池 | 354 |
+| 人工剔除 | 26（用户点名 21 + 复核发现 3 + 非场景照 2） |
+| **最终保留 `data/curated/images/`** | **328 张 / 10 类，18.1MB，进 git** |
+
+**类别分布（硬门槛：≥150 张 / ≥6 类 / 每类 ≥15）**
+
+| 编号 | 类别 | 张数 | | 编号 | 类别 | 张数 |
+|---|---|---|---|---|---|---|
+| 0 | person | 61 | | 5 | laptop | 86 |
+| 1 | chair | 74 | | 6 | cup | 98 |
+| 2 | dining table | 53 | | 7 | bottle | 53 |
+| 3 | couch | 51 | | 8 | potted plant | 48 |
+| 4 | tv | 52 | | 9 | bed | 80 |
+
+来源：Pascal VOC 2012 保留 100 张 · COCO 2017 val 保留 228 张。
+
 
 
 ## 2. 阶段清单（P0 开工 → P7 收尾）
@@ -38,7 +53,7 @@
 | 阶段 | 内容 | 状态 |
 |---|---|---|
 | P0 | 环境 + git 仓库 | ✅ 已完成（2026-10-17） |
-| P1 | 数据 150 张 / ≥6类 / 每类≥15张 | 🟡 进行中（候选已就绪，待人工筛选） |
+| P1 | 数据 150 张 / ≥6类 / 每类≥15张 | ✅ 已完成（328 张 / 10 类，2026-10-17） |
 | P2 | flask UI 骨架 + 画布三模式 | 未开始 |
 | P3 | 预标注（YOLO-World / YOLO26n-seg） | 未开始 |
 | P4 | 逐张过审 + 修正 ≥60 条（必须真人） | 未开始 |
@@ -94,12 +109,15 @@ git push                 # 推到私有仓库异地备份
 | 路径 | 内容 | 是否进 git |
 |---|---|---|
 | `data/images/` | 全部候选图（3478 张，长边≤960、JPG85） | 否（158MB，脚本可重生成） |
+| `data/curated/images/` | **最终保留的 328 张**（P3 预标注直接吃这里） | **是（必须随包提交）** |
+| `data/curated/filelist.txt` `stats.md` `stats.json` | 最终清单与统计 | 是 |
 | `data/review/` | 筛选材料：清单 csv/md、类别提示、预览 html | 是（thumbs 与分页 html 除外） |
 | `data/review/source_log.md` | 数据来源与筛选过程一手记录（写提交信息.txt 的唯一依据） | 是 |
-| `tools/` | 数据流水线脚本（extract_voc / extract_coco / compress_images / make_review） | 是 |
+| `tools/` | 数据流水线脚本（extract_voc / extract_coco / compress_images / make_review / score_candidates / make_review2 / finalize_dataset） | 是 |
 | `dataset/` | **平台导出的三种标注格式**（任务书要求） | 是（后续 P5 生成） |
 
-> ⚠️ `data/images/` 与 `dataset/` 是两回事：前者是待标注的原始图片，后者是标注导出结果。
+> ⚠️ `data/curated/images/` 与 `dataset/` 是两回事：前者是待标注原图，后者是标注导出结果。
+> 最终数据集目录**故意不叫 dataset_final**，避免与任务书的 `dataset/` 混淆。
 > 原始下载包与原始分辨率候选图在 **项目外** `D:\imglabel_raw\`。
 
 
