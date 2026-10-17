@@ -8,8 +8,7 @@
 const CONF = window.APP_CONF;
 const CLASSES = CONF.classes;          // 十类，顺序即编号（红线）
 const CLASSES_ZH = ["人", "椅子", "桌子", "沙发", "电视", "笔记本电脑", "杯子", "瓶子", "盆栽", "床"];
-const PALETTE = ["#ff6384", "#36a2eb", "#ffce56", "#4bc0c0", "#9966ff",
-                 "#ff9f40", "#2ecc71", "#e74c3c", "#27ae60", "#8e44ad"];
+const PALETTE = ["#e5484d", "#2563eb", "#f97316", "#14b8a6", "#8b5cf6", "#16a34a", "#ec4899", "#eab308", "#84cc16", "#92400e"];
 const BG_CANVAS = "#e9ebef";
 const SEL_COLOR = "#ffb020";
 const SEL_SHADOW = "rgba(0,0,0,.75)";
@@ -134,17 +133,6 @@ function pointInPoly(pt, poly) {
   }
   return inside;
 }
-function segDist(p, a, b) {
-  const dx = b[0] - a[0], dy = b[1] - a[1];
-  const l2 = dx * dx + dy * dy;
-  const t = l2 ? clamp(((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2, 0, 1) : 0;
-  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
-}
-function polyDist(p, poly) {
-  let d = Infinity;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) d = Math.min(d, segDist(p, poly[j], poly[i]));
-  return d;
-}
 function perpDist(p, a, b) {
   const dx = b[0] - a[0], dy = b[1] - a[1];
   const len = Math.hypot(dx, dy);
@@ -217,11 +205,15 @@ function traceContour(grid, W, H) {
   if (out.length > 1) out.pop();
   return out;
 }
-function rasterizeUnion(basePoly, stroke, size) {
-  const r = size / 2;
-  const bb = ptsBBox(stroke.concat(basePoly || []));
-  const bx0 = Math.max(0, Math.floor(bb.x0 - r - 2)), by0 = Math.max(0, Math.floor(bb.y0 - r - 2));
-  const bx1 = Math.min(state.imgW, Math.ceil(bb.x1 + r + 2)), by1 = Math.min(state.imgH, Math.ceil(bb.y1 + r + 2));
+const MIN_PIECE = 25;              // px²，更小的碎块/孔洞直接丢弃（填平）
+function signedArea(p) {
+  let s = 0;
+  for (let i = 0, j = p.length - 1; i < p.length; j = i++) s += p[j][0] * p[i][1] - p[i][0] * p[j][1];
+  return s / 2;
+}
+function rasterCanvas(bb, pad) {
+  const bx0 = Math.max(0, Math.floor(bb.x0 - pad)), by0 = Math.max(0, Math.floor(bb.y0 - pad));
+  const bx1 = Math.min(state.imgW, Math.ceil(bb.x1 + pad)), by1 = Math.min(state.imgH, Math.ceil(bb.y1 + pad));
   const W = bx1 - bx0, H = by1 - by0;
   if (W <= 0 || H <= 0) return null;
   const oc = document.createElement("canvas");
@@ -229,21 +221,140 @@ function rasterizeUnion(basePoly, stroke, size) {
   const c = oc.getContext("2d", { willReadFrequently: true });
   c.translate(-bx0, -by0);
   c.fillStyle = c.strokeStyle = "#000";
-  if (basePoly) { tracePath(c, basePoly); c.fill(); }
+  return { c, bx0, by0, W, H };
+}
+function readGrid(rc) {
+  const data = rc.c.getImageData(0, 0, rc.W, rc.H).data;
+  const grid = new Uint8Array(rc.W * rc.H);
+  let count = 0;
+  for (let i = 0; i < grid.length; i++) if (data[i * 4 + 3] >= 128) { grid[i] = 1; count++; }
+  return { grid, count };
+}
+// 与笔触预览完全同一套几何（圆头圆角线 / 单点圆盘）
+function paintStroke(c, stroke, size) {
   if (stroke.length === 1) {
-    c.beginPath(); c.arc(stroke[0][0], stroke[0][1], r, 0, Math.PI * 2); c.fill();
+    c.beginPath(); c.arc(stroke[0][0], stroke[0][1], size / 2, 0, Math.PI * 2); c.fill();
   } else {
     c.lineWidth = size; c.lineCap = "round"; c.lineJoin = "round";
     c.beginPath(); c.moveTo(stroke[0][0], stroke[0][1]);
     for (let i = 1; i < stroke.length; i++) c.lineTo(stroke[i][0], stroke[i][1]);
     c.stroke();
   }
-  const data = c.getImageData(0, 0, W, H).data;
-  const grid = new Uint8Array(W * H);
-  for (let i = 0; i < grid.length; i++) grid[i] = data[i * 4 + 3] >= 128 ? 1 : 0;
-  const contour = traceContour(grid, W, H).map(p => [p[0] + bx0 + 0.5, p[1] + by0 + 0.5]);
+}
+function loopFromGrid(grid, w, h, ox, oy, positive) {
+  const contour = traceContour(grid, w, h).map(p => [p[0] + ox + 0.5, p[1] + oy + 0.5]);
   const pts = simplifyClosed(contour, 0.8);
-  return pts.length >= 3 ? pts : null;
+  if (pts.length < 3) return null;
+  if ((signedArea(pts) > 0) !== positive) pts.reverse();
+  return pts;
+}
+// 孔洞反向绕行并用零宽"桥"缝进外轮廓：nonzero 填充与 pointInPoly 都把孔洞视为空
+function bridgeHole(poly, hole) {
+  let best = Infinity, bi = 0, bj = 0;
+  for (let i = 0; i < poly.length; i++)
+    for (let j = 0; j < hole.length; j++) {
+      const d = (poly[i][0] - hole[j][0]) ** 2 + (poly[i][1] - hole[j][1]) ** 2;
+      if (d < best) { best = d; bi = i; bj = j; }
+    }
+  return poly.slice(0, bi + 1).concat(hole.slice(bj), hole.slice(0, bj + 1), poly.slice(bi));
+}
+function componentPolygon(idxs, x0, y0, x1, y1, W, ox, oy) {
+  const w = x1 - x0 + 3, h = y1 - y0 + 3;          // 外扩 1px，保证边框一圈都是背景
+  const sub = new Uint8Array(w * h);
+  idxs.forEach(i => { sub[(((i / W) | 0) - y0 + 1) * w + (i % W) - x0 + 1] = 1; });
+  const sox = ox + x0 - 1, soy = oy + y0 - 1;
+  let poly = loopFromGrid(sub, w, h, sox, soy, true);
+  if (!poly) return null;
+  const seen = new Uint8Array(w * h);
+  const flood = (s, out) => {
+    const st = [s]; seen[s] = 1;
+    while (st.length) {
+      const i = st.pop(); if (out) out.push(i);
+      const x = i % w, y = (i / w) | 0;
+      const nb = [x > 0 ? i - 1 : -1, x < w - 1 ? i + 1 : -1, y > 0 ? i - w : -1, y < h - 1 ? i + w : -1];
+      for (const k of nb) if (k >= 0 && !sub[k] && !seen[k]) { seen[k] = 1; st.push(k); }
+    }
+  };
+  flood(0, null);
+  for (let s = 0; s < w * h; s++) {
+    if (sub[s] || seen[s]) continue;
+    const holeIdx = [];
+    flood(s, holeIdx);
+    if (holeIdx.length < MIN_PIECE) continue;
+    const hg = new Uint8Array(w * h);
+    holeIdx.forEach(i => { hg[i] = 1; });
+    const hole = loopFromGrid(hg, w, h, sox, soy, false);
+    if (hole) poly = bridgeHole(poly, hole);
+  }
+  return poly;
+}
+// 栅格 → 8 连通块（含孔洞）多边形，按面积降序
+function maskComponents(grid, W, H, ox, oy, minArea) {
+  const label = new Uint8Array(W * H);
+  const pieces = [];
+  for (let s = 0; s < W * H; s++) {
+    if (!grid[s] || label[s]) continue;
+    const idxs = [], st = [s];
+    label[s] = 1;
+    let x0 = W, y0 = H, x1 = -1, y1 = -1;
+    while (st.length) {
+      const i = st.pop(); idxs.push(i);
+      const x = i % W, y = (i / W) | 0;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+      for (let d = 0; d < 8; d++) {
+        const nx = x + DX[d], ny = y + DY[d];
+        if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue;
+        const k = ny * W + nx;
+        if (grid[k] && !label[k]) { label[k] = 1; st.push(k); }
+      }
+    }
+    if (idxs.length < minArea) continue;
+    const points = componentPolygon(idxs, x0, y0, x1, y1, W, ox, oy);
+    if (points) pieces.push({ area: idxs.length, points });
+  }
+  return pieces.sort((a, b) => b.area - a.area);
+}
+function rasterizeUnion(basePoly, stroke, size) {
+  const rc = rasterCanvas(ptsBBox(stroke.concat(basePoly || [])), size / 2 + 2);
+  if (!rc) return null;
+  if (basePoly) { tracePath(rc.c, basePoly); rc.c.fill(); }
+  paintStroke(rc.c, stroke, size);
+  const pieces = maskComponents(readGrid(rc).grid, rc.W, rc.H, rc.bx0, rc.by0, 1);
+  return pieces.length ? pieces[0].points : null;
+}
+// 橡皮：实例掩码 − 笔迹圆盘序列（布尔差）
+function eraseStroke(stroke, size) {
+  const r = size / 2, sb = ptsBBox(stroke);
+  const snap = snapshot();
+  let changed = false;
+  liveInstances().forEach(inst => {
+    const ib = ptsBBox(inst.mask.points);
+    if (ib.x1 < sb.x0 - r || ib.x0 > sb.x1 + r || ib.y1 < sb.y0 - r || ib.y0 > sb.y1 + r) return;
+    const rc = rasterCanvas(ib, 2);
+    if (!rc) return;
+    tracePath(rc.c, inst.mask.points); rc.c.fill();
+    const before = readGrid(rc).count;
+    rc.c.globalCompositeOperation = "destination-out";
+    paintStroke(rc.c, stroke, size);
+    const after = readGrid(rc);
+    if (after.count === before) return;
+    changed = true;
+    state.modifiedCount++;
+    const pieces = maskComponents(after.grid, rc.W, rc.H, rc.bx0, rc.by0, MIN_PIECE);
+    if (!pieces.length) {
+      inst.mark = "deleted";
+      if (state.selectedId === inst.id) state.selectedId = null;
+      return;
+    }
+    inst.mask.points = pieces[0].points;
+    markModified(inst);
+    pieces.slice(1).forEach(pc => {
+      state.instances.push({ id: uid(), cls: inst.cls, mark: "created",
+                             mask: { type: "polygon", points: pc.points } });
+      state.modifiedCount++;
+    });
+  });
+  if (changed) commitUndo(snap);
 }
 
 /* ---------- 命中测试 ---------- */
@@ -418,7 +529,8 @@ function drawOne(ctx, withOverlay) {
       if (!ofCls.length) return;
       ctx.beginPath();
       ofCls.forEach(inst => {
-        const p = inst.mask.points;
+        // 统一绕向：否则同类两实例绕向相反时，nonzero 会把重叠区抵消成空洞
+        const p = signedArea(inst.mask.points) < 0 ? inst.mask.points.slice().reverse() : inst.mask.points;
         ctx.moveTo(p[0][0], p[0][1]);
         for (let i = 1; i < p.length; i++) ctx.lineTo(p[i][0], p[i][1]);
         ctx.closePath();
@@ -781,19 +893,7 @@ function finalizeStroke() {
   const raw = state.strokePts;
   if (!raw.length) return;
   const r = state.brushSize / 2;
-  if (state.tool === "eraser") {
-    // 橡皮：笔触（含粗细）碰到的实例整体删除
-    const toDel = liveInstances().filter(inst =>
-      raw.some(p => pointInPoly(p, inst.mask.points) || polyDist(p, inst.mask.points) <= r));
-    if (toDel.length) {
-      pushUndo();
-      toDel.forEach(inst => {
-        inst.mark = "deleted"; state.modifiedCount++;
-        if (state.selectedId === inst.id) state.selectedId = null;
-      });
-    }
-    return;
-  }
+  if (state.tool === "eraser") { eraseStroke(raw, state.brushSize); return; }
   // 画笔：起点落在同类实例内部 → 合并扩展该实例；否则新建实例
   const hit = hitTestMaskImg(raw[0][0], raw[0][1], state.curCls);
   let pts;
