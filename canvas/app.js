@@ -35,7 +35,9 @@ const state = {
   undoStack: [], redoStack: [],
   scale: 1, ox: 0, oy: 0,
   spaceHeld: false,
+  hintStart: 0,                  // 空画布引导提示开始时间（0 = 不显示），本张图只显示一次
 };
+const HINT_HOLD = 2400, HINT_FADE = 600;
 
 /* ---------- 致命错误：页面顶部红条显式提示，不再静默空白 ---------- */
 function showFatal(msg) {
@@ -495,12 +497,24 @@ function drawOne(ctx, withOverlay) {
 }
 
 function drawEmptyHint(ctx) {
+  if (!state.hintStart) return;
+  const t = performance.now() - state.hintStart;
+  if (t >= HINT_HOLD + HINT_FADE) { state.hintStart = 0; return; }
   const tips = {
     box: "在图片空白处按住左键拖拽，创建检测框",
     mask: "按 W 用画笔涂抹 / 按 P 多边形打点，创建实例掩码",
     semantic: "暂无实例：语义图由实例掩码按类合并生成",
   };
+  ctx.globalAlpha = t <= HINT_HOLD ? 1 : 1 - (t - HINT_HOLD) / HINT_FADE;
   drawCenterText(ctx, tips[state.mode], false);
+  ctx.globalAlpha = 1;
+}
+
+function tickHint() {
+  if (!state.hintStart) return;
+  if (liveInstances().length) { state.hintStart = 0; draw(); return; }
+  draw();
+  requestAnimationFrame(tickHint);
 }
 
 function drawCenterText(ctx, text, isError) {
@@ -990,6 +1004,7 @@ async function load() {
     state.instances = doc.instances || [];
     state.modifiedCount = doc.modified_count || 0;
     state.annLoaded = true;
+    if (!liveInstances().length) { state.hintStart = performance.now(); requestAnimationFrame(tickHint); }
     draw();
   } catch (e) {
     showFatal(`标注读取失败（${e.message}），已禁止保存以免覆盖已有标注。`);
