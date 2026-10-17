@@ -21,7 +21,7 @@
   - 分层抽样后候选池 **354 张**，十类全覆盖，每类 ≥50 张
   - 筛选材料：`data/review/`（candidates.csv、category_hints.csv、preview/index.html 共 10 批）
 - [ ] **下一步待办（阻塞中）**：等用户回话给保留清单 → 再执行第六步续（统计保留数、整理数据集、写提交信息.txt、git 提交）
-- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403、GitHub 超时**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档
+- [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档；⑦ GitHub 平时可 push（已成功推 c466e0d），但**大文件并发下载时会超时**，需等下载结束再 push
 
 ### P1 数据统计（截至暂停点）
 
