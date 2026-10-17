@@ -10,7 +10,7 @@ const CLASSES = CONF.classes;          // 十类，顺序即编号（红线）
 const CLASSES_ZH = ["人", "椅子", "桌子", "沙发", "电视", "笔记本电脑", "杯子", "瓶子", "盆栽", "床"];
 const PALETTE = ["#e5484d", "#2563eb", "#f97316", "#14b8a6", "#8b5cf6", "#16a34a", "#ec4899", "#eab308", "#84cc16", "#92400e"];
 const BG_CANVAS = "#e9ebef";
-const SEL_COLOR = "#ffb020";
+const SEL_COLOR = "#ffffff";
 const SEL_SHADOW = "rgba(0,0,0,.75)";
 
 const state = {
