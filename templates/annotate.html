@@ -5,7 +5,7 @@
 <title>标注 · {{ name }}</title>
 <link rel="stylesheet" href="/canvas/style.css">
 </head>
-<body data-name="{{ name }}" data-idx="{{ idx }}" data-total="{{ total }}">
+<body class="page-annotate" data-name="{{ name }}" data-idx="{{ idx }}" data-total="{{ total }}">
 
 <!-- 顶部工具条 -->
 <header class="toolbar">
@@ -22,6 +22,7 @@
       <button data-mode="mask" class="tab" title="快捷键 2">实例掩码</button>
       <button data-mode="semantic" class="tab" title="快捷键 3">语义</button>
     </div>
+    <button id="btnHand" class="tool hand" title="抓手 H：左键拖动平移画布（再按 H 或 Esc 退出）">✋ 抓手</button>
   </div>
 
   <div class="tb-right">
@@ -31,10 +32,11 @@
       <button data-tool="eraser" class="tool" title="橡皮擦 E">◐ 橡皮</button>
       <button data-tool="polygon" class="tool" title="多边形 P">⬟ 多边形</button>
       <button data-tool="move" class="tool" title="移动 V">✥ 移动</button>
-      <label class="lbl">粗细 <input type="range" id="brushSize" min="3" max="40" value="10"></label>
+      <label class="lbl" title="快捷键 [ / ]">粗细 <input type="range" id="brushSize" min="2" max="60" value="10"> <span id="brushVal" class="bval">10</span>px</label>
     </div>
 
     <select id="classSel" title="类别（顺序即编号，不得改）"></select>
+    <span id="selInfo" class="sel-info">新建类别</span>
 
     <button id="btnFit" class="btn-ghost" title="适应窗口">⤢ 适应</button>
     <button id="btnCompare" class="btn-ghost" title="左原图 / 右标注叠加">⇋ 双栏对比</button>
@@ -46,7 +48,14 @@
 </header>
 
 <!-- 修正统计计数条（常驻） -->
-<div class="counterbar" id="counterBar">本次修改 <b id="cntMod">0</b> 条 / 目标 <b>60</b> 条</div>
+<div class="counterbar" id="counterBar">
+  <span>本次修改 <b id="cntMod">0</b> 条 / 目标 <b>60</b> 条</span>
+  <span class="hintbar" id="hintBar">
+    <kbd>空格</kbd>+拖 / <kbd>中键</kbd> / <kbd>H</kbd>抓手 = 平移 · 滚轮缩放 ·
+    <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>切模式 · <kbd>W</kbd>画笔 <kbd>E</kbd>橡皮 <kbd>P</kbd>多边形 <kbd>V</kbd>移动 ·
+    <kbd>[</kbd><kbd>]</kbd>粗细 · <kbd>Del</kbd>删除 · <kbd>S</kbd>保存下一张 · <kbd>Ctrl+Z</kbd>撤销 <kbd>Ctrl+Shift+Z</kbd>重做
+  </span>
+</div>
 
 <!-- 画布区 -->
 <main class="canvas-area" id="canvasArea">
@@ -57,18 +66,17 @@
   <div class="canvas-box" id="boxMain">
     <canvas id="cvMain"></canvas>
     <div class="box-label" id="overlayLabel">标注叠加</div>
+    <!-- 语义图例（语义模式显示） -->
+    <div class="legend" id="legend" hidden></div>
   </div>
 </main>
-
-<!-- 语义图例（语义模式显示） -->
-<div class="legend" id="legend" hidden></div>
 
 <!-- 底部导航 -->
 <footer class="navbar">
   <button id="btnPrev" class="btn-ghost">← 上一张</button>
   <button id="btnNext" class="btn-ghost">下一张 →</button>
   <button id="btnSaveNext2" class="btn-primary">保存并下一张</button>
-  <span class="nav-hint">快捷键：1/2/3 模式 · W/E/P/V 工具 · Ctrl+Z 撤销 · Ctrl+Shift+Z 重做 · S 保存并下一张</span>
+  <span class="nav-hint">框模式：空白处拖拽=新建框 · 拖把手=缩放 · 拖框内=移动 · 多边形：单击打点，点首点/双击/Enter 闭合</span>
 </footer>
 
 <script>window.APP_CONF = {name: {{ name|tojson }}, idx: {{ idx }}, total: {{ total }}, classes: {{ classes|tojson }} };</script>
