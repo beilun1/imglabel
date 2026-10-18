@@ -17,7 +17,11 @@ const state = {
   name: CONF.name, idx: CONF.idx, total: CONF.total,
   imgW: 0, imgH: 0,
   instances: [],                 // {id, cls, mark, mask:{type:'polygon',points:[[x,y]..]}}
-  modifiedCount: 0,
+  modifiedCount: 0,              // 本图累计修正条数（落盘于 JSON.modified_count，跨会话）
+  records: [],                   // 本会话修正记录（与 modifiedCount 同步增减，随撤销/重做回退）
+  session: "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+  recBase: null,                 // 本轮除本会话外已落盘的修正总数（累计进度 = recBase + records.length）
+  reviewed: false,
   mode: "box",                   // box | mask | semantic
   tool: "brush",                 // brush | eraser | polygon | move
   hand: false,                   // 抓手工具（任意模式下左键拖动 = 平移）
@@ -57,7 +61,7 @@ window.addEventListener("unhandledrejection", e =>
 
 // 模板与脚本版本不一致（如旧服务进程缓存了旧模板）时，缺元素会让整页脚本崩溃
 const REQUIRED_IDS = ["cvMain", "cvCompare", "boxMain", "boxLeft", "canvasArea", "classSel", "selInfo",
-  "cntMod", "legend", "overlayLabel", "brushSize", "brushVal", "btnHand", "maskTools", "btnFit",
+  "cntMod", "cntTotal", "cntTarget", "legend", "overlayLabel", "brushSize", "brushVal", "btnHand", "maskTools", "btnFit",
   "btnUndo", "btnRedo", "btnSave", "btnCompare", "btnSaveNext", "btnSaveNext2", "btnPrev", "btnNext"];
 const missingIds = REQUIRED_IDS.filter(id => !document.getElementById(id));
 if (missingIds.length) {
@@ -78,6 +82,10 @@ const area = document.getElementById("canvasArea");
 const classSel = document.getElementById("classSel");
 const selInfo = document.getElementById("selInfo");
 const cntMod = document.getElementById("cntMod");
+const cntTotal = document.getElementById("cntTotal");
+const ROUND = CONF.round || 0;
+const TARGET = CONF.target || 60;
+document.getElementById("cntTarget").textContent = TARGET;
 const legend = document.getElementById("legend");
 const overlayLabel = document.getElementById("overlayLabel");
 const brushInput = document.getElementById("brushSize");
@@ -339,19 +347,21 @@ function eraseStroke(stroke, size) {
     const after = readGrid(rc);
     if (after.count === before) return;
     changed = true;
-    state.modifiedCount++;
     const pieces = maskComponents(after.grid, rc.W, rc.H, rc.bx0, rc.by0, MIN_PIECE);
     if (!pieces.length) {
       inst.mark = "deleted";
+      countEdit("delete", inst, inst.cls, null, { tool: "eraser" });
       if (state.selectedId === inst.id) state.selectedId = null;
       return;
     }
     inst.mask.points = pieces[0].points;
     markModified(inst);
+    countEdit("erase_mask", inst, inst.cls, inst.cls);
     pieces.slice(1).forEach(pc => {
-      state.instances.push({ id: uid(), cls: inst.cls, mark: "created",
-                             mask: { type: "polygon", points: pc.points } });
-      state.modifiedCount++;
+      const piece = { id: uid(), cls: inst.cls, mark: "created",
+                      mask: { type: "polygon", points: pc.points } };
+      state.instances.push(piece);
+      countEdit("erase_mask", piece, null, inst.cls, { split_from: inst.id });
     });
   });
   if (changed) commitUndo(snap);
@@ -404,7 +414,8 @@ function hitTestMaskImg(x, y, cls = null) {
 /* ---------- 撤销/重做 ---------- */
 function snapshot() {
   return { instances: JSON.parse(JSON.stringify(state.instances)),
-           modifiedCount: state.modifiedCount, selectedId: state.selectedId };
+           modifiedCount: state.modifiedCount, records: state.records.slice(),
+           selectedId: state.selectedId };
 }
 function commitUndo(snap) {
   state.undoStack.push(snap);
@@ -414,6 +425,7 @@ function commitUndo(snap) {
 const pushUndo = () => commitUndo(snapshot());
 function restore(s) {
   state.instances = s.instances; state.modifiedCount = s.modifiedCount;
+  state.records = s.records;
   state.selectedId = s.selectedId; state.pendingPts = [];
   draw();
 }
@@ -430,12 +442,26 @@ function redo() {
 
 /* ---------- 实例操作 ---------- */
 const markModified = inst => { if (inst.mark !== "created") inst.mark = "modified"; };
-function addInstance(points, cls, select) {
+function nowStr() {
+  const d = new Date(), p = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ` +
+         `${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+// 唯一计数入口：每次实际修改 +1 条并生成一条修正记录（cls_before=null 表示新建，cls_after=null 表示删除）
+function countEdit(type, inst, clsBefore, clsAfter, extra) {
+  state.modifiedCount++;
+  state.records.push(Object.assign({
+    image: state.name, time: nowStr(), type, subject: inst.id,
+    cls_before: clsBefore, cls_after: clsAfter, auto: !!inst.auto,
+    round: ROUND, session: state.session, seq: state.records.length,
+  }, extra || {}));
+}
+function addInstance(points, cls, select, type) {
   pushUndo();
   const inst = { id: uid(), cls, mark: "created",
                  mask: { type: "polygon", points } };
   state.instances.push(inst);
-  state.modifiedCount++;
+  countEdit(type, inst, null, cls);
   if (select) state.selectedId = inst.id;
   draw();
 }
@@ -444,7 +470,7 @@ function deleteInstance(id) {
   if (!inst || inst.mark === "deleted") return;
   pushUndo();
   inst.mark = "deleted";            // 保留记录（供 records 导出），渲染时过滤
-  state.modifiedCount++;
+  countEdit("delete", inst, inst.cls, null);
   if (state.selectedId === id) state.selectedId = null;
   draw();
 }
@@ -452,8 +478,9 @@ function changeClass(id, cls) {
   const inst = state.instances.find(i => i.id === id);
   if (!inst || inst.cls === cls) return;
   pushUndo();
+  const before = inst.cls;
   inst.cls = cls; markModified(inst);
-  state.modifiedCount++;
+  countEdit("reclass", inst, before, cls);
   draw();
 }
 
@@ -684,7 +711,9 @@ function drawMask(ctx, inst, sel) {
 
 function updateCounter() {
   cntMod.textContent = state.modifiedCount;
-  cntMod.classList.toggle("ok", state.modifiedCount >= 60);
+  const total = state.recBase === null ? null : state.recBase + state.records.length;
+  cntTotal.textContent = total === null ? "…" : total;
+  cntTotal.classList.toggle("ok", total !== null && total >= TARGET);
 }
 
 // 下拉框：有选中实例时显示其类别（改下拉=改该实例），否则显示新建类别
@@ -708,26 +737,34 @@ function updateCursor() {
 }
 
 /* ---------- 保存 / 导航 ---------- */
-async function saveCurrent() {
+// review=true：显式保存（保存 / 保存并下一张 / S）= 本图已过审；翻页自动保存不置过审
+async function saveCurrent(review) {
   if (!state.annLoaded) return false;
+  const sent = state.records.slice();
   const doc = { image: state.name, width: state.imgW, height: state.imgH,
-                instances: state.instances, modified_count: state.modifiedCount };
+                instances: state.instances, modified_count: state.modifiedCount,
+                session: state.session, records: sent, review: !!review };
   try {
     const r = await fetch("/api/annotation/" + encodeURIComponent(state.name), {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(doc),
     });
-    return r.ok;
+    if (!r.ok) return false;
+    const d = await r.json();
+    if (typeof d.round_total === "number") state.recBase = d.round_total - sent.length;
+    if (review) state.reviewed = true;
+    draw();
+    return true;
   } catch (_) { return false; }
 }
 async function goImage(newIdx) {
   if (newIdx < 0 || newIdx >= state.total) return;
-  if (state.annLoaded && !(await saveCurrent())) { flashSave(false); return; }
+  if (state.annLoaded && !(await saveCurrent(false))) { flashSave(false); return; }
   window.location.href = "/annotate/" + encodeURIComponent(names[newIdx]);
 }
 async function saveAndNext() {
   if (!state.annLoaded) { flashSave(false); return; }
-  const ok = await saveCurrent();
+  const ok = await saveCurrent(true);
   flashSave(ok);
   if (ok && state.idx + 1 < state.total)
     window.location.href = "/annotate/" + encodeURIComponent(names[state.idx + 1]);
@@ -868,7 +905,7 @@ function endPointer() {
       const x0 = Math.min(r.x0, r.x1), y0 = Math.min(r.y0, r.y1);
       const x1 = Math.max(r.x0, r.x1), y1 = Math.max(r.y0, r.y1);
       state.editRect = null;
-      addInstance([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], state.curCls, true);
+      addInstance([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], state.curCls, true, "create");
     }
     state.editRect = null;
   }
@@ -877,7 +914,7 @@ function endPointer() {
     if (ms.moved) {           // 只有真的动了才计修改、才进撤销栈
       commitUndo(ms.snap);
       markModified(ms.inst);
-      state.modifiedCount++;
+      countEdit(state.dragKind === "box-resize" ? "resize" : "move", ms.inst, ms.inst.cls, ms.inst.cls);
     }
     state._moveStart = null;
   }
@@ -904,9 +941,9 @@ function finalizeStroke() {
     pushUndo();
     hit.mask.points = pts;
     markModified(hit);
-    state.modifiedCount++;
+    countEdit("modify", hit, hit.cls, hit.cls, { tool: "brush" });
   } else {
-    addInstance(pts, state.curCls, false);
+    addInstance(pts, state.curCls, false, "add_mask");
   }
 }
 
@@ -914,7 +951,7 @@ function closePolygon() {
   if (state.pendingPts.length < 3) { state.pendingPts = []; draw(); return; }
   const pts = simplifyClosed(state.pendingPts, 0.5);
   state.pendingPts = [];
-  if (pts.length >= 3) addInstance(pts, state.curCls, false);
+  if (pts.length >= 3) addInstance(pts, state.curCls, false, "polygon");
   else draw();
 }
 
@@ -1034,7 +1071,7 @@ brushInput.addEventListener("input", e => setBrushSize(parseInt(e.target.value, 
 document.getElementById("btnFit").addEventListener("click", () => { fit(); draw(); });
 document.getElementById("btnUndo").addEventListener("click", undo);
 document.getElementById("btnRedo").addEventListener("click", redo);
-document.getElementById("btnSave").addEventListener("click", async () => flashSave(await saveCurrent()));
+document.getElementById("btnSave").addEventListener("click", async () => flashSave(await saveCurrent(true)));
 document.getElementById("btnCompare").addEventListener("click", () => {
   document.body.classList.toggle("compare");
   draw();
@@ -1081,6 +1118,10 @@ async function load() {
     const d = await r.json();
     names = d.names;
   } catch (_) {}
+  try {
+    const r = await fetch("/api/records/summary?round=" + ROUND, { cache: "no-store" });
+    if (r.ok) state.recBase = (await r.json()).total;
+  } catch (_) {}
   const img = new Image();
   img.src = "/image/" + encodeURIComponent(CONF.name);
   const loaded = await new Promise(res => { img.onload = () => res(true); img.onerror = () => res(false); });
@@ -1103,6 +1144,7 @@ async function load() {
     const doc = await r.json();
     state.instances = doc.instances || [];
     state.modifiedCount = doc.modified_count || 0;
+    state.reviewed = !!doc.reviewed;
     state.annLoaded = true;
     if (!liveInstances().length) { state.hintStart = performance.now(); requestAnimationFrame(tickHint); }
     draw();

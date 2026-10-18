@@ -49,7 +49,7 @@
 
 <!-- 修正统计计数条（常驻） -->
 <div class="counterbar" id="counterBar">
-  <span>本次修改 <b id="cntMod">0</b> 条 / 目标 <b>60</b> 条</span>
+  <span title="本图：该图全部会话累计的实际修改条数；累计：本轮（round）全部图片已落盘 + 本页未保存的修正条数">本图修改 <b id="cntMod">0</b> 条 · 累计修正 <b id="cntTotal">…</b> / 目标 <b id="cntTarget">60</b> 条</span>
   <span class="hintbar" id="hintBar">
     <kbd>空格</kbd>+拖 / <kbd>中键</kbd> / <kbd>H</kbd>抓手 = 平移 · 滚轮缩放 ·
     <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>切模式 · <kbd>W</kbd>画笔 <kbd>E</kbd>橡皮 <kbd>P</kbd>多边形 <kbd>V</kbd>移动 ·
@@ -79,7 +79,7 @@
   <span class="nav-hint">框模式：空白处拖拽=新建框 · 拖把手=缩放 · 拖框内=移动 · 多边形：单击打点，点首点/双击/Enter 闭合</span>
 </footer>
 
-<script>window.APP_CONF = {name: {{ name|tojson }}, idx: {{ idx }}, total: {{ total }}, classes: {{ classes|tojson }} };</script>
+<script>window.APP_CONF = {name: {{ name|tojson }}, idx: {{ idx }}, total: {{ total }}, classes: {{ classes|tojson }}, round: {{ round }}, target: {{ target }} };</script>
 <script src="/canvas/app.js"></script>
 </body>
 </html>

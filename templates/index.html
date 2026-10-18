@@ -8,7 +8,8 @@
 <body>
 <header class="topbar">
   <h1>人机协同图像标注系统</h1>
-  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-pre">预标</span> <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
+  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-rev">已过审</span> <span class="badge b-pre">预标</span> <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
+  <span class="topbar-meta" title="累计修正 = 本轮修正记录.json 的条数（只计实际修改）">已过审 <b>{{ reviewed }}</b> / {{ total }} 张 · 累计修正 <b class="{{ 'ok' if rec_total >= target else '' }}">{{ rec_total }}</b> / {{ target }} 条</span>
   <div class="prelabel">
     <button id="btnPrelabel" class="btn-primary" type="button">开始预标注</button>
     <div class="pl-bar" id="plBar" hidden><div class="pl-fill" id="plFill"></div></div>
@@ -23,7 +24,7 @@
       <img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy" class="thumb">
       <div class="card-foot">
         <span class="fname" title="{{ it.name }}">{{ it.name }}</span>
-        <span class="badge {{ {'已修改': 'b-mod', '已标': 'b-done', '预标': 'b-pre', '异常': 'b-ex'}.get(it.status, 'b-none') }}">{{ it.status }}</span>
+        <span class="badge {{ {'已过审': 'b-rev', '已修改': 'b-mod', '已标': 'b-done', '预标': 'b-pre', '异常': 'b-ex'}.get(it.status, 'b-none') }}">{{ it.status }}</span>
       </div>
     </a>
     {% endfor %}

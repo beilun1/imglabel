@@ -34,6 +34,8 @@ body { background: var(--bg); color: var(--txt);
 .b-none { background: rgba(91,98,112,.12);  color: var(--gray); }
 .b-ex   { background: rgba(192,58,58,.12);  color: var(--red); }
 .b-pre  { background: rgba(79,140,255,.13); color: #2f6fe0; }
+.b-rev  { background: var(--green); color: #fff; }
+.topbar-meta b.ok { color: var(--green); }
 .prelabel { margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
 .prelabel .btn-primary { white-space: nowrap; flex: none; }
 .prelabel .btn-primary:disabled { opacity: .6; cursor: default; filter: none; }

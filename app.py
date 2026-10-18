@@ -5,6 +5,7 @@
         → P5 从这里导出三种格式（YOLO txt / 实例掩码 / 语义 PNG）
 """
 import os
+import re
 import sys
 import json
 import time
@@ -15,6 +16,8 @@ from flask import Flask, render_template, request, jsonify, send_from_directory,
 BASE = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(BASE, "data", "curated", "images")
 ANN_DIR = os.path.join(BASE, "data", "annotations")
+REC_DIR = os.path.join(BASE, "data", "records")
+REC_PATH = os.path.join(REC_DIR, "修正记录.json")
 CANVAS_DIR = os.path.join(BASE, "canvas")
 
 # 十类词表：顺序即类别编号，红线不可改
@@ -22,6 +25,13 @@ CLASSES = ["person", "chair", "dining table", "couch", "tv",
            "laptop", "cup", "bottle", "potted plant", "bed"]
 
 PORT = 5000
+
+# 修正轮次：0 = R0 人工过审（默认）；P6 回标时以 IMGLABEL_ROUND=1 启动服务
+ROUND = int(os.environ.get("IMGLABEL_ROUND", "0"))
+TARGET = 60
+REC_TYPES = {"create", "modify", "delete", "move", "resize", "reclass",
+             "add_mask", "erase_mask", "polygon"}
+_rec_lock = threading.Lock()
 
 app = Flask(__name__)
 # 非 debug 模式下 Jinja 默认缓存模板：改了 templates/ 不重启就会"新 JS + 旧模板"
@@ -68,11 +78,13 @@ def load_ann(name):
 
 
 def ann_status(name):
-    """列表页状态标记：未标（无 JSON）/ 预标（模型草稿，未经人工保存）/ 已修改 / 已标 / 已标(空)"""
+    """列表页状态标记：未标（无 JSON）/ 已过审（显式保存过）/ 预标（模型草稿，未经人工保存）/ 已修改 / 已标 / 已标(空)"""
     p = ann_path(name)
     if not os.path.exists(p):
         return "未标"
     doc = load_ann(name)
+    if doc.get("reviewed"):
+        return "已过审"
     live = [x for x in doc.get("instances", []) if x.get("mark") != "deleted"]
     if doc.get("modified_count", 0) > 0:
         return "已修改"
@@ -81,6 +93,67 @@ def ann_status(name):
     if live:
         return "已标"
     return "已标(空)"
+
+
+# ---------- P4 修正记录：data/records/修正记录.json ----------
+def write_json_atomic(path, obj, indent=1):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=indent)
+    os.replace(tmp, path)
+
+
+def load_records():
+    if not os.path.exists(REC_PATH):
+        return []
+    with open(REC_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+_TIME_RE = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}")
+_ID_RE = re.compile(r"[A-Za-z0-9_-]{1,64}")
+
+
+def clean_records(raw, name, session):
+    """校验画布上报的记录；image / round / session 一律以服务端为准"""
+    if not isinstance(raw, list):
+        raise ValueError("records 必须是数组")
+    out = []
+    ncls = len(CLASSES)
+    for i, r in enumerate(raw):
+        if not isinstance(r, dict) or r.get("type") not in REC_TYPES:
+            raise ValueError(f"第 {i} 条记录 type 非法")
+        subj = r.get("subject")
+        if not isinstance(subj, str) or not _ID_RE.fullmatch(subj):
+            raise ValueError(f"第 {i} 条记录 subject 非法")
+        cls = {}
+        for k in ("cls_before", "cls_after"):
+            v = r.get(k)
+            if v is not None and (not isinstance(v, int) or isinstance(v, bool) or not 0 <= v < ncls):
+                raise ValueError(f"第 {i} 条记录 {k} 非法")
+            cls[k] = v
+        t = r.get("time")
+        rec = {"image": name,
+               "time": t if isinstance(t, str) and _TIME_RE.fullmatch(t) else time.strftime("%Y-%m-%d %H:%M:%S"),
+               "type": r["type"], "subject": subj, **cls,
+               "auto": bool(r.get("auto")), "round": ROUND, "session": session, "seq": i}
+        if r.get("tool") in ("eraser", "brush"):
+            rec["tool"] = r["tool"]
+        if isinstance(r.get("split_from"), str) and _ID_RE.fullmatch(r["split_from"]):
+            rec["split_from"] = r["split_from"]
+        out.append(rec)
+    return out
+
+
+def update_stats(records):
+    tools_dir = os.path.join(BASE, "tools")
+    if tools_dir not in sys.path:
+        sys.path.insert(0, tools_dir)
+    try:
+        import records_stats
+        records_stats.write_stats(CLASSES, ROUND, REC_DIR, ANN_DIR, records=records)
+    except Exception as e:                  # 统计失败不能让保存失败，可再用 tools/records_stats.py 重跑
+        print(f"[警告] 修正统计生成失败：{type(e).__name__}: {e}")
 
 
 # ---------- P3 预标注：后台线程 + 状态轮询 ----------
@@ -148,7 +221,13 @@ def index():
         except Exception:
             status = "异常"
         items.append({"name": n, "status": status})
-    return render_template("index.html", items=items, total=len(names))
+    try:
+        rec_total = sum(1 for r in load_records() if r.get("round", 0) == ROUND)
+    except Exception:
+        rec_total = 0
+    return render_template("index.html", items=items, total=len(names),
+                           reviewed=sum(1 for it in items if it["status"] == "已过审"),
+                           rec_total=rec_total, target=TARGET)
 
 
 @app.route("/annotate/<name>")
@@ -163,7 +242,7 @@ def annotate(name):
     except ValueError:
         abort(404)
     return render_template("annotate.html", name=name, idx=idx,
-                           total=len(names), classes=CLASSES)
+                           total=len(names), classes=CLASSES, round=ROUND, target=TARGET)
 
 
 @app.route("/api/images")
@@ -189,22 +268,68 @@ def get_annotation(name):
 
 @app.route("/api/annotation/<name>", methods=["POST"])
 def save_annotation(name):
+    """保存画布 JSON，并把本会话修正记录同步落盘到 data/records/修正记录.json。
+
+    同一会话（session）每次保存整体替换该会话的旧记录：保存后又撤销再保存，
+    记录随之回退，始终与 JSON 的 mark / modified_count 一致。"""
     name = safe_name(name)
     if name is None:
         abort(404)
     doc = request.get_json(force=True, silent=True)
     if not isinstance(doc, dict):
         abort(400)
-    doc["image"] = name
-    doc.setdefault("width", None)
-    doc.setdefault("height", None)
-    doc.setdefault("instances", [])
-    doc.setdefault("modified_count", 0)
-    doc["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
-    os.makedirs(ANN_DIR, exist_ok=True)
-    with open(ann_path(name), "w", encoding="utf-8") as f:
-        json.dump(doc, f, ensure_ascii=False, indent=1)
-    return jsonify({"ok": True})
+    session = doc.pop("session", None)
+    raw_recs = doc.pop("records", None)
+    review = bool(doc.pop("review", False))
+    if raw_recs is not None:
+        if not isinstance(session, str) or not _ID_RE.fullmatch(session):
+            return jsonify({"ok": False, "msg": "session 非法"}), 400
+        try:
+            recs = clean_records(raw_recs, name, session)
+        except ValueError as e:
+            return jsonify({"ok": False, "msg": str(e)}), 400
+
+    with _rec_lock:
+        old = load_ann(name) if os.path.exists(ann_path(name)) else {}
+        # 保留预标来源元数据与过审状态；source 照旧丢弃（人工保存后不再是"预标"）
+        for k in ("prelabel", "reviewed", "reviewed_at"):
+            if k in old and k not in doc:
+                doc[k] = old[k]
+        doc["image"] = name
+        doc.setdefault("width", None)
+        doc.setdefault("height", None)
+        doc.setdefault("instances", [])
+        doc.setdefault("modified_count", 0)
+        doc["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        if review:
+            doc["reviewed"] = True
+            doc["reviewed_at"] = doc["updated_at"]
+        os.makedirs(ANN_DIR, exist_ok=True)
+        write_json_atomic(ann_path(name), doc)
+
+        records = load_records()
+        changed = False
+        if raw_recs is not None:
+            kept = [r for r in records if not (r.get("session") == session and r.get("image") == name)]
+            if recs or len(kept) != len(records):
+                records = kept + recs
+                os.makedirs(REC_DIR, exist_ok=True)
+                write_json_atomic(REC_PATH, records)
+                changed = True
+        if changed or review:
+            update_stats(records)
+        round_total = sum(1 for r in records if r.get("round", 0) == ROUND)
+    return jsonify({"ok": True, "round_total": round_total, "reviewed": bool(doc.get("reviewed"))})
+
+
+@app.route("/api/records/summary")
+def records_summary():
+    """累计修正进度（画布计数条 / 列表页用）"""
+    with _rec_lock:
+        records = load_records()
+    rr = [r for r in records if r.get("round", 0) == ROUND]
+    return jsonify({"round": ROUND, "total": len(rr), "target": TARGET,
+                    "images": len({r["image"] for r in rr}), "all_rounds": len(records)})
 
 
 @app.route("/image/<path:name>")
