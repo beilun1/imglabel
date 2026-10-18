@@ -26,6 +26,11 @@
   </div>
 
   <div class="tb-right">
+    <!-- 工具（框模式） -->
+    <div class="tools" id="boxTools">
+      <button data-boxtool="move" class="tool active" title="移动 V：点掩码拖动 / 拖把手缩放，点空白取消选中">🖱️ 移动</button>
+      <button data-boxtool="create" class="tool" title="新建框 N：任意位置拖拽创建新框（含物体上）">➕ 新建框</button>
+    </div>
     <!-- 工具（掩码模式） -->
     <div class="tools" id="maskTools">
       <button data-tool="brush" class="tool active" title="画笔 W">✏ 画笔</button>
@@ -52,7 +57,7 @@
   <span title="本图：该图全部会话累计的实际修改条数；累计：本轮（round）全部图片已落盘 + 本页未保存的修正条数">本图修改 <b id="cntMod">0</b> 条 · 累计修正 <b id="cntTotal">…</b> / 目标 <b id="cntTarget">60</b> 条</span>
   <span class="hintbar" id="hintBar">
     <kbd>空格</kbd>+拖 / <kbd>中键</kbd> / <kbd>H</kbd>抓手 = 平移 · 滚轮缩放 ·
-    <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>切模式 · <kbd>W</kbd>画笔 <kbd>E</kbd>橡皮 <kbd>P</kbd>多边形 <kbd>V</kbd>移动 ·
+    <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>切模式 · 框：<kbd>V</kbd>移动 <kbd>N</kbd>新建框 · 掩码：<kbd>W</kbd>画笔 <kbd>E</kbd>橡皮 <kbd>P</kbd>多边形 <kbd>V</kbd>移动 ·
     <kbd>[</kbd><kbd>]</kbd>粗细 · <kbd>Del</kbd>删除 · <kbd>S</kbd>保存下一张 · <kbd>Ctrl+Z</kbd>撤销 <kbd>Ctrl+Shift+Z</kbd>重做
   </span>
 </div>
@@ -76,7 +81,7 @@
   <button id="btnPrev" class="btn-ghost">← 上一张</button>
   <button id="btnNext" class="btn-ghost">下一张 →</button>
   <button id="btnSaveNext2" class="btn-primary">保存并下一张</button>
-  <span class="nav-hint">框模式：空白处拖拽=新建框 · 拖把手=缩放 · 拖框内=移动 · 多边形：单击打点，点首点/双击/Enter 闭合</span>
+  <span class="nav-hint">框模式：移动工具(V) 拖掩码=移动 · 拖把手=缩放 · 点空白=取消选中；新建框工具(N) 任意位置拖拽=新建框 · 多边形：单击打点，点首点/双击/Enter 闭合</span>
 </footer>
 
 <script>window.APP_CONF = {name: {{ name|tojson }}, idx: {{ idx }}, total: {{ total }}, classes: {{ classes|tojson }}, round: {{ round }}, target: {{ target }} };</script>

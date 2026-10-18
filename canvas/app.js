@@ -24,6 +24,7 @@ const state = {
   reviewed: false,
   mode: "box",                   // box | mask | semantic
   tool: "brush",                 // brush | eraser | polygon | move
+  boxTool: "move",               // 框模式工具：move（移动/选中/缩放）| create（新建框）
   hand: false,                   // 抓手工具（任意模式下左键拖动 = 平移）
   brushSize: 10,
   curCls: 0,
@@ -62,7 +63,7 @@ window.addEventListener("unhandledrejection", e =>
 
 // 模板与脚本版本不一致（如旧服务进程缓存了旧模板）时，缺元素会让整页脚本崩溃
 const REQUIRED_IDS = ["cvMain", "cvCompare", "boxMain", "boxLeft", "canvasArea", "classSel", "selInfo",
-  "cntMod", "cntTotal", "cntTarget", "legend", "overlayLabel", "brushSize", "brushVal", "btnHand", "maskTools", "btnFit",
+  "cntMod", "cntTotal", "cntTarget", "legend", "overlayLabel", "brushSize", "brushVal", "btnHand", "boxTools", "maskTools", "btnFit",
   "btnUndo", "btnRedo", "btnSave", "btnCompare", "btnSaveNext", "btnSaveNext2", "btnPrev", "btnNext"];
 const missingIds = REQUIRED_IDS.filter(id => !document.getElementById(id));
 if (missingIds.length) {
@@ -673,7 +674,7 @@ function drawEmptyHint(ctx) {
   const t = performance.now() - state.hintStart;
   if (t >= HINT_HOLD + HINT_FADE) { state.hintStart = 0; return; }
   const tips = {
-    box: "在图片空白处按住左键拖拽，创建检测框",
+    box: "移动工具：点按掩码拖动/缩放手柄调整框\n新建框工具（N）：任意位置拖拽创建新框",
     mask: "按 W 用画笔涂抹 / 按 P 多边形打点，创建实例掩码",
     semantic: "暂无实例：语义图由实例掩码按类合并生成",
   };
@@ -692,14 +693,16 @@ function tickHint() {
 function drawCenterText(ctx, text, isError) {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.font = `600 15px "Segoe UI", "Microsoft YaHei", sans-serif`;
-  const tw = ctx.measureText(text).width;
+  const lines = text.split("\n"), LH = 22;
+  const tw = Math.max(...lines.map(l => ctx.measureText(l).width));
   const cx = ctx.canvas.width / 2, cy = ctx.canvas.height / 2;
+  const h = 40 + (lines.length - 1) * LH, top = cy - h / 2;
   ctx.fillStyle = isError ? "rgba(255,238,238,.96)" : "rgba(255,255,255,.88)";
-  ctx.fillRect(cx - tw / 2 - 16, cy - 20, tw + 32, 40);
+  ctx.fillRect(cx - tw / 2 - 16, top, tw + 32, h);
   ctx.strokeStyle = isError ? "#e5484d" : "#d9dde3"; ctx.lineWidth = 1;
-  ctx.strokeRect(cx - tw / 2 - 16 + 0.5, cy - 20 + 0.5, tw + 32, 40);
+  ctx.strokeRect(cx - tw / 2 - 16 + 0.5, top + 0.5, tw + 32, h);
   ctx.fillStyle = isError ? "#b4232a" : "#1f2328"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText(text, cx, cy);
+  lines.forEach((l, i) => ctx.fillText(l, cx, cy + (i - (lines.length - 1) / 2) * LH));
   ctx.textAlign = "start"; ctx.textBaseline = "alphabetic";
 }
 
@@ -826,17 +829,19 @@ cvMain.addEventListener("pointerdown", e => {
   }
 
   if (state.mode === "box") {
-    const hit = hitTestBox(p.x, p.y);
+    const hit = state.boxTool === "move" ? hitTestBox(p.x, p.y) : null;
     if (hit) {
       state.dragKind = hit.kind; state.dragHandle = hit.handle || null;
       state.selectedId = hit.inst.id;
       state._moveStart = { x: p.x, y: p.y, inst: hit.inst, moved: false, snap: snapshot(),
                            pts: hit.inst.mask.points.map(pt => pt.slice()),
                            bb: ptsBBox(hit.inst.mask.points) };
-    } else {
+    } else if (state.boxTool === "create") {
       state.dragKind = "box-create";
       const w = clampImg(toImg(p.x, p.y));
       state.editRect = { x0: w.x, y0: w.y, x1: w.x, y1: w.y };
+      state.selectedId = null;
+    } else {
       state.selectedId = null;
     }
     draw(); return;
@@ -919,7 +924,7 @@ cvMain.addEventListener("pointermove", e => {
     draw(); return;
   }
   if (state.mode === "box") {
-    const hit = hitTestBox(p.x, p.y);
+    const hit = state.boxTool === "move" ? hitTestBox(p.x, p.y) : null;
     state._hoverCursor = hit ? (hit.kind === "box-resize" ? HANDLE_CURSOR[hit.handle] : "move") : null;
     updateCursor();
     return;
@@ -1037,7 +1042,10 @@ document.addEventListener("keydown", e => {
     case "w": case "W": setMode("mask"); setTool("brush"); break;
     case "e": case "E": setMode("mask"); setTool("eraser"); break;
     case "p": case "P": setMode("mask"); setTool("polygon"); break;
-    case "v": case "V": setMode("mask"); setTool("move"); break;
+    case "v": case "V":
+      if (state.mode === "box") setBoxTool("move"); else { setMode("mask"); setTool("move"); }
+      break;
+    case "n": case "N": setMode("box"); setBoxTool("create"); break;
     case "h": case "H": setHand(!state.hand); break;
     case "[": setBrushSize(state.brushSize - 2); break;
     case "]": setBrushSize(state.brushSize + 2); break;
@@ -1071,6 +1079,7 @@ function setMode(m) {
   if (state.mode !== m) state.pendingPts = [];
   state.mode = m;
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.mode === m));
+  document.getElementById("boxTools").style.display = m === "box" ? "flex" : "none";
   document.getElementById("maskTools").style.display = m === "mask" ? "flex" : "none";
   legend.hidden = m !== "semantic";
   overlayLabel.textContent = m === "semantic" ? "语义着色（只读，左键拖动平移）" : "标注叠加";
@@ -1083,6 +1092,13 @@ function setTool(t) {
   document.querySelectorAll(".tool[data-tool]").forEach(b => b.classList.toggle("active", b.dataset.tool === t));
   draw();
 }
+function setBoxTool(t) {
+  state.boxTool = t;
+  state._hoverCursor = null;
+  setHand(false);
+  document.querySelectorAll(".tool[data-boxtool]").forEach(b => b.classList.toggle("active", b.dataset.boxtool === t));
+  updateCursor();
+}
 function setHand(on) {
   state.hand = on;
   btnHand.classList.toggle("active", on);
@@ -1092,6 +1108,8 @@ document.querySelectorAll(".tab").forEach(b =>
   b.addEventListener("click", () => setMode(b.dataset.mode)));
 document.querySelectorAll(".tool[data-tool]").forEach(b =>
   b.addEventListener("click", () => setTool(b.dataset.tool)));
+document.querySelectorAll(".tool[data-boxtool]").forEach(b =>
+  b.addEventListener("click", () => setBoxTool(b.dataset.boxtool)));
 btnHand.addEventListener("click", () => setHand(!state.hand));
 
 classSel.addEventListener("change", () => {
