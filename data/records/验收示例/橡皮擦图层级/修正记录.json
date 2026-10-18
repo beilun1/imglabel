@@ -1,0 +1,27 @@
+[
+ {
+  "image": "coco_76731.jpg",
+  "time": "2026-10-18 17:51:31",
+  "type": "erase_mask",
+  "subject": "p1",
+  "cls_before": 5,
+  "cls_after": 5,
+  "auto": true,
+  "round": 0,
+  "session": "smvdn6ewaq2t9ea",
+  "seq": 0
+ },
+ {
+  "image": "coco_76731.jpg",
+  "time": "2026-10-18 17:51:39",
+  "type": "delete",
+  "subject": "p1",
+  "cls_before": 5,
+  "cls_after": null,
+  "auto": true,
+  "round": 0,
+  "session": "smvdn6ewaq2t9ea",
+  "seq": 1,
+  "tool": "eraser"
+ }
+]

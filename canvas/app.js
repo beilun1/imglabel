@@ -39,6 +39,7 @@ const state = {
   scale: 1, ox: 0, oy: 0,
   spaceHeld: false,
   hintStart: 0,                  // 空画布引导提示开始时间（0 = 不显示），本张图只显示一次
+  flash: null,                   // 操作提示 {text, start}（如橡皮无选中实例）
 };
 const HINT_HOLD = 2400, HINT_FADE = 600;
 
@@ -330,41 +331,38 @@ function rasterizeUnion(basePoly, stroke, size) {
   const pieces = maskComponents(readGrid(rc).grid, rc.W, rc.H, rc.bx0, rc.by0, 1);
   return pieces.length ? pieces[0].points : null;
 }
-// 橡皮：实例掩码 − 笔迹圆盘序列（布尔差）
+// 橡皮（图层级）：只擦当前选中实例 = 其掩码 − 笔迹圆盘序列（布尔差）；笔迹经过的其他实例不动
 function eraseStroke(stroke, size) {
+  const inst = selectedInst();
+  if (!inst) { flashHint("请先点选要擦除的实例"); return; }
   const r = size / 2, sb = ptsBBox(stroke);
-  const snap = snapshot();
-  let changed = false;
-  liveInstances().forEach(inst => {
-    const ib = ptsBBox(inst.mask.points);
-    if (ib.x1 < sb.x0 - r || ib.x0 > sb.x1 + r || ib.y1 < sb.y0 - r || ib.y0 > sb.y1 + r) return;
-    const rc = rasterCanvas(ib, 2);
-    if (!rc) return;
-    tracePath(rc.c, inst.mask.points); rc.c.fill();
-    const before = readGrid(rc).count;
-    rc.c.globalCompositeOperation = "destination-out";
-    paintStroke(rc.c, stroke, size);
-    const after = readGrid(rc);
-    if (after.count === before) return;
-    changed = true;
-    const pieces = maskComponents(after.grid, rc.W, rc.H, rc.bx0, rc.by0, MIN_PIECE);
-    if (!pieces.length) {
-      inst.mark = "deleted";
-      countEdit("delete", inst, inst.cls, null, { tool: "eraser" });
-      if (state.selectedId === inst.id) state.selectedId = null;
-      return;
-    }
-    inst.mask.points = pieces[0].points;
-    markModified(inst);
-    countEdit("erase_mask", inst, inst.cls, inst.cls);
-    pieces.slice(1).forEach(pc => {
-      const piece = { id: uid(), cls: inst.cls, mark: "created",
-                      mask: { type: "polygon", points: pc.points } };
-      state.instances.push(piece);
-      countEdit("erase_mask", piece, null, inst.cls, { split_from: inst.id });
-    });
+  const ib = ptsBBox(inst.mask.points);
+  if (ib.x1 < sb.x0 - r || ib.x0 > sb.x1 + r || ib.y1 < sb.y0 - r || ib.y0 > sb.y1 + r) return;
+  const rc = rasterCanvas(ib, 2);
+  if (!rc) return;
+  tracePath(rc.c, inst.mask.points); rc.c.fill();
+  const before = readGrid(rc).count;
+  rc.c.globalCompositeOperation = "destination-out";
+  paintStroke(rc.c, stroke, size);
+  const after = readGrid(rc);
+  if (after.count === before) return;
+  pushUndo();
+  const pieces = maskComponents(after.grid, rc.W, rc.H, rc.bx0, rc.by0, MIN_PIECE);
+  if (!pieces.length) {
+    inst.mark = "deleted";
+    countEdit("delete", inst, inst.cls, null, { tool: "eraser" });
+    state.selectedId = null;
+    return;
+  }
+  inst.mask.points = pieces[0].points;
+  markModified(inst);
+  countEdit("erase_mask", inst, inst.cls, inst.cls);
+  pieces.slice(1).forEach(pc => {
+    const piece = { id: uid(), cls: inst.cls, mark: "created",
+                    mask: { type: "polygon", points: pc.points } };
+    state.instances.push(piece);
+    countEdit("erase_mask", piece, null, inst.cls, { split_from: inst.id });
   });
-  if (changed) commitUndo(snap);
 }
 
 /* ---------- 命中测试 ---------- */
@@ -631,8 +629,29 @@ function drawOne(ctx, withOverlay) {
     ctx.lineWidth = 1.2 / state.scale; ctx.stroke();
   }
 
-  if (!live.length && !state.strokePts.length && !state.pendingPts.length && !state.editRect)
+  if (state.flash) drawFlashHint(ctx);
+  else if (!live.length && !state.strokePts.length && !state.pendingPts.length && !state.editRect)
     drawEmptyHint(ctx);
+}
+
+// 操作提示（非错误）：中央显示约 2 秒后淡出，与空画布引导同一样式
+const FLASH_HOLD = 1500, FLASH_FADE = 500;
+function flashHint(text) {
+  const first = !state.flash;
+  state.flash = { text, start: performance.now() };
+  if (first) requestAnimationFrame(tickFlash);
+}
+function drawFlashHint(ctx) {
+  const t = performance.now() - state.flash.start;
+  ctx.globalAlpha = t <= FLASH_HOLD ? 1 : Math.max(0, 1 - (t - FLASH_HOLD) / FLASH_FADE);
+  drawCenterText(ctx, state.flash.text, false);
+  ctx.globalAlpha = 1;
+}
+function tickFlash() {
+  if (!state.flash) return;
+  if (performance.now() - state.flash.start >= FLASH_HOLD + FLASH_FADE) { state.flash = null; draw(); return; }
+  draw();
+  requestAnimationFrame(tickFlash);
 }
 
 function drawEmptyHint(ctx) {
@@ -812,6 +831,7 @@ cvMain.addEventListener("pointerdown", e => {
   // mask 模式
   const w = toImg(p.x, p.y);
   if (state.tool === "brush" || state.tool === "eraser") {
+    if (state.tool === "eraser" && !selectedInst()) { flashHint("请先点选要擦除的实例"); return; }
     state.drawing = true;
     state.strokePts = [[w.x, w.y]];
   } else if (state.tool === "polygon") {

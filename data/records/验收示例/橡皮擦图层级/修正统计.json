@@ -1,0 +1,63 @@
+{
+ "generated_at": "2026-10-18 17:51:40",
+ "round": 0,
+ "target": 60,
+ "total": 2,
+ "progress": "2/60",
+ "reached": false,
+ "images_with_records": 1,
+ "images_reviewed": 0,
+ "images_total": 328,
+ "by_type": {
+  "erase_mask": 1,
+  "delete": 1
+ },
+ "by_class": {
+  "laptop": 2
+ },
+ "classes_involved": [
+  "laptop"
+ ],
+ "reclass_pairs": {},
+ "overall": {
+  "scope": "本轮有修正记录或已过审的图",
+  "images": 1,
+  "instances_modified": 1,
+  "instances_total": 2,
+  "rate": 0.5,
+  "auto_modified": 1,
+  "auto_total": 2,
+  "auto_rate": 0.5
+ },
+ "dataset": {
+  "instances_total": 2279,
+  "auto_total": 2279
+ },
+ "definition": {
+  "修正条数": "修正记录.json 条数：每次实际修改（新增/删除/移动/改形/换类）一条；仅查看/缩放/切模式/仅确认保存不计",
+  "图级修正率": "该图本轮被修正过的不同实例数 / 该图 JSON 实例总数（auto 预标 + 人工新建，含 deleted 标记）",
+  "整体修正率": "Σ分子 / Σ分母，范围 = 本轮有修正记录或已过审的图",
+  "auto修正率": "被修正的 auto 实例数 / 该范围内 auto 实例总数"
+ },
+ "by_image": [
+  {
+   "image": "coco_76731.jpg",
+   "reviewed": false,
+   "records": 2,
+   "by_type": {
+    "erase_mask": 1,
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 2,
+   "rate": 0.5,
+   "auto_modified": 1,
+   "auto_total": 2,
+   "auto_rate": 0.5
+  }
+ ],
+ "consistency": {
+  "ok": true,
+  "issues": []
+ }
+}
