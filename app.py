@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""人机协同图像标注系统 - Flask 主程序（P2：UI 骨架 + 画布三模式）
+"""人机协同图像标注系统 - Flask 主程序（P2：UI 骨架 + 画布三模式；P3：预标注后台任务）
 
 数据流：画布编辑 → 每图一个 JSON（data/annotations/{图名}.json）
         → P5 从这里导出三种格式（YOLO txt / 实例掩码 / 语义 PNG）
@@ -9,6 +9,7 @@ import sys
 import json
 import time
 import socket
+import threading
 from flask import Flask, render_template, request, jsonify, send_from_directory, abort
 
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -67,7 +68,7 @@ def load_ann(name):
 
 
 def ann_status(name):
-    """列表页状态标记：未标（无 JSON）/ 已修改 / 已标 / 已标(空)"""
+    """列表页状态标记：未标（无 JSON）/ 预标（模型草稿，未经人工保存）/ 已修改 / 已标 / 已标(空)"""
     p = ann_path(name)
     if not os.path.exists(p):
         return "未标"
@@ -75,9 +76,65 @@ def ann_status(name):
     live = [x for x in doc.get("instances", []) if x.get("mark") != "deleted"]
     if doc.get("modified_count", 0) > 0:
         return "已修改"
+    if doc.get("source") == "prelabel":   # 画布保存时不带 source，人工保存过即不再是"预标"
+        return "预标"
     if live:
         return "已标"
     return "已标(空)"
+
+
+# ---------- P3 预标注：后台线程 + 状态轮询 ----------
+PRELABEL = {"running": False, "phase": "idle", "done": 0, "total": 0, "current_file": None,
+            "created": 0, "skipped": 0, "instances": 0, "errors": [],
+            "started_at": None, "finished_at": None}
+_prelabel_lock = threading.Lock()
+
+
+def _prelabel_worker(conf):
+    def on_progress(event, **s):
+        with _prelabel_lock:
+            PRELABEL.update({k: s[k] for k in ("done", "total", "created", "skipped", "instances")})
+            PRELABEL["errors"] = list(s["errors"])
+            PRELABEL["current_file"] = s.get("current_file")
+            PRELABEL["phase"] = {"loading": "loading", "done": "done"}.get(event, "running")
+    try:
+        import prelabel                     # 延迟导入：ultralytics 很重，不拖慢服务启动
+        prelabel.run(conf=conf, on_progress=on_progress)
+    except Exception as e:
+        with _prelabel_lock:
+            PRELABEL["errors"].append(f"{type(e).__name__}: {e}")
+            PRELABEL["phase"] = "failed"
+    finally:
+        with _prelabel_lock:
+            PRELABEL["running"] = False
+            PRELABEL["current_file"] = None
+            PRELABEL["finished_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+
+
+@app.route("/api/prelabel", methods=["POST"])
+def api_prelabel_start():
+    body = request.get_json(force=True, silent=True) or {}
+    try:
+        conf = float(body.get("conf", 0.25))
+    except (TypeError, ValueError):
+        conf = 0.25
+    conf = min(max(conf, 0.01), 0.99)
+    with _prelabel_lock:
+        if PRELABEL["running"]:
+            return jsonify({"ok": False, "msg": "预标注运行中，请等待完成", **PRELABEL}), 409
+        PRELABEL.update({"running": True, "phase": "loading", "done": 0, "total": len(list_images()),
+                         "current_file": None, "created": 0, "skipped": 0, "instances": 0,
+                         "errors": [], "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                         "finished_at": None})
+        snap = dict(PRELABEL)
+    threading.Thread(target=_prelabel_worker, args=(conf,), daemon=True).start()
+    return jsonify({"ok": True, **snap})
+
+
+@app.route("/api/prelabel/status")
+def api_prelabel_status():
+    with _prelabel_lock:
+        return jsonify(dict(PRELABEL, errors=list(PRELABEL["errors"])))
 
 
 @app.route("/")

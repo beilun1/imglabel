@@ -8,7 +8,12 @@
 <body>
 <header class="topbar">
   <h1>人机协同图像标注系统</h1>
-  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
+  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-pre">预标</span> <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
+  <div class="prelabel">
+    <button id="btnPrelabel" class="btn-primary" type="button">开始预标注</button>
+    <div class="pl-bar" id="plBar" hidden><div class="pl-fill" id="plFill"></div></div>
+    <span class="pl-msg" id="plMsg"></span>
+  </div>
 </header>
 
 <main class="list-main">
@@ -18,11 +23,64 @@
       <img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy" class="thumb">
       <div class="card-foot">
         <span class="fname" title="{{ it.name }}">{{ it.name }}</span>
-        <span class="badge {{ 'b-mod' if it.status=='已修改' else ('b-done' if it.status=='已标' else ('b-ex' if it.status=='异常' else 'b-none')) }}">{{ it.status }}</span>
+        <span class="badge {{ {'已修改': 'b-mod', '已标': 'b-done', '预标': 'b-pre', '异常': 'b-ex'}.get(it.status, 'b-none') }}">{{ it.status }}</span>
       </div>
     </a>
     {% endfor %}
   </div>
 </main>
+<script>
+(() => {
+  const btn = document.getElementById("btnPrelabel");
+  const bar = document.getElementById("plBar");
+  const fill = document.getElementById("plFill");
+  const msg = document.getElementById("plMsg");
+  let timer = null, sawRunning = false;
+
+  function render(s) {
+    const pct = s.total ? Math.round(s.done / s.total * 100) : 0;
+    bar.hidden = !(s.running || s.phase === "done" || s.phase === "failed");
+    fill.style.width = pct + "%";
+    btn.disabled = s.running;
+    btn.textContent = s.running ? "预标注运行中…" : "开始预标注";
+    const err = s.errors.length ? ` · 错误 ${s.errors.length}` : "";
+    msg.classList.toggle("pl-err", s.errors.length > 0 || s.phase === "failed");
+    if (s.phase === "loading") msg.textContent = "加载模型中…";
+    else if (s.running) msg.textContent = `${s.done}/${s.total}（新建 ${s.created} · 跳过 ${s.skipped}${err}）${s.current_file || ""}`;
+    else if (s.phase === "failed") msg.textContent = "预标注失败：" + (s.errors[s.errors.length - 1] || "未知错误");
+    else if (s.phase === "done") msg.textContent = `完成 ${s.done}/${s.total}：新建 ${s.created} · 跳过 ${s.skipped} · 实例 ${s.instances}${err}`;
+    else msg.textContent = "";
+    msg.title = s.errors.length ? s.errors.join("\n") : msg.textContent;
+  }
+
+  async function poll() {
+    try {
+      const s = await (await fetch("/api/prelabel/status", { cache: "no-store" })).json();
+      render(s);
+      if (s.running) { sawRunning = true; timer = setTimeout(poll, 700); return; }
+      if (sawRunning) setTimeout(() => location.reload(), 1200);
+    } catch (e) {
+      msg.textContent = "状态查询失败：" + e.message; msg.classList.add("pl-err");
+      timer = setTimeout(poll, 2000);
+    }
+  }
+
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    let wait = 0;
+    try {
+      const r = await fetch("/api/prelabel", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      const d = await r.json();
+      if (r.status === 409) { msg.textContent = d.msg || "预标注运行中"; msg.classList.add("pl-err"); wait = 1500; }
+      else render(d);
+    } catch (e) {
+      msg.textContent = "启动失败：" + e.message; msg.classList.add("pl-err");
+    }
+    clearTimeout(timer); timer = setTimeout(poll, wait);
+  });
+
+  poll();
+})();
+</script>
 </body>
 </html>

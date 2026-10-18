@@ -11,9 +11,9 @@ body { background: var(--bg); color: var(--txt);
   font: 14px/1.5 "Segoe UI", "Microsoft YaHei", sans-serif; }
 
 /* ===== 列表页 ===== */
-.topbar { display: flex; align-items: center; gap: 16px; padding: 12px 20px;
+.topbar { display: flex; align-items: center; gap: 10px 16px; padding: 12px 20px; flex-wrap: wrap;
   background: var(--panel); border-bottom: 1px solid var(--line); }
-.topbar h1 { font-size: 18px; }
+.topbar h1 { font-size: 18px; white-space: nowrap; }
 .topbar-meta { color: var(--dim); }
 .list-main { padding: 20px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -33,6 +33,16 @@ body { background: var(--bg); color: var(--txt);
 .b-mod  { background: rgba(180,101,15,.13); color: var(--orange); }
 .b-none { background: rgba(91,98,112,.12);  color: var(--gray); }
 .b-ex   { background: rgba(192,58,58,.12);  color: var(--red); }
+.b-pre  { background: rgba(79,140,255,.13); color: #2f6fe0; }
+.prelabel { margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.prelabel .btn-primary { white-space: nowrap; flex: none; }
+.prelabel .btn-primary:disabled { opacity: .6; cursor: default; filter: none; }
+.pl-bar { width: 220px; height: 8px; border-radius: 4px; background: var(--panel2);
+  border: 1px solid var(--line); overflow: hidden; flex: 0 1 220px; }
+.pl-fill { height: 100%; width: 0; background: var(--acc); transition: width .3s; }
+.pl-msg { font-size: 12px; color: var(--dim); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; max-width: 420px; }
+.pl-msg.pl-err { color: var(--red); }
 
 /* ===== 标注页 ===== */
 body.page-annotate { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
