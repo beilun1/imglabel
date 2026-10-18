@@ -25,7 +25,6 @@ coco_22192.jpg
 coco_223747.jpg
 coco_226408.jpg
 coco_226592.jpg
-coco_235399.jpg
 coco_239347.jpg
 coco_249550.jpg
 coco_263644.jpg

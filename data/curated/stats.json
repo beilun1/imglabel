@@ -10,11 +10,11 @@
   "min_per_class": 15
  },
  "candidates": 354,
- "dropped": 26,
- "kept": 328,
+ "dropped": 27,
+ "kept": 327,
  "classes_covered": 10,
  "per_class": {
-  "person": 61,
+  "person": 60,
   "chair": 74,
   "dining table": 53,
   "couch": 51,
@@ -26,7 +26,7 @@
   "bed": 80
  },
  "per_source": {
-  "COCO 2017 val": 228,
+  "COCO 2017 val": 227,
   "Pascal VOC 2012": 100
  },
  "pass": {
@@ -62,7 +62,8 @@
   "voc_2007_002668.jpg": "用户第 1 轮点名剔除",
   "voc_2008_002098.jpg": "人物大头照，非室内场景照（预勾选，未逐条确认）",
   "voc_2008_004778.jpg": "母婴合影，床/椅仅为背景（预勾选，未逐条确认）",
-  "voc_2010_005764.jpg": "用户第 1 轮点名剔除"
+  "voc_2010_005764.jpg": "用户第 1 轮点名剔除",
+  "coco_235399.jpg": "室外场景（货运卡车车厢+庭院草坪），非室内（P4 过审发现）"
  },
  "files": [
   {
