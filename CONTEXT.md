@@ -12,7 +12,9 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] 当前阶段：**P4 修正计数埋点完成**（2026-10-18，Qoder），待用户在画布上逐张过审、真实产生 ≥60 条修正（agent 不得代做/伪造）
+- [x] **P4 全部完成**（2026-10-18，Trae 收尾）：用户真人过审修正 **77 条**（≥60 达标，16 张图、涉及 15 张有修正），`python tools/records_stats.py` 一致性 **通过**（每图记录条数 == modified_count，被记录实例 id 集合 == mark≠unchanged 集合）。已过审 16 张（未过审图 P5 导出直接用预标草稿，符合任务书"预标草稿 → 人工逐张审核"流程）。成果提交 `045f26f`（16 张标注 JSON + 修正记录/统计），已 push
+- [x] 修正记录分布（77 条）：delete 20 · move 14 · reclass 12 · erase_mask 10 · modify 9 · create 4 · resize 4 · add_mask 4；涉及图片 15 张
+- [x] 用户确认**无需审完 328 张**：任务书 P4 硬指标仅"修正记录 ≥60 条"；剩余图 P5 以预标草稿导出，P6 回标时再迭代修正
 - [x] P4 埋点（代码 `8471fba`，示例 `3afc017`）：
   - **唯一计数入口** `countEdit(type, inst, cls_before, cls_after)`（canvas/app.js）：替换原 9 处 `modifiedCount++`，每次实际修改 +1 并生成一条记录；记录在撤销快照里，**撤销/重做同步增减**
   - type 映射：框新建 `create` · 多边形 `polygon` · 画笔新建 `add_mask` · 画笔同类内起笔扩展 `modify`(tool=brush) · 橡皮部分擦除 `erase_mask` · 橡皮擦出的分块新实例 `erase_mask`(split_from=原 id，cls_before=null) · 橡皮擦光 `delete`(tool=eraser) · Del 删除 `delete` · 框/掩码移动 `move` · 框把手缩放 `resize` · 下拉换类 `reclass`
@@ -45,7 +47,7 @@
 - [x] **权重路径**（不进 git）：`weights/yolo26n-seg.pt`（分割）、`weights/yolov8s-worldv2.pt`（YOLO-World，任务书里叫 yoloworld.pt）、`weights/clip/ViT-B-32.pt`（YOLO-World 文本编码器，prelabel.py 把 ultralytics WEIGHTS_DIR 指到 weights/，不随 cwd 漂移）
 - [x] P2 全部完成（2026-10-18，Qoder）
 - [x] 图片不显示根因（F12 实测）：5000 端口上同时有 2 个 python 进程（21:12 旧进程 + 23:27 新进程），请求全被旧进程接走；旧进程缓存了旧模板（无 #btnHand），新 app.js 第 873 行 `btnHand.addEventListener` 抛 TypeError → `load()` 未执行 → 画布无图。非浏览器缓存（app.js 本就是 no-cache+ETag）、非图片 404、非布局塌陷。修复：app.py 开 TEMPLATES_AUTO_RELOAD + after_request 禁缓存 + 启动前检测端口占用；app.js 缺元素/脚本错误/图片加载失败均显式红条+画布提示，失败时禁止保存防覆盖
-- [ ] 最近一次 git commit：见 `git log`（P4: 埋点代码 8471fba / 验收示例 3afc017）
+- [ ] 最近一次 git commit：见 `git log`（P4 完成 `045f26f` / 埋点代码 `8471fba` / 验收示例 `3afc017`）
 - [ ] P2 阶段记录（Qoder 修复用户试用反馈，浏览器实测 30 项全过）：
   - 平移：新增抓手工具（H / ✋ 按钮）；保留空格+左键、中键；语义模式左键拖=平移；box 模式空白拖=新建框不变
   - 检测框：修 `isRectPoly` 顶点顺序错（新框从不被识别为矩形 → 无把手、拖角变整框平移）、n/s 把手改错顶点；
@@ -64,7 +66,7 @@
 - [x] P2 收尾（2026-10-18）：选中高亮 `SEL_COLOR` 改白色 `#ffffff`（`SEL_SHADOW` 不变），形成"深色衬底 + 白色主线"，不再撞桌子橙/瓶子黄；选中标签白底深字（textOn 自动）；多边形打点首点也变白，仅靠尺寸更大区分
 - [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），P3 开工前目录仅剩 `.gitkeep`（P3 后已有 328 个预标注 JSON）
 - [x] 提示词文档归档到 `P0指令/`、`P1指令/`、`P2指令/`（用户整理，git 识别为重命名），原 `p0/` 已删除。整理过程中根目录 `.gitignore` 再次被旧版 `p0/.gitignore`（10-17 19:00 版）覆盖、丢了 P1 规则（`data/images/` 158MB 差点进库），已从 git 恢复——见坑 ⑥
-- [ ] **下一步待办**：用户在画布上逐张过审 + 真实修正 ≥60 条（必须真人，计数条/列表页顶栏看进度，`python tools/records_stats.py` 看统计与一致性）；改完代码后需**重启 5000 服务**（模板缓存）+ Ctrl+F5；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
+- [ ] **下一步待办**：**P5 三格式导出 + 训练 best.pt**（读 `P5指令/P5-提示词.md` 执行）；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -99,8 +101,8 @@
 | P1 | 数据 150 张 / ≥6类 / 每类≥15张 | ✅ 已完成（328 张 / 10 类，2026-10-17） |
 | P2 | flask UI 骨架 + 画布三模式 | ✅ 已完成（初版 Trae + 试用反馈修复/调色板/橡皮布尔差/收尾 Qoder，2026-10-18） |
 | P3 | 预标注（YOLO-World / YOLO26n-seg） | ✅ 已完成（328 张 / 2279 实例 / 0 错误，账号 B→A 交接，2026-10-18） |
-| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | 🟡 埋点+统计已完成（2026-10-18），待用户真人过审 |
-| P5 | 三格式导出 + 训练 best.pt | 未开始 |
+| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | ✅ 已完成（修正 77/60，16 张过审，2026-10-18） |
+| P5 | 三格式导出 + 训练 best.pt | 🟡 未开始（提示词已生成，待 Qoder 执行） |
 | P6 | 新模型回标 + R1 对比 | 未开始 |
 | P7 | README / demo / 打包上传 FTP | 未开始 |
 
