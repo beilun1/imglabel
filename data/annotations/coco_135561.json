@@ -1,0 +1,74 @@
+{
+ "image": "coco_135561.jpg",
+ "width": 640,
+ "height": 480,
+ "instances": [
+  {
+   "id": "p0",
+   "cls": 6,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.342,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      557.1,
+      374.3
+     ],
+     [
+      576.1,
+      374.3
+     ],
+     [
+      576.1,
+      397.7
+     ],
+     [
+      557.1,
+      397.7
+     ]
+    ]
+   }
+  },
+  {
+   "id": "p1",
+   "cls": 2,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.34,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      503.5,
+      421.7
+     ],
+     [
+      639.9,
+      421.7
+     ],
+     [
+      639.9,
+      479.9
+     ],
+     [
+      503.5,
+      479.9
+     ]
+    ]
+   }
+  }
+ ],
+ "modified_count": 0,
+ "source": "prelabel",
+ "prelabel": {
+  "seg": "yolo26n-seg.pt",
+  "det": "yolov8s-worldv2.pt",
+  "conf": 0.25,
+  "dropped_fragments": 0,
+  "time": "2026-10-18 14:57:50"
+ }
+}

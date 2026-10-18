@@ -1,0 +1,161 @@
+{
+ "image": "coco_74209.jpg",
+ "width": 640,
+ "height": 480,
+ "instances": [
+  {
+   "id": "p0",
+   "cls": 7,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.535,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      416.1,
+      237.2
+     ],
+     [
+      428.7,
+      237.2
+     ],
+     [
+      428.7,
+      269.8
+     ],
+     [
+      416.1,
+      269.8
+     ]
+    ]
+   }
+  },
+  {
+   "id": "p1",
+   "cls": 7,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.434,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      171.9,
+      197.0
+     ],
+     [
+      181.6,
+      197.0
+     ],
+     [
+      181.6,
+      222.1
+     ],
+     [
+      171.9,
+      222.1
+     ]
+    ]
+   }
+  },
+  {
+   "id": "p2",
+   "cls": 7,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.354,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      162.1,
+      194.1
+     ],
+     [
+      170.7,
+      194.1
+     ],
+     [
+      170.7,
+      223.9
+     ],
+     [
+      162.1,
+      223.9
+     ]
+    ]
+   }
+  },
+  {
+   "id": "p3",
+   "cls": 6,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.343,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      200.8,
+      196.1
+     ],
+     [
+      214.3,
+      196.1
+     ],
+     [
+      214.3,
+      222.6
+     ],
+     [
+      200.8,
+      222.6
+     ]
+    ]
+   }
+  },
+  {
+   "id": "p4",
+   "cls": 6,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.321,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      304.2,
+      192.4
+     ],
+     [
+      319.4,
+      192.4
+     ],
+     [
+      319.4,
+      223.9
+     ],
+     [
+      304.2,
+      223.9
+     ]
+    ]
+   }
+  }
+ ],
+ "modified_count": 0,
+ "source": "prelabel",
+ "prelabel": {
+  "seg": "yolo26n-seg.pt",
+  "det": "yolov8s-worldv2.pt",
+  "conf": 0.25,
+  "dropped_fragments": 0,
+  "time": "2026-10-18 14:58:47"
+ }
+}

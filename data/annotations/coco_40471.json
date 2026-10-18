@@ -1,0 +1,45 @@
+{
+ "image": "coco_40471.jpg",
+ "width": 427,
+ "height": 640,
+ "instances": [
+  {
+   "id": "p0",
+   "cls": 7,
+   "mark": "unchanged",
+   "auto": true,
+   "conf": 0.257,
+   "src": "det",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      326.7,
+      315.0
+     ],
+     [
+      339.0,
+      315.0
+     ],
+     [
+      339.0,
+      340.2
+     ],
+     [
+      326.7,
+      340.2
+     ]
+    ]
+   }
+  }
+ ],
+ "modified_count": 0,
+ "source": "prelabel",
+ "prelabel": {
+  "seg": "yolo26n-seg.pt",
+  "det": "yolov8s-worldv2.pt",
+  "conf": 0.25,
+  "dropped_fragments": 0,
+  "time": "2026-10-18 14:58:35"
+ }
+}
