@@ -12,10 +12,21 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] 当前阶段：**P2 全部完成**（2026-10-18，Qoder），待进入 P3 预标注
+- [x] 当前阶段：**P3 预标注完成**（2026-10-18，Qoder，含账号切换交接），待进入 P4 逐张过审修正
+- [x] P3 账号交接事实（2026-10-18）：会员充在账号 A，账号 B 先干活。**账号 B 实际只跑了 3 张子集**（不是续跑说明里估计的 150-200 张），交接时无 python 进程在跑；B 留下未提交的 prelabel.py + app.py 后端 API（原样保留未重写），前端进度条未做；B 还误给 `启动.bat` 首行加了第二个 BOM，已 `git checkout` 恢复。账号 A 补前端 + CLI 续跑 17 张 + 网页进度条跑剩余 308 张 + 9 项验收
+- [x] P3 产出：`data/annotations/` **328 个 JSON**（= 328 张图），实例 **2279**（YOLO26n-seg 分割 1625 + YOLO-World 补漏框 654），**平均 6.95 个/张，错误 0**；空草稿 4 张（coco_14831 / coco_274687 / coco_776 / coco_99428，模型未检出，P4 需人工补）。CPU 约 0.4s/张，全量约 2 分钟
+  - 各类实例数：person 578 · chair 368 · dining table 200 · couch 122 · tv 140 · laptop 120 · cup 312 · bottle 240 · potted plant 110 · bed 89
+- [x] P3 JSON 约定（P4/P5 必读）：顶层 `image/width/height/instances/modified_count` 与画布 save 一致（**是 width/height 不是 w/h**），另有 `source:"prelabel"` + `prelabel{seg,det,conf,dropped_fragments,time}`；实例 `id:"p0.."`、`cls`、`mark:"unchanged"`、`auto:true`、`conf`、`src:"seg"|"det"`、`mask:{type:"polygon",points}`。
+  - mark 用 `unchanged` 而非 `created`：画布 `markModified` 只把非 created 的改成 modified，这样人工改过的草稿能识别；P4 计数可按 `auto && mark==modified/deleted` 判定
+  - `src:"det"` 是框矩形占位掩码（4 点），需人工细化；`≥25px²` 孔洞用零宽桥缝进外轮廓（与画布同一表示）
+  - 列表页状态：`source=="prelabel"` 且 `modified_count==0` → 「预标」（蓝徽章）；画布保存时不带 source，人工保存过即变「已标」/「已修改」
+- [x] P3 功能：`prelabel.py`（`--limit N` 子集 / 全量 / `--conf`，已有 JSON 跳过，写文件用 `"x"` 模式防覆盖人工保存）；`POST /api/prelabel` 后台线程（运行中重复触发 409「预标注运行中，请等待完成」）、`GET /api/prelabel/status`；列表页「开始预标注」按钮 + 进度条（0.7s 轮询，完成后自动刷新），顶栏改为可换行
+- [x] P3 验收 9 项全过：CLI 3 张子集（跳过、md5 不变）→ 20 张 → 全量；328 JSON 无崩溃；随机 3 张结构正确且 2279 实例逐条校验（auto/mark/conf/多边形≥3 点/坐标在图内）0 异常；画布 coco_106389 三模式显示正常（框/掩码含孔洞/语义）、保存后实例逐字段不变、刷新仍在、控制台无错（测试后已恢复原 JSON）；进度条 0%→51%→100% 递增、最大帧间隔 50ms、完成自动刷新 328 张变「预标」；重复点击/POST 均 409；全量重跑 328 跳过、全部 JSON md5 不变；权重被 `*.pt` 忽略，status 无 `weights/`、`data/images/`
+- [x] **权重路径**（不进 git）：`weights/yolo26n-seg.pt`（分割）、`weights/yolov8s-worldv2.pt`（YOLO-World，任务书里叫 yoloworld.pt）、`weights/clip/ViT-B-32.pt`（YOLO-World 文本编码器，prelabel.py 把 ultralytics WEIGHTS_DIR 指到 weights/，不随 cwd 漂移）
+- [x] P2 全部完成（2026-10-18，Qoder）
 - [x] 图片不显示根因（F12 实测）：5000 端口上同时有 2 个 python 进程（21:12 旧进程 + 23:27 新进程），请求全被旧进程接走；旧进程缓存了旧模板（无 #btnHand），新 app.js 第 873 行 `btnHand.addEventListener` 抛 TypeError → `load()` 未执行 → 画布无图。非浏览器缓存（app.js 本就是 no-cache+ETag）、非图片 404、非布局塌陷。修复：app.py 开 TEMPLATES_AUTO_RELOAD + after_request 禁缓存 + 启动前检测端口占用；app.js 缺元素/脚本错误/图片加载失败均显式红条+画布提示，失败时禁止保存防覆盖
-- [ ] 最近一次 git commit：见 `git log`（P2收尾: 选中高亮改白线+阴影, 清空测试标注）
-- [ ] 上一步完成（Qoder 修复用户试用反馈，浏览器实测 30 项全过）：
+- [ ] 最近一次 git commit：见 `git log`（P3: 328 张预标注草稿 JSON）
+- [ ] P2 阶段记录（Qoder 修复用户试用反馈，浏览器实测 30 项全过）：
   - 平移：新增抓手工具（H / ✋ 按钮）；保留空格+左键、中键；语义模式左键拖=平移；box 模式空白拖=新建框不变
   - 检测框：修 `isRectPoly` 顶点顺序错（新框从不被识别为矩形 → 无把手、拖角变整框平移）、n/s 把手改错顶点；
     改为"选中框把手优先 + 重叠取最小框"；框缩放时掩码按比例同步；移动/缩放真动了才计修改和入撤销栈；空画布中央提示
@@ -31,9 +42,9 @@
 - [x] 橡皮擦改为按区域擦除（2026-10-18）：每个相交实例做「掩码 − 笔迹圆盘序列」布尔差（离屏栅格 + destination-out，与红色预览同一几何）→ 8 连通分块 → 轮廓追踪 + simplifyClosed；最大块保留原 id，其余块成同类新实例（各 +1）；<25px² 碎块/孔洞丢弃；擦光 = mark="deleted"（+1）；一次擦除一条撤销记录，没擦到东西不计数不入栈。
   内部 ≥25px² 的孔洞会保留（孔洞反向绕行 + 零宽桥缝进外轮廓，nonzero 填充与 pointInPoly 都视为空），画笔合并也走同一套。语义视图按实例统一绕向后再同类合并，修掉了两实例绕向相反时重叠区被抵消的潜在 bug
 - [x] P2 收尾（2026-10-18）：选中高亮 `SEL_COLOR` 改白色 `#ffffff`（`SEL_SHADOW` 不变），形成"深色衬底 + 白色主线"，不再撞桌子橙/瓶子黄；选中标签白底深字（textOn 自动）；多边形打点首点也变白，仅靠尺寸更大区分
-- [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），目录仅剩 `.gitkeep`；列表页 328 张全部显示「未标」。**P3 开工时 data/annotations/ 是干净的，此前无任何真实标注成果**
+- [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），P3 开工前目录仅剩 `.gitkeep`（P3 后已有 328 个预标注 JSON）
 - [x] 提示词文档归档到 `P0指令/`、`P1指令/`、`P2指令/`（用户整理，git 识别为重命名），原 `p0/` 已删除。整理过程中根目录 `.gitignore` 再次被旧版 `p0/.gitignore`（10-17 19:00 版）覆盖、丢了 P1 规则（`data/images/` 158MB 差点进库），已从 git 恢复——见坑 ⑥
-- [ ] **下一步待办**：P3 预标注（prelabel.py）
+- [ ] **下一步待办**：P4 逐张过审 + 修正 ≥60 条（必须真人）；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -67,7 +78,7 @@
 | P0 | 环境 + git 仓库 | ✅ 已完成（2026-10-17） |
 | P1 | 数据 150 张 / ≥6类 / 每类≥15张 | ✅ 已完成（328 张 / 10 类，2026-10-17） |
 | P2 | flask UI 骨架 + 画布三模式 | ✅ 已完成（初版 Trae + 试用反馈修复/调色板/橡皮布尔差/收尾 Qoder，2026-10-18） |
-| P3 | 预标注（YOLO-World / YOLO26n-seg） | 未开始 |
+| P3 | 预标注（YOLO-World / YOLO26n-seg） | ✅ 已完成（328 张 / 2279 实例 / 0 错误，账号 B→A 交接，2026-10-18） |
 | P4 | 逐张过审 + 修正 ≥60 条（必须真人） | 未开始 |
 | P5 | 三格式导出 + 训练 best.pt | 未开始 |
 | P6 | 新模型回标 + R1 对比 | 未开始 |
@@ -148,7 +159,7 @@ git push                 # 推到私有仓库异地备份
 | | tools/（extract_voc/extract_coco/compress_images/make_review） | ✅ 保持 tools/ |
 | | data/images/、data/review/、source_log.md | ✅ 保持 data/（images 在 P3-P5 复用） |
 | P2 | app.py、canvas/、启动.bat、requirements.txt | ❌ 提交包结构，留源码根 |
-| P3 | prelabel.py；权重 yoloworld.pt/yolo26n-seg.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
+| P3 | prelabel.py；权重 weights/yolov8s-worldv2.pt（=yoloworld.pt）/ yolo26n-seg.pt / clip/ViT-B-32.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
 | P4 | records/（修正记录） | ❌ 提交包结构 |
 | P5 | train.py、dataset/（三格式）、model/best.pt | ❌ 提交包结构 |
 | P6 | R1 对比结果（平台导出） | ❌ 归 records/ 或提交包 |
