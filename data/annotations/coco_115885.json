@@ -4,14 +4,12 @@
  "height": 375,
  "instances": [
   {
-   "id": "p0",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.869,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       19.5,
@@ -153,46 +151,50 @@
       2.5,
       43.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.269,
-   "src": "det",
+   "id": "p1",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       221.3,
       0.1
      ],
      [
-      500.0,
+      500,
       0.1
      ],
      [
-      500.0,
-      374.0
+      500,
+      374
      ],
      [
       221.3,
-      374.0
+      374
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 1,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 0,
   "time": "2026-10-18 14:56:26"
- }
+ },
+ "updated_at": "2026-10-18 18:13:25",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 18:13:25"
 }
