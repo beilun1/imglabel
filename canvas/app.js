@@ -148,6 +148,17 @@ function perpDist(p, a, b) {
   if (!len) return Math.hypot(p[0] - a[0], p[1] - a[1]);
   return Math.abs(dy * p[0] - dx * p[1] + b[0] * a[1] - b[1] * a[0]) / len;
 }
+function segDist(p, a, b) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
+  const t = l2 ? clamp(((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2, 0, 1) : 0;
+  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
+}
+function nearPoly(pt, poly, tol) {
+  if (pointInPoly(pt, poly)) return true;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++)
+    if (segDist(pt, poly[j], poly[i]) <= tol) return true;
+  return false;
+}
 function simplify(pts, eps) {
   if (pts.length < 3) return pts.slice();
   let dmax = 0, idx = 0;
@@ -379,7 +390,8 @@ function handlePos(bb, h) {
                sw: [bb.x0, bb.y1], w: [bb.x0, cy] };
   return map[h];
 }
-function hitTestBox(sx, sy, tol = 9) {
+// tol：把手容差（屏幕 px）；maskTol：掩码边缘容差（图像 px）
+function hitTestBox(sx, sy, tol = 9, maskTol = 3) {
   // 选中框的把手优先（只有选中框画了把手）
   const sel = selectedInst();
   if (sel) {
@@ -390,12 +402,14 @@ function hitTestBox(sx, sy, tol = 9) {
         return { kind: "box-resize", inst: sel, handle: h };
     }
   }
-  // 框内部：多个框重叠时取面积最小者，避免大框（床/桌）挡住小框（杯子）
+  // 只认掩码（含边缘容差）：框内非掩码处（漏检目标/空隙）不命中 → 可新建框；
+  // 多个掩码重叠时取外接矩形面积最小者，避免大框（床/桌）挡住小框（杯子）
   const w = toImg(sx, sy);
   let best = null, bestArea = Infinity;
   for (const inst of liveInstances()) {
     const bb = ptsBBox(inst.mask.points);
-    if (w.x >= bb.x0 && w.x <= bb.x1 && w.y >= bb.y0 && w.y <= bb.y1) {
+    if (w.x < bb.x0 - maskTol || w.x > bb.x1 + maskTol || w.y < bb.y0 - maskTol || w.y > bb.y1 + maskTol) continue;
+    if (nearPoly([w.x, w.y], inst.mask.points, maskTol)) {
       const a = (bb.x1 - bb.x0) * (bb.y1 - bb.y0);
       if (a < bestArea) { best = inst; bestArea = a; }
     }
