@@ -12,7 +12,22 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] 当前阶段：**P3 预标注完成**（2026-10-18，Qoder，含账号切换交接），待进入 P4 逐张过审修正
+- [x] 当前阶段：**P4 修正计数埋点完成**（2026-10-18，Qoder），待用户在画布上逐张过审、真实产生 ≥60 条修正（agent 不得代做/伪造）
+- [x] P4 埋点（代码 `8471fba`，示例 `3afc017`）：
+  - **唯一计数入口** `countEdit(type, inst, cls_before, cls_after)`（canvas/app.js）：替换原 9 处 `modifiedCount++`，每次实际修改 +1 并生成一条记录；记录在撤销快照里，**撤销/重做同步增减**
+  - type 映射：框新建 `create` · 多边形 `polygon` · 画笔新建 `add_mask` · 画笔同类内起笔扩展 `modify`(tool=brush) · 橡皮部分擦除 `erase_mask` · 橡皮擦出的分块新实例 `erase_mask`(split_from=原 id，cls_before=null) · 橡皮擦光 `delete`(tool=eraser) · Del 删除 `delete` · 框/掩码移动 `move` · 框把手缩放 `resize` · 下拉换类 `reclass`
+  - 不计数：查看/缩放/平移/切模式/抓手、单击选中不拖动、下拉选同一类、移动工具单击不拖、仅保存（"仅确认"）——浏览器实测均 0 记录
+  - **records 结构** `data/records/修正记录.json`（数组）：`{image, time, type, subject(实例id), cls_before, cls_after, auto, round, session, seq, [tool], [split_from]}`；`cls_before=null` = 新建，`cls_after=null` = 删除；`round` 由服务端强制（默认 0，P6 回标用环境变量 `IMGLABEL_ROUND=1` 启动服务）；image/round/session 以服务端为准，type/cls/subject 非法 → 400
+  - 落盘：每次保存（含翻页自动保存）随 JSON 一起提交本会话记录，服务端加锁 + 原子写，**同一 session+image 的旧记录整体替换**（保存后再撤销再保存也一致）；不变化时不重写文件
+  - **一致性不变式**（P5 导出前校验）：每图记录条数 == JSON `modified_count`；被记录的实例 id 集合 == `mark≠unchanged` 的实例集合。`python tools/records_stats.py` 会打印不一致项
+  - 统计：`tools/records_stats.py [--round 0]`（保存后服务端也自动调用）→ `data/records/修正统计.json` + `.md`：总数/目标、按类型、按类别、换类明细、按图、修正率、一致性
+  - **修正率分母口径**：图级修正率 = 该图本轮被修正过的**不同实例数** / 该图 JSON **实例总数**（auto 预标 + 人工新建，**含 mark=deleted**，即 `len(instances)`）；整体修正率 = Σ分子/Σ分母，范围 = 本轮有修正记录或已过审的图；另给 **auto 修正率** = 被修正的 auto 实例数 / auto 实例总数（P6 对比预标质量用这个）
+  - 过审：只有**显式保存**（保存 / 保存并下一张 / S）写 `reviewed:true` + `reviewed_at`；翻页自动保存不置过审（浏览不会误标过审）。列表页状态优先级：已过审(实心绿) > 已修改 > 预标 > 已标 > 已标(空)；顶栏显示「已过审 X/328 · 累计修正 M/60」
+  - 计数条：「本图修改 N 条」= 该图 JSON `modified_count`（跨会话累计，原文案"本次修改"不准确已改）；「累计修正 M / 目标 60」= 本轮全部记录（`GET /api/records/summary`）+ 本页未保存的记录，≥60 变绿
+  - 保存时保留 JSON 的 `prelabel` 元数据与 reviewed 状态；`source` 照旧丢弃（P3 约定不变）
+  - 验收示例 `data/records/验收示例/`：自测真实操作产生的 10 条（3 张图），**不计入 60**；自测后 `data/annotations/` 已还原为预标草稿，正式 `修正记录.json` 尚不存在，用户第一次修改时生成
+  - ⚠ 提交包结构要求源码根 `records/`，当前落在 `data/records/`（按 P4 提示词）。P7 打包时把 `data/records/` 拷到 `records/`（或届时统一改路径）
+- [x] P3 阶段（2026-10-18，Qoder，含账号切换交接）已完成
 - [x] P3 账号交接事实（2026-10-18）：会员充在账号 A，账号 B 先干活。**账号 B 实际只跑了 3 张子集**（不是续跑说明里估计的 150-200 张），交接时无 python 进程在跑；B 留下未提交的 prelabel.py + app.py 后端 API（原样保留未重写），前端进度条未做；B 还误给 `启动.bat` 首行加了第二个 BOM，已 `git checkout` 恢复。账号 A 补前端 + CLI 续跑 17 张 + 网页进度条跑剩余 308 张 + 9 项验收
 - [x] P3 产出：`data/annotations/` **328 个 JSON**（= 328 张图），实例 **2279**（YOLO26n-seg 分割 1625 + YOLO-World 补漏框 654），**平均 6.95 个/张，错误 0**；空草稿 4 张（coco_14831 / coco_274687 / coco_776 / coco_99428，模型未检出，P4 需人工补）。CPU 约 0.4s/张，全量约 2 分钟
   - 各类实例数：person 578 · chair 368 · dining table 200 · couch 122 · tv 140 · laptop 120 · cup 312 · bottle 240 · potted plant 110 · bed 89
@@ -25,7 +40,7 @@
 - [x] **权重路径**（不进 git）：`weights/yolo26n-seg.pt`（分割）、`weights/yolov8s-worldv2.pt`（YOLO-World，任务书里叫 yoloworld.pt）、`weights/clip/ViT-B-32.pt`（YOLO-World 文本编码器，prelabel.py 把 ultralytics WEIGHTS_DIR 指到 weights/，不随 cwd 漂移）
 - [x] P2 全部完成（2026-10-18，Qoder）
 - [x] 图片不显示根因（F12 实测）：5000 端口上同时有 2 个 python 进程（21:12 旧进程 + 23:27 新进程），请求全被旧进程接走；旧进程缓存了旧模板（无 #btnHand），新 app.js 第 873 行 `btnHand.addEventListener` 抛 TypeError → `load()` 未执行 → 画布无图。非浏览器缓存（app.js 本就是 no-cache+ETag）、非图片 404、非布局塌陷。修复：app.py 开 TEMPLATES_AUTO_RELOAD + after_request 禁缓存 + 启动前检测端口占用；app.js 缺元素/脚本错误/图片加载失败均显式红条+画布提示，失败时禁止保存防覆盖
-- [ ] 最近一次 git commit：见 `git log`（P3: 328 张预标注草稿 JSON）
+- [ ] 最近一次 git commit：见 `git log`（P4: 埋点代码 8471fba / 验收示例 3afc017）
 - [ ] P2 阶段记录（Qoder 修复用户试用反馈，浏览器实测 30 项全过）：
   - 平移：新增抓手工具（H / ✋ 按钮）；保留空格+左键、中键；语义模式左键拖=平移；box 模式空白拖=新建框不变
   - 检测框：修 `isRectPoly` 顶点顺序错（新框从不被识别为矩形 → 无把手、拖角变整框平移）、n/s 把手改错顶点；
@@ -44,7 +59,7 @@
 - [x] P2 收尾（2026-10-18）：选中高亮 `SEL_COLOR` 改白色 `#ffffff`（`SEL_SHADOW` 不变），形成"深色衬底 + 白色主线"，不再撞桌子橙/瓶子黄；选中标签白底深字（textOn 自动）；多边形打点首点也变白，仅靠尺寸更大区分
 - [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），P3 开工前目录仅剩 `.gitkeep`（P3 后已有 328 个预标注 JSON）
 - [x] 提示词文档归档到 `P0指令/`、`P1指令/`、`P2指令/`（用户整理，git 识别为重命名），原 `p0/` 已删除。整理过程中根目录 `.gitignore` 再次被旧版 `p0/.gitignore`（10-17 19:00 版）覆盖、丢了 P1 规则（`data/images/` 158MB 差点进库），已从 git 恢复——见坑 ⑥
-- [ ] **下一步待办**：P4 逐张过审 + 修正 ≥60 条（必须真人）；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
+- [ ] **下一步待办**：用户在画布上逐张过审 + 真实修正 ≥60 条（必须真人，计数条/列表页顶栏看进度，`python tools/records_stats.py` 看统计与一致性）；改完代码后需**重启 5000 服务**（模板缓存）+ Ctrl+F5；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -79,7 +94,7 @@
 | P1 | 数据 150 张 / ≥6类 / 每类≥15张 | ✅ 已完成（328 张 / 10 类，2026-10-17） |
 | P2 | flask UI 骨架 + 画布三模式 | ✅ 已完成（初版 Trae + 试用反馈修复/调色板/橡皮布尔差/收尾 Qoder，2026-10-18） |
 | P3 | 预标注（YOLO-World / YOLO26n-seg） | ✅ 已完成（328 张 / 2279 实例 / 0 错误，账号 B→A 交接，2026-10-18） |
-| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | 未开始 |
+| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | 🟡 埋点+统计已完成（2026-10-18），待用户真人过审 |
 | P5 | 三格式导出 + 训练 best.pt | 未开始 |
 | P6 | 新模型回标 + R1 对比 | 未开始 |
 | P7 | README / demo / 打包上传 FTP | 未开始 |
@@ -160,7 +175,7 @@ git push                 # 推到私有仓库异地备份
 | | data/images/、data/review/、source_log.md | ✅ 保持 data/（images 在 P3-P5 复用） |
 | P2 | app.py、canvas/、启动.bat、requirements.txt | ❌ 提交包结构，留源码根 |
 | P3 | prelabel.py；权重 weights/yolov8s-worldv2.pt（=yoloworld.pt）/ yolo26n-seg.pt / clip/ViT-B-32.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
-| P4 | records/（修正记录） | ❌ 提交包结构 |
+| P4 | data/records/（修正记录.json / 修正统计.json/.md，验收示例/）、tools/records_stats.py、P4指令/ | ❌ 提交包结构（P7 拷到根 records/） |
 | P5 | train.py、dataset/（三格式）、model/best.pt | ❌ 提交包结构 |
 | P6 | R1 对比结果（平台导出） | ❌ 归 records/ 或提交包 |
 | P7 | demo/、ai_log.md、提交信息.txt、README.md 最终版 | ❌ 提交包结构 |
