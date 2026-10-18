@@ -4,14 +4,12 @@
  "height": 640,
  "instances": [
   {
-   "id": "p0",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.883,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       440.5,
@@ -97,18 +95,18 @@
       383.5,
       212.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.866,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       212.5,
@@ -202,18 +200,18 @@
       157.5,
       203.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.712,
-   "src": "seg",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       311.5,
@@ -259,18 +257,18 @@
       273.5,
       118.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p3",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.692,
-   "src": "seg",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       18.5,
@@ -1496,18 +1494,18 @@
       5.5,
       218.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p4",
-   "cls": 4,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 4,
    "conf": 0.673,
-   "src": "seg",
+   "id": "p4",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       424.5,
@@ -1561,18 +1559,18 @@
       421.5,
       42.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p5",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.594,
-   "src": "seg",
+   "id": "p5",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       414.5,
@@ -1634,18 +1632,18 @@
       383.5,
       99.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p6",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.436,
-   "src": "seg",
+   "id": "p6",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       376.5,
@@ -1687,18 +1685,18 @@
       351.5,
       104.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p7",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.329,
-   "src": "seg",
+   "id": "p7",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       265.5,
@@ -1804,18 +1802,18 @@
       235.5,
       15.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p8",
+   "auto": true,
    "cls": 1,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.399,
-   "src": "det",
+   "id": "p8",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       166.1,
@@ -1833,46 +1831,50 @@
       166.1,
       155.2
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p9",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.252,
-   "src": "det",
+   "id": "p9",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       332.5,
-      115.0
+      115
      ],
      [
       345.7,
-      115.0
+      115
      ],
      [
       345.7,
-      148.0
+      148
      ],
      [
       332.5,
-      148.0
+      148
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   }
  ],
  "modified_count": 0,
- "source": "prelabel",
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 1,
   "time": "2026-10-18 14:57:48"
- }
+ },
+ "updated_at": "2026-10-18 18:45:33",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 18:45:33"
 }

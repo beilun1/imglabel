@@ -4,14 +4,12 @@
  "height": 426,
  "instances": [
   {
-   "id": "p0",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.887,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       510.5,
@@ -465,18 +463,18 @@
       475.5,
       12.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.836,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       13.5,
@@ -890,18 +888,18 @@
       0.5,
       316.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.36,
-   "src": "seg",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       46.5,
@@ -971,18 +969,18 @@
       1.5,
       193.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p3",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.327,
-   "src": "seg",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       639.5,
@@ -1172,18 +1170,18 @@
       550.5,
       1.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p4",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.324,
-   "src": "seg",
+   "id": "p4",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       57.5,
@@ -1341,17 +1339,47 @@
       1.5,
       5.5
      ]
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
+  },
+  {
+   "id": "imvdp48dp4lj2",
+   "cls": 3,
+   "mark": "created",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      7.9120968633729145,
+      6.945711462554644
+     ],
+     [
+      163.95606185861396,
+      6.945711462554644
+     ],
+     [
+      163.95606185861396,
+      162.9896764577957
+     ],
+     [
+      7.9120968633729145,
+      162.9896764577957
+     ]
     ]
    }
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 2,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 1,
   "time": "2026-10-18 14:56:28"
- }
+ },
+ "updated_at": "2026-10-18 18:41:52",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 18:41:52"
 }

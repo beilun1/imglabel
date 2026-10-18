@@ -1,64 +1,67 @@
 {
- "generated_at": "2026-10-18 18:22:42",
+ "generated_at": "2026-10-18 18:55:47",
  "round": 0,
  "target": 60,
- "total": 77,
- "progress": "77/60",
+ "total": 142,
+ "progress": "142/60",
  "reached": true,
- "images_with_records": 15,
- "images_reviewed": 16,
+ "images_with_records": 26,
+ "images_reviewed": 32,
  "images_total": 328,
  "by_type": {
-  "delete": 20,
-  "move": 14,
-  "reclass": 12,
-  "erase_mask": 10,
-  "modify": 9,
-  "create": 4,
-  "add_mask": 4,
-  "resize": 4
+  "delete": 40,
+  "create": 35,
+  "move": 17,
+  "reclass": 14,
+  "erase_mask": 12,
+  "modify": 10,
+  "resize": 8,
+  "add_mask": 6
  },
  "by_class": {
-  "person": 26,
-  "cup": 15,
-  "couch": 14,
-  "chair": 7,
-  "dining table": 7,
-  "bottle": 5,
-  "bed": 2,
-  "laptop": 1
+  "person": 40,
+  "bottle": 33,
+  "cup": 19,
+  "couch": 17,
+  "dining table": 12,
+  "chair": 11,
+  "bed": 5,
+  "laptop": 3,
+  "tv": 2
  },
  "classes_involved": [
   "person",
   "chair",
   "dining table",
   "couch",
+  "tv",
   "laptop",
   "cup",
   "bottle",
   "bed"
  ],
  "reclass_pairs": {
-  "bottle → cup": 6,
+  "bottle → cup": 7,
   "cup → bottle": 1,
   "dining table → cup": 1,
   "bed → dining table": 1,
   "bed → person": 1,
   "person → chair": 1,
-  "chair → bed": 1
+  "chair → bed": 1,
+  "chair → dining table": 1
  },
  "overall": {
   "scope": "本轮有修正记录或已过审的图",
-  "images": 16,
-  "instances_modified": 41,
-  "instances_total": 105,
-  "rate": 0.3905,
-  "auto_modified": 32,
-  "auto_total": 96,
-  "auto_rate": 0.3333
+  "images": 32,
+  "instances_modified": 98,
+  "instances_total": 247,
+  "rate": 0.3968,
+  "auto_modified": 56,
+  "auto_total": 205,
+  "auto_rate": 0.2732
  },
  "dataset": {
-  "instances_total": 2288,
+  "instances_total": 2321,
   "auto_total": 2279
  },
  "definition": {
@@ -309,6 +312,234 @@
    "auto_modified": 3,
    "auto_total": 13,
    "auto_rate": 0.2308
+  },
+  {
+   "image": "coco_116479.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "delete": 2,
+    "resize": 1
+   },
+   "instances_modified": 3,
+   "instances_total": 3,
+   "rate": 1.0,
+   "auto_modified": 3,
+   "auto_total": 3,
+   "auto_rate": 1.0
+  },
+  {
+   "image": "coco_116825.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "delete": 1,
+    "resize": 1,
+    "create": 1
+   },
+   "instances_modified": 3,
+   "instances_total": 3,
+   "rate": 1.0,
+   "auto_modified": 2,
+   "auto_total": 2,
+   "auto_rate": 1.0
+  },
+  {
+   "image": "coco_117425.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 1,
+    "create": 1
+   },
+   "instances_modified": 2,
+   "instances_total": 6,
+   "rate": 0.3333,
+   "auto_modified": 1,
+   "auto_total": 5,
+   "auto_rate": 0.2
+  },
+  {
+   "image": "coco_117719.jpg",
+   "reviewed": true,
+   "records": 31,
+   "by_type": {
+    "create": 28,
+    "move": 1,
+    "resize": 1,
+    "reclass": 1
+   },
+   "instances_modified": 29,
+   "instances_total": 47,
+   "rate": 0.617,
+   "auto_modified": 1,
+   "auto_total": 19,
+   "auto_rate": 0.0526
+  },
+  {
+   "image": "coco_11813.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 1,
+    "create": 1
+   },
+   "instances_modified": 2,
+   "instances_total": 4,
+   "rate": 0.5,
+   "auto_modified": 1,
+   "auto_total": 3,
+   "auto_rate": 0.3333
+  },
+  {
+   "image": "coco_119365.jpg",
+   "reviewed": true,
+   "records": 5,
+   "by_type": {
+    "delete": 3,
+    "move": 2
+   },
+   "instances_modified": 4,
+   "instances_total": 6,
+   "rate": 0.6667,
+   "auto_modified": 4,
+   "auto_total": 6,
+   "auto_rate": 0.6667
+  },
+  {
+   "image": "coco_119828.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 3,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 3,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_120853.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 2
+   },
+   "instances_modified": 2,
+   "instances_total": 5,
+   "rate": 0.4,
+   "auto_modified": 2,
+   "auto_total": 5,
+   "auto_rate": 0.4
+  },
+  {
+   "image": "coco_124659.jpg",
+   "reviewed": true,
+   "records": 4,
+   "by_type": {
+    "delete": 4
+   },
+   "instances_modified": 4,
+   "instances_total": 8,
+   "rate": 0.5,
+   "auto_modified": 4,
+   "auto_total": 8,
+   "auto_rate": 0.5
+  },
+  {
+   "image": "coco_12576.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 10,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 10,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_127394.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "delete": 3
+   },
+   "instances_modified": 3,
+   "instances_total": 25,
+   "rate": 0.12,
+   "auto_modified": 3,
+   "auto_total": 25,
+   "auto_rate": 0.12
+  },
+  {
+   "image": "coco_128476.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 6,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 6,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_131138.jpg",
+   "reviewed": true,
+   "records": 9,
+   "by_type": {
+    "delete": 3,
+    "resize": 1,
+    "erase_mask": 2,
+    "add_mask": 1,
+    "reclass": 1,
+    "modify": 1
+   },
+   "instances_modified": 4,
+   "instances_total": 10,
+   "rate": 0.4,
+   "auto_modified": 3,
+   "auto_total": 9,
+   "auto_rate": 0.3333
+  },
+  {
+   "image": "coco_134112.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_134882.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "add_mask": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 2,
+   "rate": 0.5,
+   "auto_modified": 0,
+   "auto_total": 1,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_135561.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
   }
  ],
  "consistency": {
