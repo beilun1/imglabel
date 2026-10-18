@@ -1,0 +1,113 @@
+{
+ "generated_at": "2026-10-18 16:09:50",
+ "round": 0,
+ "target": 60,
+ "total": 10,
+ "progress": "10/60",
+ "reached": false,
+ "images_with_records": 2,
+ "images_reviewed": 3,
+ "images_total": 328,
+ "by_type": {
+  "reclass": 2,
+  "delete": 2,
+  "create": 1,
+  "move": 1,
+  "resize": 1,
+  "erase_mask": 1,
+  "polygon": 1,
+  "modify": 1
+ },
+ "by_class": {
+  "couch": 3,
+  "cup": 2,
+  "bed": 2,
+  "bottle": 2,
+  "chair": 1
+ },
+ "classes_involved": [
+  "chair",
+  "dining table",
+  "couch",
+  "cup",
+  "bottle",
+  "bed"
+ ],
+ "reclass_pairs": {
+  "dining table → couch": 1,
+  "cup → bottle": 1
+ },
+ "overall": {
+  "scope": "本轮有修正记录或已过审的图",
+  "images": 3,
+  "instances_modified": 6,
+  "instances_total": 10,
+  "rate": 0.6,
+  "auto_modified": 4,
+  "auto_total": 8,
+  "auto_rate": 0.5
+ },
+ "dataset": {
+  "instances_total": 2281,
+  "auto_total": 2279
+ },
+ "definition": {
+  "修正条数": "修正记录.json 条数：每次实际修改（新增/删除/移动/改形/换类）一条；仅查看/缩放/切模式/仅确认保存不计",
+  "图级修正率": "该图本轮被修正过的不同实例数 / 该图 JSON 实例总数（auto 预标 + 人工新建，含 deleted 标记）",
+  "整体修正率": "Σ分子 / Σ分母，范围 = 本轮有修正记录或已过审的图",
+  "auto修正率": "被修正的 auto 实例数 / 该范围内 auto 实例总数"
+ },
+ "by_image": [
+  {
+   "image": "coco_10092.jpg",
+   "reviewed": true,
+   "records": 9,
+   "by_type": {
+    "create": 1,
+    "reclass": 1,
+    "move": 1,
+    "resize": 1,
+    "delete": 2,
+    "erase_mask": 1,
+    "polygon": 1,
+    "modify": 1
+   },
+   "instances_modified": 5,
+   "instances_total": 5,
+   "rate": 1.0,
+   "auto_modified": 3,
+   "auto_total": 3,
+   "auto_rate": 1.0
+  },
+  {
+   "image": "coco_102707.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "reclass": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 2,
+   "rate": 0.5,
+   "auto_modified": 1,
+   "auto_total": 2,
+   "auto_rate": 0.5
+  },
+  {
+   "image": "coco_106389.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 3,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 3,
+   "auto_rate": 0.0
+  }
+ ],
+ "consistency": {
+  "ok": true,
+  "issues": []
+ }
+}

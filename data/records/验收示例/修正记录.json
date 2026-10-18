@@ -1,0 +1,123 @@
+[
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "create",
+  "subject": "imvdjl0lhy9a6",
+  "cls_before": null,
+  "cls_after": 6,
+  "auto": false,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 0
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "reclass",
+  "subject": "p1",
+  "cls_before": 2,
+  "cls_after": 3,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 1
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "move",
+  "subject": "p1",
+  "cls_before": 3,
+  "cls_after": 3,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 2
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "resize",
+  "subject": "p1",
+  "cls_before": 3,
+  "cls_after": 3,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 3
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "delete",
+  "subject": "p2",
+  "cls_before": 1,
+  "cls_after": null,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 4
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "erase_mask",
+  "subject": "p0",
+  "cls_before": 9,
+  "cls_after": 9,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 5
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:06:56",
+  "type": "polygon",
+  "subject": "imvdjl0mq5907",
+  "cls_before": null,
+  "cls_after": 7,
+  "auto": false,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 6
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:07:20",
+  "type": "modify",
+  "subject": "p0",
+  "cls_before": 9,
+  "cls_after": 9,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjjnpplituu2",
+  "seq": 7,
+  "tool": "brush"
+ },
+ {
+  "image": "coco_102707.jpg",
+  "time": "2026-10-18 16:07:45",
+  "type": "reclass",
+  "subject": "p0",
+  "cls_before": 6,
+  "cls_after": 7,
+  "auto": true,
+  "round": 0,
+  "session": "smvdjlxpzpcnz6e",
+  "seq": 0
+ },
+ {
+  "image": "coco_10092.jpg",
+  "time": "2026-10-18 16:08:12",
+  "type": "delete",
+  "subject": "imvdjl0lhy9a6",
+  "cls_before": 6,
+  "cls_after": null,
+  "auto": false,
+  "round": 0,
+  "session": "smvdjmicpj0t6cy",
+  "seq": 0
+ }
+]
