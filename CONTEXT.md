@@ -12,9 +12,9 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
-- [x] **P4 全部完成**（2026-10-18，Trae 收尾）：用户真人过审修正 **77 条**（≥60 达标，16 张图、涉及 15 张有修正），`python tools/records_stats.py` 一致性 **通过**（每图记录条数 == modified_count，被记录实例 id 集合 == mark≠unchanged 集合）。已过审 16 张（未过审图 P5 导出直接用预标草稿，符合任务书"预标草稿 → 人工逐张审核"流程）。成果提交 `045f26f`（16 张标注 JSON + 修正记录/统计），已 push
+- [x] **P4 全部完成**（2026-10-18，Trae 收尾）：用户真人过审 **153 张**（≥150 达标），真实修正 **285 条**（≥60 达标，86 张图有修正），整体修正率 **23.75%**，`python tools/records_stats.py` 一致性 **通过**（每图记录条数 == modified_count，被记录实例 id 集合 == mark≠unchanged 集合）。剩余未过审图（约 174 张）P5 导出直接用预标草稿，P6 回标时再迭代修正。成果提交 `a08f4e9`（121 张标注 JSON + 修正记录/统计），已 push
 - [x] **P4 剔除 1 张非室内图**（2026-10-18，Trae）：过审中发现 `coco_235399.jpg`（货运卡车车厢+户外庭院）非室内场景，已剔除（图片+标注 JSON+该图 1 条修正记录），同步更新 filelist/stats，提交 `c2be0b1`。**数据集现 327 张**，person 类 60 张（≥15 仍满足）
-- [x] 修正记录分布（77 条）：delete 20 · move 14 · reclass 12 · erase_mask 10 · modify 9 · create 4 · resize 4 · add_mask 4；涉及图片 15 张
+- [x] 修正记录分布（285 条）：delete 136 · create 56 · reclass 28 · move 18 · erase_mask 17 · modify 12 · resize 11 · add_mask 7；涉及图片 86 张
 - [x] 用户确认**无需审完 328 张**：任务书 P4 硬指标仅"修正记录 ≥60 条"；剩余图 P5 以预标草稿导出，P6 回标时再迭代修正
 - [x] P4 埋点（代码 `8471fba`，示例 `3afc017`）：
   - **唯一计数入口** `countEdit(type, inst, cls_before, cls_after)`（canvas/app.js）：替换原 9 处 `modifiedCount++`，每次实际修改 +1 并生成一条记录；记录在撤销快照里，**撤销/重做同步增减**
