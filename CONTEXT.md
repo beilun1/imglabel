@@ -12,6 +12,34 @@
 
 ## 1. 当前状态（每次切换工具前更新）
 
+- [x] **P5 全部完成**（2026-10-18，Qoder）：脚本 `effc664`，训练记录 `50149da`，已 push
+  - **导出** `python export_dataset.py [--out dataset] [--seed 42]`：先跑 records_stats 一致性，不通过就退出；每次删掉重建，结果确定
+  - **输出到 `dataset/`**（被 .gitignore 排除，不进 git，用脚本重新生成）：
+    - `images/`
+    - `labels/`：YOLO 检测 txt，框 = 掩码外接矩形
+    - `segments/`：YOLO 分割 txt，只写外轮廓，孔洞和零宽桥已剪掉
+    - `semantic/`：L 模式 PNG，像素值 = cls+1，背景 0，nonzero 填充，同类合并，后画的覆盖先画的
+    - `train.txt` / `val.txt`、`data.yaml`（nc=10，无 path 键）
+    - `export_report.md`：导出统计 + 训练段
+  - **导出统计**：327 张，有效实例 **2207**（总 2345 − deleted 136 − 零面积 2），平均 6.75 个/张
+    - 两个零面积实例：coco_10707、coco_116208，用户在图像边缘点画笔被夹到 x=0，成了 2 点线段；导出时跳过并写进报告，可在画布里删掉
+    - 空图 3 张：coco_14831、coco_776、coco_99428，导出为空 txt + 全 0 PNG。P3 时是 4 张，coco_274687 在 P4 人工补了 2 个实例
+    - train **294** / val **33**（9:1，seed 42）
+    - 各类：person 514 · chair 350 · dining table 205 · couch 115 · tv 133 · laptop 120 · cup 328 · bottle 250 · potted plant 112 · bed 80
+    - 掩码来源：分割 1554 · det 矩形占位 590 · 人工 63；带孔洞/桥的轮廓 202 个；过审图 153 张、草稿 174 张
+  - **全量校验** `tools/verify_export.py`（327 张全过）：
+    - 格式：cls 0-9、6 位小数、坐标在 [0,1] 内
+    - 检测框与掩码外接矩形最大误差 5e-7；分割外接矩形 == 检测框
+    - 语义 PNG 与 nonzero 参考栅格在 1px 边缘带以内的差异为 0
+    - 实例守恒，逐类核对
+  - **训练** `train.py`：
+    - 只读 `dataset/data.yaml`；重写了 `YOLODataset.get_label_files`，改从 `dataset/segments/` 读分割标签，`labels/` 留作纯检测格式
+    - 起点 `weights/yolo26n-seg.pt`；参数按设备自动选：CPU epochs 30 · imgsz 640 · batch 4 · patience 15，GPU epochs 80 · batch 16
+    - 输出 `model/best.pt`（进 git）+ `model/train_report.md` + `model/train_metrics.json`；过程留在 `runs/segment/p5`（不进 git）
+  - **训练结果**（CPU 47 分钟，在第 16/30 轮 early stop，best = 第 1 轮）：val 检测 mAP50 **0.7619** / mAP50-95 **0.6150**，分割 mAP50 **0.6930** / mAP50-95 **0.4435**
+    - val mAP 在第 1 轮最高，随后学习率 warmup 上升就开始掉：小数据集，而且标注大多是同一个 COCO 预训练模型自己的草稿
+    - 分割 mAP 偏低还有一个原因：590 个 det 实例的掩码是矩形占位
+    - P6 想提升可以试 `lr0` 调小、冻结 backbone，或者等更多人工修正以后重训
 - [x] **P4 全部完成**（2026-10-18，Trae 收尾）：用户真人过审 **153 张**（≥150 达标），真实修正 **285 条**（≥60 达标，86 张图有修正），整体修正率 **23.75%**，`python tools/records_stats.py` 一致性 **通过**（每图记录条数 == modified_count，被记录实例 id 集合 == mark≠unchanged 集合）。剩余未过审图（约 174 张）P5 导出直接用预标草稿，P6 回标时再迭代修正。成果提交 `a08f4e9`（121 张标注 JSON + 修正记录/统计），已 push
 - [x] **P4 剔除 1 张非室内图**（2026-10-18，Trae）：过审中发现 `coco_235399.jpg`（货运卡车车厢+户外庭院）非室内场景，已剔除（图片+标注 JSON+该图 1 条修正记录），同步更新 filelist/stats，提交 `c2be0b1`。**数据集现 327 张**，person 类 60 张（≥15 仍满足）
 - [x] 修正记录分布（285 条）：delete 136 · create 56 · reclass 28 · move 18 · erase_mask 17 · modify 12 · resize 11 · add_mask 7；涉及图片 86 张
@@ -74,7 +102,7 @@
 - [x] **权重路径**（不进 git）：`weights/yolo26n-seg.pt`（分割）、`weights/yolov8s-worldv2.pt`（YOLO-World，任务书里叫 yoloworld.pt）、`weights/clip/ViT-B-32.pt`（YOLO-World 文本编码器，prelabel.py 把 ultralytics WEIGHTS_DIR 指到 weights/，不随 cwd 漂移）
 - [x] P2 全部完成（2026-10-18，Qoder）
 - [x] 图片不显示根因（F12 实测）：5000 端口上同时有 2 个 python 进程（21:12 旧进程 + 23:27 新进程），请求全被旧进程接走；旧进程缓存了旧模板（无 #btnHand），新 app.js 第 873 行 `btnHand.addEventListener` 抛 TypeError → `load()` 未执行 → 画布无图。非浏览器缓存（app.js 本就是 no-cache+ETag）、非图片 404、非布局塌陷。修复：app.py 开 TEMPLATES_AUTO_RELOAD + after_request 禁缓存 + 启动前检测端口占用；app.js 缺元素/脚本错误/图片加载失败均显式红条+画布提示，失败时禁止保存防覆盖
-- [ ] 最近一次 git commit：见 `git log`（P4 完成 `045f26f` / 埋点代码 `8471fba` / 验收示例 `3afc017`）
+- [ ] 最近一次 git commit：见 `git log`（P5 脚本 `effc664` / 训练记录 `50149da`；P4 完成 `a08f4e9` / 埋点代码 `8471fba` / 验收示例 `3afc017`）
 - [ ] P2 阶段记录（Qoder 修复用户试用反馈，浏览器实测 30 项全过）：
   - 平移：新增抓手工具（H / ✋ 按钮）；保留空格+左键、中键；语义模式左键拖=平移；box 模式空白拖=新建框不变
   - 检测框：修 `isRectPoly` 顶点顺序错（新框从不被识别为矩形 → 无把手、拖角变整框平移）、n/s 把手改错顶点；
@@ -93,7 +121,7 @@
 - [x] P2 收尾（2026-10-18）：选中高亮 `SEL_COLOR` 改白色 `#ffffff`（`SEL_SHADOW` 不变），形成"深色衬底 + 白色主线"，不再撞桌子橙/瓶子黄；选中标签白底深字（textOn 自动）；多边形打点首点也变白，仅靠尺寸更大区分
 - [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），P3 开工前目录仅剩 `.gitkeep`（P3 后已有 328 个预标注 JSON）
 - [x] 提示词文档归档到 `P0指令/`、`P1指令/`、`P2指令/`（用户整理，git 识别为重命名），原 `p0/` 已删除。整理过程中根目录 `.gitignore` 再次被旧版 `p0/.gitignore`（10-17 19:00 版）覆盖、丢了 P1 规则（`data/images/` 158MB 差点进库），已从 git 恢复——见坑 ⑥
-- [ ] **下一步待办**：**P5 三格式导出 + 训练 best.pt**（读 `P5指令/P5-提示词.md` 执行）；P4 不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）
+- [ ] **下一步待办**：**P6 用 model/best.pt 回标 + R1 对比**（`IMGLABEL_ROUND=1` 启动服务）；不要重跑预标注覆盖人工成果（prelabel 本身幂等跳过已有 JSON）；dataset/ 不进 git，需要时 `python export_dataset.py` 重新生成
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -128,8 +156,8 @@
 | P1 | 数据 150 张 / ≥6类 / 每类≥15张 | ✅ 已完成（328 张 / 10 类，2026-10-17） |
 | P2 | flask UI 骨架 + 画布三模式 | ✅ 已完成（初版 Trae + 试用反馈修复/调色板/橡皮布尔差/收尾 Qoder，2026-10-18） |
 | P3 | 预标注（YOLO-World / YOLO26n-seg） | ✅ 已完成（328 张 / 2279 实例 / 0 错误，账号 B→A 交接，2026-10-18） |
-| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | ✅ 已完成（修正 77/60，16 张过审，2026-10-18） |
-| P5 | 三格式导出 + 训练 best.pt | 🟡 未开始（提示词已生成，待 Qoder 执行） |
+| P4 | 逐张过审 + 修正 ≥60 条（必须真人） | ✅ 已完成（修正 285/60，153 张过审，2026-10-18） |
+| P5 | 三格式导出 + 训练 best.pt | ✅ 已完成（327 张 / 2207 实例导出；best.pt 检测 mAP50 0.762 / 分割 mAP50 0.693，2026-10-18） |
 | P6 | 新模型回标 + R1 对比 | 未开始 |
 | P7 | README / demo / 打包上传 FTP | 未开始 |
 
@@ -210,7 +238,7 @@ git push                 # 推到私有仓库异地备份
 | P2 | app.py、canvas/、启动.bat、requirements.txt | ❌ 提交包结构，留源码根 |
 | P3 | prelabel.py；权重 weights/yolov8s-worldv2.pt（=yoloworld.pt）/ yolo26n-seg.pt / clip/ViT-B-32.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
 | P4 | data/records/（修正记录.json / 修正统计.json/.md，验收示例/）、tools/records_stats.py、P4指令/ | ❌ 提交包结构（P7 拷到根 records/） |
-| P5 | train.py、dataset/（三格式）、model/best.pt | ❌ 提交包结构 |
+| P5 | export_dataset.py、tools/verify_export.py、train.py、dataset/（三格式，不进 git，脚本再生成；P7 打包时导出）、model/best.pt + train_report.md | ❌ 提交包结构 |
 | P6 | R1 对比结果（平台导出） | ❌ 归 records/ 或提交包 |
 | P7 | demo/、ai_log.md、提交信息.txt、README.md 最终版 | ❌ 提交包结构 |
 
