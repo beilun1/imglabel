@@ -29,6 +29,7 @@ const state = {
   brushSize: 10,
   curCls: 0,
   selectedId: null,
+  overlap: null,                 // 框模式重叠点选 {id, n}：选中者所在点有 n 个框重叠（选中信息提示用）
   pendingPts: [],                // 多边形打点中
   strokePts: [],                 // 画笔/橡皮当前笔触
   drawing: false,
@@ -148,17 +149,6 @@ function perpDist(p, a, b) {
   const len = Math.hypot(dx, dy);
   if (!len) return Math.hypot(p[0] - a[0], p[1] - a[1]);
   return Math.abs(dy * p[0] - dx * p[1] + b[0] * a[1] - b[1] * a[0]) / len;
-}
-function segDist(p, a, b) {
-  const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy;
-  const t = l2 ? clamp(((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2, 0, 1) : 0;
-  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dy);
-}
-function nearPoly(pt, poly, tol) {
-  if (pointInPoly(pt, poly)) return true;
-  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++)
-    if (segDist(pt, poly[j], poly[i]) <= tol) return true;
-  return false;
 }
 function simplify(pts, eps) {
   if (pts.length < 3) return pts.slice();
@@ -391,31 +381,25 @@ function handlePos(bb, h) {
                sw: [bb.x0, bb.y1], w: [bb.x0, cy] };
   return map[h];
 }
-// tol：把手容差（屏幕 px）；maskTol：掩码边缘容差（图像 px）
-function hitTestBox(sx, sy, tol = 9, maskTol = 3) {
-  // 选中框的把手优先（只有选中框画了把手）
+// 返回命中列表：选中框把手 → 单个 box-resize；否则外接矩形包含该点的全部框，按面积升序（小框在前）
+function hitTestBox(sx, sy, tol = 9) {
   const sel = selectedInst();
   if (sel) {
     const bb = ptsBBox(sel.mask.points);
     for (const h of HANDLES) {
       const hp = toScreen(...handlePos(bb, h));
       if (Math.abs(hp.x - sx) <= tol && Math.abs(hp.y - sy) <= tol)
-        return { kind: "box-resize", inst: sel, handle: h };
+        return [{ kind: "box-resize", inst: sel, handle: h }];
     }
   }
-  // 只认掩码（含边缘容差）：框内非掩码处（漏检目标/空隙）不命中 → 可新建框；
-  // 多个掩码重叠时取外接矩形面积最小者，避免大框（床/桌）挡住小框（杯子）
   const w = toImg(sx, sy);
-  let best = null, bestArea = Infinity;
+  const hits = [];
   for (const inst of liveInstances()) {
     const bb = ptsBBox(inst.mask.points);
-    if (w.x < bb.x0 - maskTol || w.x > bb.x1 + maskTol || w.y < bb.y0 - maskTol || w.y > bb.y1 + maskTol) continue;
-    if (nearPoly([w.x, w.y], inst.mask.points, maskTol)) {
-      const a = (bb.x1 - bb.x0) * (bb.y1 - bb.y0);
-      if (a < bestArea) { best = inst; bestArea = a; }
-    }
+    if (w.x >= bb.x0 && w.x <= bb.x1 && w.y >= bb.y0 && w.y <= bb.y1)
+      hits.push({ kind: "box-move", inst, area: (bb.x1 - bb.x0) * (bb.y1 - bb.y0) });
   }
-  return best ? { kind: "box-move", inst: best } : null;
+  return hits.sort((a, b) => a.area - b.area);
 }
 function hitTestMaskImg(x, y, cls = null) {
   const live = liveInstances();
@@ -757,7 +741,9 @@ function syncClassUI() {
   const sel = selectedInst();
   const v = String(sel ? sel.cls : state.curCls);
   if (classSel.value !== v) classSel.value = v;
-  selInfo.textContent = sel ? `已选中 #${state.instances.indexOf(sel)}：下拉改其类别` : "新建类别";
+  selInfo.textContent = sel ? `已选中 #${state.instances.indexOf(sel)}：下拉改其类别` +
+    (state.mode === "box" && state.overlap && state.overlap.id === sel.id ? `（此处 ${state.overlap.n} 个框重叠，单击切换）` : "")
+    : "新建类别";
   selInfo.classList.toggle("on", !!sel);
 }
 
@@ -829,20 +815,27 @@ cvMain.addEventListener("pointerdown", e => {
   }
 
   if (state.mode === "box") {
-    const hit = state.boxTool === "move" ? hitTestBox(p.x, p.y) : null;
-    if (hit) {
+    const hits = state.boxTool === "move" ? hitTestBox(p.x, p.y) : [];
+    if (hits.length) {
+      // 重叠轮换：已选中者在命中列表里 → 按下仍拖它，单击弹起才换到下一个（更大，最大后回最小）；
+      // 否则选最小者。Alt+按下 = 立即换到下一个
+      const k = hits.findIndex(h => h.inst.id === state.selectedId);
+      const next = hits.length > 1 && k >= 0 ? hits[(k + 1) % hits.length] : null;
+      const hit = k < 0 ? hits[0] : (next && e.altKey ? next : hits[k]);
       state.dragKind = hit.kind; state.dragHandle = hit.handle || null;
       state.selectedId = hit.inst.id;
+      state.overlap = hits.length > 1 ? { id: hit.inst.id, n: hits.length } : null;
       state._moveStart = { x: p.x, y: p.y, inst: hit.inst, moved: false, snap: snapshot(),
                            pts: hit.inst.mask.points.map(pt => pt.slice()),
-                           bb: ptsBBox(hit.inst.mask.points) };
+                           bb: ptsBBox(hit.inst.mask.points),
+                           cycleTo: next && !e.altKey ? next.inst : null };
     } else if (state.boxTool === "create") {
       state.dragKind = "box-create";
       const w = clampImg(toImg(p.x, p.y));
       state.editRect = { x0: w.x, y0: w.y, x1: w.x, y1: w.y };
-      state.selectedId = null;
+      state.selectedId = null; state.overlap = null;
     } else {
-      state.selectedId = null;
+      state.selectedId = null; state.overlap = null;
     }
     draw(); return;
   }
@@ -924,7 +917,7 @@ cvMain.addEventListener("pointermove", e => {
     draw(); return;
   }
   if (state.mode === "box") {
-    const hit = state.boxTool === "move" ? hitTestBox(p.x, p.y) : null;
+    const hit = state.boxTool === "move" ? hitTestBox(p.x, p.y)[0] : null;
     state._hoverCursor = hit ? (hit.kind === "box-resize" ? HANDLE_CURSOR[hit.handle] : "move") : null;
     updateCursor();
     return;
@@ -954,6 +947,9 @@ function endPointer() {
       commitUndo(ms.snap);
       markModified(ms.inst);
       countEdit(state.dragKind === "box-resize" ? "resize" : "move", ms.inst, ms.inst.cls, ms.inst.cls);
+    } else if (ms.cycleTo) {  // 重叠处单击：轮换到下一个框
+      state.selectedId = ms.cycleTo.id;
+      state.overlap.id = ms.cycleTo.id;
     }
     state._moveStart = null;
   }
