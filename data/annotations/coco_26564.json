@@ -4,14 +4,12 @@
  "height": 426,
  "instances": [
   {
-   "id": "p0",
-   "cls": 4,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 4,
    "conf": 0.887,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       403.5,
@@ -57,18 +55,18 @@
       402.5,
       93.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.863,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       580.5,
@@ -218,18 +216,18 @@
       579.5,
       202.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
+   "auto": true,
    "cls": 7,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.554,
-   "src": "det",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       551.9,
@@ -247,47 +245,47 @@
       551.9,
       352.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p3",
+   "auto": true,
    "cls": 6,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.475,
-   "src": "det",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       226.1,
       244.6
      ],
      [
-      254.0,
+      254,
       244.6
      ],
      [
-      254.0,
+      254,
       279.6
      ],
      [
       226.1,
       279.6
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p4",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.295,
-   "src": "det",
+   "id": "p4",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       15.6,
@@ -299,23 +297,27 @@
      ],
      [
       626.3,
-      426.0
+      426
      ],
      [
       15.6,
-      426.0
+      426
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   }
  ],
  "modified_count": 0,
- "source": "prelabel",
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 0,
   "time": "2026-10-18 14:58:20"
- }
+ },
+ "updated_at": "2026-10-18 20:13:48",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 20:13:48"
 }

@@ -4,14 +4,12 @@
  "height": 427,
  "instances": [
   {
-   "id": "p0",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.62,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       208.5,
@@ -41,18 +39,18 @@
       176.5,
       98.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 3,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 3,
    "conf": 0.611,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       6.5,
@@ -394,18 +392,18 @@
       1.5,
       103.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.548,
-   "src": "seg",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       543.5,
@@ -499,18 +497,18 @@
       531.5,
       179.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p3",
-   "cls": 9,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 3,
    "conf": 0.294,
-   "src": "seg",
+   "id": "p3",
+   "mark": "modified",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       533.5,
@@ -732,18 +730,18 @@
       516.5,
       55.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p4",
-   "cls": 9,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 9,
    "conf": 0.29,
-   "src": "seg",
+   "id": "p4",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       639.5,
@@ -1225,17 +1223,21 @@
       639.5,
       51.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 2,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 4,
   "time": "2026-10-18 14:58:21"
- }
+ },
+ "updated_at": "2026-10-18 20:14:23",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 20:14:23"
 }

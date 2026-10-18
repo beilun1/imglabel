@@ -4,14 +4,12 @@
  "height": 640,
  "instances": [
   {
-   "id": "p0",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.859,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       393.5,
@@ -545,18 +543,18 @@
       381.5,
       206.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 4,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 4,
    "conf": 0.827,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       39.5,
@@ -598,18 +596,18 @@
       1.5,
       317.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
+   "auto": true,
    "cls": 6,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.783,
-   "src": "det",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       370.8,
@@ -627,18 +625,18 @@
       370.8,
       543.6
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p3",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.385,
-   "src": "det",
+   "id": "p3",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       423.4,
@@ -656,26 +654,26 @@
       423.4,
       177.8
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p4",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.381,
-   "src": "det",
+   "id": "p4",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       430.8,
-      185.0
+      185
      ],
      [
       451.8,
-      185.0
+      185
      ],
      [
       451.8,
@@ -685,18 +683,18 @@
       430.8,
       213.3
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p5",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.374,
-   "src": "det",
+   "id": "p5",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       333.9,
@@ -714,18 +712,18 @@
       333.9,
       95.1
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p6",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.363,
-   "src": "det",
+   "id": "p6",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       249.4,
@@ -737,24 +735,24 @@
      ],
      [
       275.5,
-      294.0
+      294
      ],
      [
       249.4,
-      294.0
+      294
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p7",
+   "auto": true,
    "cls": 3,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.33,
-   "src": "det",
+   "id": "p7",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       0.6,
@@ -766,24 +764,24 @@
      ],
      [
       477.4,
-      640.0
+      640
      ],
      [
       0.6,
-      640.0
+      640
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p8",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.311,
-   "src": "det",
+   "id": "p8",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       449.3,
@@ -801,21 +799,21 @@
       449.3,
       211.8
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p9",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.308,
-   "src": "det",
+   "id": "p9",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
-      292.0,
+      292,
       94.4
      ],
      [
@@ -827,21 +825,21 @@
       138.3
      ],
      [
-      292.0,
+      292,
       138.3
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p10",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.293,
-   "src": "det",
+   "id": "p10",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       411.8,
@@ -859,21 +857,21 @@
       411.8,
       268.1
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p11",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.284,
-   "src": "det",
+   "id": "p11",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
-      247.0,
+      247,
       223.8
      ],
      [
@@ -885,21 +883,21 @@
       245.4
      ],
      [
-      247.0,
+      247,
       245.4
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p12",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.263,
-   "src": "det",
+   "id": "p12",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       261.7,
@@ -917,26 +915,26 @@
       261.7,
       245.4
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p13",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.25,
-   "src": "det",
+   "id": "p13",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       346.9,
-      122.0
+      122
      ],
      [
       368.3,
-      122.0
+      122
      ],
      [
       368.3,
@@ -946,17 +944,21 @@
       346.9,
       151.2
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 10,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 1,
   "time": "2026-10-18 14:58:09"
- }
+ },
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 20:08:50",
+ "updated_at": "2026-10-18 20:08:50"
 }

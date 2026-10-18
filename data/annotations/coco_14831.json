@@ -4,12 +4,14 @@
  "height": 640,
  "instances": [],
  "modified_count": 0,
- "source": "prelabel",
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 0,
   "time": "2026-10-18 14:57:54"
- }
+ },
+ "updated_at": "2026-10-18 19:35:16",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 19:35:16"
 }

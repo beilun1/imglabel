@@ -4,14 +4,12 @@
  "height": 640,
  "instances": [
   {
-   "id": "p0",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.895,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       121.5,
@@ -321,18 +319,18 @@
       113.5,
       181.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.87,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       295.5,
@@ -446,18 +444,18 @@
       291.5,
       493.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.806,
-   "src": "seg",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       424.5,
@@ -507,18 +505,18 @@
       410.5,
       340.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p3",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.671,
-   "src": "seg",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       400.5,
@@ -1048,18 +1046,18 @@
       395.5,
       421.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p4",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.627,
-   "src": "seg",
+   "id": "p4",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       45.5,
@@ -1085,18 +1083,18 @@
       18.5,
       221.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p5",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.509,
-   "src": "seg",
+   "id": "p5",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       390.5,
@@ -1298,18 +1296,18 @@
       377.5,
       112.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p6",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.467,
-   "src": "seg",
+   "id": "p6",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       151.5,
@@ -1375,18 +1373,18 @@
       134.5,
       123.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p7",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.448,
-   "src": "seg",
+   "id": "p7",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       75.5,
@@ -1452,18 +1450,18 @@
       76.5,
       237.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p8",
-   "cls": 8,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 8,
    "conf": 0.294,
-   "src": "seg",
+   "id": "p8",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       407.5,
@@ -1561,18 +1559,18 @@
       370.5,
       36.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p9",
+   "auto": true,
    "cls": 6,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.623,
-   "src": "det",
+   "id": "p9",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       282.6,
@@ -1590,21 +1588,21 @@
       282.6,
       234.8
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p10",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.445,
-   "src": "det",
+   "id": "p10",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
-      0.0,
+      0,
       59.4
      ],
      [
@@ -1613,24 +1611,24 @@
      ],
      [
       67.8,
-      230.0
+      230
      ],
      [
-      0.0,
-      230.0
+      0,
+      230
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p11",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.37,
-   "src": "det",
+   "id": "p11",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       334.2,
@@ -1642,24 +1640,24 @@
      ],
      [
       423.2,
-      422.0
+      422
      ],
      [
       334.2,
-      422.0
+      422
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p12",
+   "auto": true,
    "cls": 1,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.34,
-   "src": "det",
+   "id": "p12",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       268.9,
@@ -1677,46 +1675,102 @@
       268.9,
       419.1
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p13",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.25,
-   "src": "det",
+   "id": "p13",
+   "mark": "modified",
+   "mask": {
+    "points": [
+     [
+      135,
+      99.7
+     ],
+     [
+      202.8,
+      99.7
+     ],
+     [
+      202.8,
+      145.7
+     ],
+     [
+      135,
+      145.7
+     ]
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
+  },
+  {
+   "id": "imvdq31awe75a",
+   "cls": 8,
+   "mark": "created",
    "mask": {
     "type": "polygon",
     "points": [
      [
-      135.0,
-      99.7
+      232.93784046096604,
+      62.86309135075969
      ],
      [
-      202.8,
-      99.7
+      317.54108507485967,
+      62.86309135075969
      ],
      [
-      202.8,
-      145.7
+      317.54108507485967,
+      147.46637947960295
      ],
      [
-      135.0,
-      145.7
+      232.93784046096604,
+      147.46637947960295
+     ]
+    ]
+   }
+  },
+  {
+   "id": "imvdq3ichipws",
+   "cls": 8,
+   "mark": "created",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      72.28665142366988,
+      79.97386579154036
+     ],
+     [
+      124.56960233602173,
+      79.97386579154036
+     ],
+     [
+      124.56960233602173,
+      155.07113910998348
+     ],
+     [
+      72.28665142366988,
+      155.07113910998348
      ]
     ]
    }
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 4,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 1,
   "time": "2026-10-18 14:57:53"
- }
+ },
+ "updated_at": "2026-10-18 19:09:18",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 19:09:18"
 }

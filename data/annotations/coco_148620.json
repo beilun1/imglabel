@@ -4,14 +4,12 @@
  "height": 375,
  "instances": [
   {
-   "id": "p0",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.925,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       157.5,
@@ -265,18 +263,18 @@
       152.5,
       142.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 4,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 4,
    "conf": 0.885,
-   "src": "seg",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       428.5,
@@ -410,18 +408,18 @@
       231.5,
       63.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p2",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.544,
-   "src": "seg",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       442.5,
@@ -479,17 +477,47 @@
       423.5,
       177.5
      ]
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
+  },
+  {
+   "id": "imvdr1b8366hs",
+   "cls": 2,
+   "mark": "created",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      1.581872447630646,
+      164.38485449748543
+     ],
+     [
+      500,
+      164.38485449748543
+     ],
+     [
+      500,
+      364.901742475384
+     ],
+     [
+      1.581872447630646,
+      364.901742475384
+     ]
     ]
    }
   }
  ],
- "modified_count": 0,
- "source": "prelabel",
+ "modified_count": 2,
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 0,
   "time": "2026-10-18 14:57:55"
- }
+ },
+ "updated_at": "2026-10-18 19:35:39",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 19:35:39"
 }

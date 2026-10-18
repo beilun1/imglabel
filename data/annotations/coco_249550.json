@@ -4,14 +4,12 @@
  "height": 625,
  "instances": [
   {
-   "id": "p0",
-   "cls": 9,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 9,
    "conf": 0.869,
-   "src": "seg",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       7.5,
@@ -173,47 +171,47 @@
       1.5,
       197.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "seg"
   },
   {
-   "id": "p1",
-   "cls": 8,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 8,
    "conf": 0.761,
-   "src": "det",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       303.4,
       221.6
      ],
      [
-      387.0,
+      387,
       221.6
      ],
      [
-      387.0,
+      387,
       376.9
      ],
      [
       303.4,
       376.9
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p2",
+   "auto": true,
    "cls": 8,
-   "mark": "unchanged",
-   "auto": true,
    "conf": 0.515,
-   "src": "det",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       262.5,
@@ -231,46 +229,50 @@
       262.5,
       281.4
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   },
   {
-   "id": "p3",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.3,
-   "src": "det",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       232.2,
       252.1
      ],
      [
-      331.0,
+      331,
       252.1
      ],
      [
-      331.0,
+      331,
       391.5
      ],
      [
       232.2,
       391.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "det"
   }
  ],
  "modified_count": 0,
- "source": "prelabel",
  "prelabel": {
   "seg": "yolo26n-seg.pt",
   "det": "yolov8s-worldv2.pt",
   "conf": 0.25,
   "dropped_fragments": 0,
   "time": "2026-10-18 14:58:16"
- }
+ },
+ "updated_at": "2026-10-18 20:12:41",
+ "reviewed": true,
+ "reviewed_at": "2026-10-18 20:12:41"
 }
