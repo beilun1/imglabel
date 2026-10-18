@@ -53,6 +53,11 @@ datasets/
 *.cache
 wandb/
 
+# ===== P5 导出产物：任务书 dataset/（单数，注意区别于上方 datasets/）=====
+# 三格式导出是派生物（export_dataset.py 可随时重生成），327 张图片副本 + 语义 PNG 约 200MB，
+# 不进 git；本地保留供训练，P7 打包时重新导出纳入压缩包
+dataset/
+
 # ===== Flask / 运行时 =====
 instance/
 *.db
