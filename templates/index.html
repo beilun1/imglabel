@@ -11,7 +11,7 @@
   <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-rev">已过审</span> <span class="badge b-pre">预标</span> <span class="badge b-pre">回标草稿</span> <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
   <span class="topbar-meta" title="累计修正 = 本轮修正记录.json 的条数（只计实际修改）">R{{ round }} · 已过审 <b>{{ reviewed }}</b> / {{ total }} 张{% if round %}（本轮过审 <b>{{ round_reviewed }}</b>）{% endif %} · 本轮累计修正 <b class="{{ 'ok' if rec_total >= target else '' }}">{{ rec_total }}</b> / {{ target }} 条</span>
   <div class="prelabel">
-    <label for="prelabelLimit" style="font-size:12px;color:var(--dim);white-space:nowrap">本次张数（留空=全部）</label>
+    <label for="prelabelLimit" style="font-size:12px;color:var(--dim);white-space:nowrap">本次张数</label>
     <input type="number" id="prelabelLimit" min="1" step="1" placeholder="全部" style="width:90px;padding:4px 6px;font-size:13px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--txt)">
     <button id="btnPrelabel" class="btn-primary" type="button">开始预标注</button>
     <div class="pl-bar" id="plBar" hidden><div class="pl-fill" id="plFill"></div></div>
