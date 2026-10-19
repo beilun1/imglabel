@@ -121,8 +121,16 @@
 - [x] P2 收尾（2026-10-18）：选中高亮 `SEL_COLOR` 改白色 `#ffffff`（`SEL_SHADOW` 不变），形成"深色衬底 + 白色主线"，不再撞桌子橙/瓶子黄；选中标签白底深字（textOn 自动）；多边形打点首点也变白，仅靠尺寸更大区分
 - [x] 清空测试标注（2026-10-18）：删除 `data/annotations/coco_10092.json`（P2 试用残留），P3 开工前目录仅剩 `.gitkeep`（P3 后已有 328 个预标注 JSON）
 - [x] 提示词文档归档到 `P0指令/`、`P1指令/`、`P2指令/`（用户整理，git 识别为重命名），原 `p0/` 已删除。整理过程中根目录 `.gitignore` 再次被旧版 `p0/.gitignore`（10-17 19:00 版）覆盖、丢了 P1 规则（`data/images/` 158MB 差点进库），已从 git 恢复——见坑 ⑥
-131	- [ ] **P6 提示词已生成**（2026-10-19，Trae）：`P6指令/P6-提示词.md`（推荐 Qoder 执行）。要点：**用 model/best.pt 对约 174 张未过审草稿图回标**（R1，src="reback"，硬性跳过已过审 153 张）；`IMGLABEL_ROUND=1` 启动服务使 R1 记录 round=1；R1 人工修正（真人，agent 不代做/伪造）；复用 export_dataset.py 重导出 + train.py 重训得 R1 mAP；**新增 `data/records/对比结果.csv`**（round0/round1 两行：mAP 四项 + 修正率两口径，平台自动导出不手写，任务书提交结构硬要求）
-132	- [ ] **下一步待办**：Qoder 执行 `P6指令/P6-提示词.md` → 回标 R1 → 用户过审 R1（round=1）→ 重导出/重训练 → 对比结果.csv
+- [x] **P6 提示词已生成**（2026-10-19，Trae）：`P6指令/P6-提示词.md`（Qoder 执行）
+- [x] **P6 平台侧完成**（2026-10-19，Qoder）：
+  - `reback.py`：用 `model/best.pt`（R0 训练）回标 R0 未过审草稿（条件：source=prelabel、未过审、全部 mark=unchanged、无 reback 痕迹），实例 `src="reback"`、顶层 `source="reback"` + `reback{model, model_md5, conf, replaced…}` 元数据；先 md5 再推理、写前复核 md5（期间被人工保存则跳过），原子写；幂等
+  - 真实回标：**174 张 / 1560 实例 / 0 错误**（替换 R0 草稿实例 1368，平均 8.97 个/张，空图 2：coco_60835、coco_776）；按类 person 290 · chair 380 · dining table 130 · couch 73 · tv 77 · laptop 50 · cup 323 · bottle 117 · potted plant 94 · bed 26
+  - 校验 `tools/verify_reback.py --before <md5 列表>`：**已过审 153 张字节不变**、回标结构合法；重跑 reback 0 张（幂等）；`修正记录.json` md5 不变，R0 统计不变（285 条 / 153 过审 / 0.2375 / auto 0.1813，一致性通过）
+  - round 口径：`IMGLABEL_ROUND=1` 启动后新记录 round=1（5001 隔离目录实测，round 0 的 285 条逐条不变）；过审改为分轮 `reviewed_rounds`（旧 reviewed:true 视为 [0]）；R1 统计写 `修正统计_r1.json/.md`，R0 文件不受影响；列表页新增「回标草稿」徽章与「本轮过审 N」
+  - `train.py --round N`：指标另存 `model/train_metrics_r{N}.json`（R0 已冻结，`--round 0` 需 `--force`），`model/best_r{N}.pt` 本地副本（不入库）；起点权重仍为 yolo26n-seg.pt，保证两轮可比
+  - `tools/compare_rounds.py` → `data/records/对比结果.csv`（UTF-8 BOM）：R0 行完成（mAP50 det 0.7619 / seg 0.6930，修正率 0.2375 / auto 0.1813）；**R1 行状态「待人工修正」，数值留空**（不伪造）。R1 记录晚于 R1 指标时自动标「待重训」
+  - 注意：R1 val 集里未过审图的标签来自 R0 模型回标草稿，R1 mAP 与 R0 并非严格同一测试集；174 张原 R0 草稿 JSON 已被回标覆盖（git 历史 `8108dc8` 之前可找回）
+- [ ] **下一步待办（必须真人）**：`set IMGLABEL_ROUND=1` 后启动 5000 服务 → Ctrl+F5 → 过审「回标草稿」图（S 保存）→ `python tools/records_stats.py --round 1` → `python export_dataset.py` → `python train.py --round 1 --epochs 1` 冒烟 → `python train.py --round 1` → `python tools/compare_rounds.py` → 提交
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -159,7 +167,7 @@
 | P3 | 预标注（YOLO-World / YOLO26n-seg） | ✅ 已完成（328 张 / 2279 实例 / 0 错误，账号 B→A 交接，2026-10-18） |
 | P4 | 逐张过审 + 修正 ≥60 条（必须真人） | ✅ 已完成（修正 285/60，153 张过审，2026-10-18） |
 | P5 | 三格式导出 + 训练 best.pt | ✅ 已完成（327 张 / 2207 实例导出；best.pt 检测 mAP50 0.762 / 分割 mAP50 0.693，2026-10-18） |
-| P6 | 新模型回标 + R1 对比 | ▶️ 进行中（2026-10-19，提示词已生成 `P6指令/P6-提示词.md`） |
+| P6 | 新模型回标 + R1 对比 | ▶️ 进行中（2026-10-19：回标 174 张 / 1560 实例已完成，对比结果.csv R0 行已出；待用户 R1 过审 → 重导出 → 重训） |
 | P7 | README / demo / 打包上传 FTP | 未开始 |
 
 ## 3. 不可更改项（红线，改了计零分）
