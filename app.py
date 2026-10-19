@@ -165,7 +165,27 @@ PRELABEL = {"running": False, "phase": "idle", "done": 0, "total": 0, "current_f
 _prelabel_lock = threading.Lock()
 
 
-def _prelabel_worker(conf):
+def _parse_limit(v):
+    """正整数 → int；省略 / 非法 / ≤0 → None（全量）"""
+    if v is None or isinstance(v, bool):
+        return None
+    try:
+        n = int(v)
+    except (TypeError, ValueError):
+        return None
+    return n if n > 0 else None
+
+
+def _prelabel_names(limit):
+    """limit=None → None（交给 prelabel.run 全量，已有 JSON 由其跳过）；否则取无 JSON 的图前 limit 张"""
+    if limit is None:
+        return None
+    import prelabel                         # 模块顶层不导 ultralytics，导入很轻
+    pending = [n for n in prelabel.list_images() if not os.path.exists(prelabel.ann_path(n))]
+    return pending[:limit]
+
+
+def _prelabel_worker(conf, limit=None):
     def on_progress(event, **s):
         with _prelabel_lock:
             PRELABEL.update({k: s[k] for k in ("done", "total", "created", "skipped", "instances")})
@@ -174,7 +194,7 @@ def _prelabel_worker(conf):
             PRELABEL["phase"] = {"loading": "loading", "done": "done"}.get(event, "running")
     try:
         import prelabel                     # 延迟导入：ultralytics 很重，不拖慢服务启动
-        prelabel.run(conf=conf, on_progress=on_progress)
+        prelabel.run(names=_prelabel_names(limit), conf=conf, on_progress=on_progress)
     except Exception as e:
         with _prelabel_lock:
             PRELABEL["errors"].append(f"{type(e).__name__}: {e}")
@@ -194,15 +214,18 @@ def api_prelabel_start():
     except (TypeError, ValueError):
         conf = 0.25
     conf = min(max(conf, 0.01), 0.99)
+    limit = _parse_limit(body.get("limit"))
     with _prelabel_lock:
         if PRELABEL["running"]:
             return jsonify({"ok": False, "msg": "预标注运行中，请等待完成", **PRELABEL}), 409
-        PRELABEL.update({"running": True, "phase": "loading", "done": 0, "total": len(list_images()),
+        names = _prelabel_names(limit)
+        total = len(list_images()) if names is None else len(names)
+        PRELABEL.update({"running": True, "phase": "loading", "done": 0, "total": total,
                          "current_file": None, "created": 0, "skipped": 0, "instances": 0,
                          "errors": [], "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
                          "finished_at": None})
         snap = dict(PRELABEL)
-    threading.Thread(target=_prelabel_worker, args=(conf,), daemon=True).start()
+    threading.Thread(target=_prelabel_worker, args=(conf, limit), daemon=True).start()
     return jsonify({"ok": True, **snap})
 
 
