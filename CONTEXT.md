@@ -141,7 +141,14 @@
   - 重训 `train.py --round 1`（30 轮设定，早停于 16 轮，best_epoch 1，32 分钟，起点仍 yolo26n-seg.pt）：**val det mAP50 0.7598 / mAP50-95 0.6250 · seg mAP50 0.7020 / mAP50-95 0.4975**；`model/best.pt` 现为 R1 模型（入库），`model/train_metrics_r1.json` 入库，`best_r1.pt` 本地不入库；R0 权重见 git 历史 `8108dc8` 的 `model/best.pt`（本地另有 `best_r0.pt`）
   - `对比结果.csv` 两行均「完成」：R0 0.7619/0.6150/0.6930/0.4435 · 修正率 0.2375 / auto 0.1813；R1 0.7598/0.6250/0.7020/0.4975 · 修正率 0.1522 / auto 0.1381
   - **结论**：R1 草稿（R0 自训模型回标）人工修正率 0.2375→0.1522、auto 修正率 0.1813→0.1381，均下降，说明自训模型草稿质量优于 P3 通用预标；mAP 除 det mAP50 基本持平（−0.002）外三项上升（seg mAP50-95 +0.054）。注意 R1 val 里未过审图的标签来自回标草稿，两轮 mAP 不是严格同一测试集；两轮都在第 1 轮取得最优，小数据集微调很快过拟合
-- [ ] **下一步待办**：P7（README / demo / 打包上传 FTP；打包时重新 `export_dataset.py` 生成 dataset/ 纳入压缩包）
+- [x] **P7 交付收尾（平台侧）完成**（2026-10-19，Qoder，`6c41d4f`）：
+  - 根目录 `records/` 建立：从 `data/records/` **复制**（不移动，md5 逐个一致）6 个文件：修正记录.json、修正统计.json/.md、修正统计_r1.json/.md、对比结果.csv；`data/records/` 仍是平台写入目录，**之后若再产生修正或重跑统计/对比，须重新复制到 records/**
+  - 交付物校验全过：dataset/ images/labels/segments/semantic 各 324、train 292 / val 32、data.yaml；model/best.pt（R1）+ train_metrics*.json；源码齐全；环境 OK
+  - `提交信息.txt` 回填：数据集 328→324 说明（4 张非室内剔除）、类别分布按剔除后重算（laptop 85 / cup 97 / bed 78，合计 652）、迭代轮次、R0/R1 mAP 与修正率（取自 对比结果.csv）及口径说明；**姓名/学号/联系方式仍为占位，待用户本人填写**
+  - `ai_log.md` 新建：P0–P7 按时间列出 Trae / Qoder / WorkBuddy 分工（含 P3 账号 B→A、P4/P6 用户人工过审）
+- [ ] **demo/ 待用户录制**：录屏 ≤3 分钟（启动 → 三模式标注 → 导出 → 对比结果）或 3 张关键截图，用户提供后放入 `demo/` 并提交；目录目前不存在，不得用非平台产物占位
+- [ ] **最终 zip 待用户 UI 优化完成后打包**（截止 2026-11-03 22:00 前、由用户定日期）：打包前重新 `export_dataset.py` 生成 dataset/；zip 名 `姓名-人机协同图像标注系统.zip`，zip 根 = 项目根（含 `.git`、根 `.gitignore`）；排除 weights/、runs/、data/images/、data/review/thumbs/、__pycache__/、.workbuddy/、docs/；FTP 上传由用户本人完成
+- [ ] **下一步待办**：用户填姓名/学号/联系方式 → 录 demo → UI 优化 → 打包 zip → 上传 FTP
 - [ ] 卡住的坑（如有）：① 清华 PyPI 源 403，用阿里云镜像；② conda 不在 PATH，用 `C:\Users\H\miniforge3\envs\imglabel\python.exe`；③ 系统 `py` 启动器损坏，禁用；④ **Roboflow 403**，勿再尝试；⑤ VOC 里沙发标签是 `sofa` 不是 `couch`，做词表映射时务必别名；⑥ 工作区曾出现 `.gitignore`、`P0-提示词.md` 被移入 `p0/` 的情况，已恢复根目录原文件（内容逐字节一致），`p0/` 保留作归档（**2026-10-18 再犯一次**：整理归档时根 `.gitignore` 又被旧副本覆盖。现已无 `p0/`，**任何子目录都不许留 .gitignore 副本**；`git add -A` 前先看 `git status` 里有没有 `data/images/`）；⑦ GitHub 平时可 push，但**大文件并发下载时会超时**，需等下载结束再 push；⑧ **数据集自带标注不可信**：人工抽查发现 COCO/VOC 里有静物油画、极暗近全黑、目标仅占 1.2% 的图，**P3 预标注前不要相信数据集标签，必须人眼复核**；⑨ 列表页状态判定：无 JSON 文件须显示「未标」——「文件不存在」与「空标注 JSON」是两回事，空 JSON 才显示「已标(空)」（此 bug 已在初版修复）；⑩ **快捷键焦点失效**：键盘处理器对 select/input 一律 return，点过类别下拉框后所有快捷键失效——只对文本输入框跳过，其他控件要 preventDefault 防止下拉框按字母跳选项；⑪ **单击/直线笔画无法保存**：画笔只存笔触中心线，`strokePts<2` 丢弃单击、Douglas-Peucker 把直线简化成 2 点再被 `<3` 丢弃——必须按笔刷粗细栅格化取轮廓；⑫ Flask 非 debug 模式会**缓存模板**，改 templates/ 后必须重启服务才生效（JS/CSS 不缓存）；⑬ 5000 端口常被用户手动开的旧服务占用，自测用 `python -c "import app; app.app.run(port=5001)"`，不要改 app.py 端口；⑭ **假性故障「标注页没图」**：不是浏览器缓存——是旧服务进程没关，Windows 上 Werkzeug 用 SO_REUSEADDR，新进程也能绑同一端口却收不到请求，旧进程缓存的旧模板 + 磁盘上的新 JS 不匹配导致脚本崩溃。现已加：启动前端口占用检测（占用即报错退出）、模板热重载、页面/前端资源 no-store、模板与脚本版本不一致红条提示；⑮ **图片加载失败必须显式提示**：原 `img.onerror` 也 resolve，imgW=0 时只画底色、静默空白；现画布中央显示「图片加载失败：文件名（HTTP 状态）」，且禁止保存以免空标注覆盖已有 JSON；⑯ 测试图片加载失败**不要改坏 data/curated/images 里的真实图片**（已被安全策略拦截），用不存在的文件名在浏览器里调 load() 测
 
 ### P1 最终数据统计
@@ -179,7 +186,7 @@
 | P4 | 逐张过审 + 修正 ≥60 条（必须真人） | ✅ 已完成（修正 285/60，153 张过审，2026-10-18） |
 | P5 | 三格式导出 + 训练 best.pt | ✅ 已完成（327 张 / 2207 实例导出；best.pt 检测 mAP50 0.762 / 分割 mAP50 0.693，2026-10-18） |
 | P6 | 新模型回标 + R1 对比 | ✅ 已完成（回标 174 张 / R1 过审 83 张 / 修正 96 条；修正率 0.2375→0.1522；R1 seg mAP50 0.702，2026-10-19） |
-| P7 | README / demo / 打包上传 FTP | 未开始 |
+| P7 | README / demo / 打包上传 FTP | 🟡 平台侧完成（records/ + 提交信息回填 + ai_log，2026-10-19）；demo 待用户录制，zip/FTP 待用户优化后打包 |
 
 ## 3. 不可更改项（红线，改了计零分）
 
