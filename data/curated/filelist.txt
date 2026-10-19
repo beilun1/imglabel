@@ -250,7 +250,6 @@ coco_59598.jpg
 coco_60449.jpg
 coco_63602.jpg
 coco_63740.jpg
-coco_76547.jpg
 coco_76731.jpg
 coco_77396.jpg
 coco_77595.jpg

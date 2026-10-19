@@ -4,14 +4,12 @@
  "height": 612,
  "instances": [
   {
-   "id": "p0",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.878,
-   "src": "reback",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       348.5,
@@ -105,18 +103,18 @@
       295.5,
       462.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p1",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.691,
-   "src": "reback",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       587.5,
@@ -946,12 +944,13 @@
       0.5,
       0.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   }
  ],
  "modified_count": 0,
- "source": "reback",
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -962,5 +961,11 @@
    "instances": 2,
    "seg": 2
   }
- }
+ },
+ "updated_at": "2026-10-19 12:25:11",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:25:11",
+ "reviewed_rounds": [
+  1
+ ]
 }

@@ -4,14 +4,12 @@
  "height": 426,
  "instances": [
   {
-   "id": "p0",
-   "cls": 9,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 9,
    "conf": 0.896,
-   "src": "reback",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       35.5,
@@ -1257,12 +1255,13 @@
       26.5,
       42.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   }
  ],
  "modified_count": 0,
- "source": "reback",
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -1273,5 +1272,11 @@
    "instances": 1,
    "seg": 1
   }
- }
+ },
+ "updated_at": "2026-10-19 12:27:07",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:27:07",
+ "reviewed_rounds": [
+  1
+ ]
 }
