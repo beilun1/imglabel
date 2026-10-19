@@ -90,6 +90,8 @@ def ann_status(name):
         return "已修改"
     if doc.get("source") == "prelabel":   # 画布保存时不带 source，人工保存过即不再是"预标"
         return "预标"
+    if doc.get("source") == "reback":     # P6 用 model/best.pt 回标的 R1 待审草稿
+        return "回标草稿"
     if live:
         return "已标"
     return "已标(空)"
@@ -215,9 +217,12 @@ def index():
     """列表页：全部图片 + 缩略图 + 状态标记"""
     names = list_images()
     items = []
+    round_reviewed = 0
     for i, n in enumerate(names):
         try:
             status = ann_status(n)
+            if ROUND and status == "已过审":
+                round_reviewed += ROUND in (load_ann(n).get("reviewed_rounds") or [0])
         except Exception:
             status = "异常"
         items.append({"name": n, "status": status})
@@ -227,6 +232,7 @@ def index():
         rec_total = 0
     return render_template("index.html", items=items, total=len(names),
                            reviewed=sum(1 for it in items if it["status"] == "已过审"),
+                           round=ROUND, round_reviewed=round_reviewed,
                            rec_total=rec_total, target=TARGET)
 
 
@@ -291,8 +297,8 @@ def save_annotation(name):
 
     with _rec_lock:
         old = load_ann(name) if os.path.exists(ann_path(name)) else {}
-        # 保留预标来源元数据与过审状态；source 照旧丢弃（人工保存后不再是"预标"）
-        for k in ("prelabel", "reviewed", "reviewed_at"):
+        # 保留预标/回标来源元数据与过审状态；source 照旧丢弃（人工保存后不再是"预标/回标草稿"）
+        for k in ("prelabel", "reback", "reviewed", "reviewed_at", "reviewed_rounds"):
             if k in old and k not in doc:
                 doc[k] = old[k]
         doc["image"] = name
@@ -302,8 +308,11 @@ def save_annotation(name):
         doc.setdefault("modified_count", 0)
         doc["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
         if review:
+            # 过审轮次：R0 旧 JSON 只有 reviewed:true，视为 [0]
+            rounds = set(old.get("reviewed_rounds") or ([0] if old.get("reviewed") else []))
             doc["reviewed"] = True
             doc["reviewed_at"] = doc["updated_at"]
+            doc["reviewed_rounds"] = sorted(rounds | {ROUND})
         os.makedirs(ANN_DIR, exist_ok=True)
         write_json_atomic(ann_path(name), doc)
 

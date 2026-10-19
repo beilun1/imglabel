@@ -11,6 +11,11 @@
 用法：
   python train.py --epochs 1        # 先过一遍数据链路
   python train.py                   # 正式训练（参数按设备自动选择）
+  python train.py --round 1         # P6：R1 回标 + 人工修正后重训（先 --round 1 --epochs 1 冒烟）
+
+分轮归档：每轮指标另存 model/train_metrics_r{N}.json（tools/compare_rounds.py 读它），
+best.pt 本地另存 model/best_r{N}.pt（*.pt 不进 git，git 里只有最新一轮的 model/best.pt）。
+R0 是对比基线：train_metrics_r0.json 已存在时 --round 0 拒绝重训（--force 才覆盖）。
 """
 import os
 import sys
@@ -79,7 +84,7 @@ def write_reports(info):
     met = info["metrics"]
     rows = [("检测 mAP50", "box_map50"), ("检测 mAP50-95", "box_map50_95"),
             ("分割 mAP50", "seg_map50"), ("分割 mAP50-95", "seg_map50_95")]
-    L = [REPORT_MARK, "## 训练结果（train.py 自动生成）", "",
+    L = [REPORT_MARK, f"## 训练结果（R{info['round']}，train.py 自动生成）", "",
          f"- 完成时间：{info['time']} · 设备 {info['device']} · 用时 {info['minutes']:.1f} 分钟",
          f"- 起点权重 `weights/yolo26n-seg.pt` · epochs {info['epochs']}（实际 {info['epochs_run']}）· imgsz {info['imgsz']} · "
          f"batch {info['batch']} · workers {info['workers']} · patience {info['patience']} · seed {SEED}",
@@ -98,9 +103,10 @@ def write_reports(info):
         with open(rp, "w", encoding="utf-8", newline="\n") as f:
             f.write(old + section)
     with open(os.path.join(MODEL_DIR, "train_report.md"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("# P5 训练记录\n\n" + section.split("\n", 1)[1])
-    with open(os.path.join(MODEL_DIR, "train_metrics.json"), "w", encoding="utf-8", newline="\n") as f:
-        json.dump(info, f, ensure_ascii=False, indent=2)
+        f.write(f"# 训练记录（R{info['round']}）\n\n" + section.split("\n", 1)[1])
+    for fn in ("train_metrics.json", f"train_metrics_r{info['round']}.json"):
+        with open(os.path.join(MODEL_DIR, fn), "w", encoding="utf-8", newline="\n") as f:
+            json.dump(info, f, ensure_ascii=False, indent=2)
 
 
 def main():
@@ -110,11 +116,16 @@ def main():
     ap = argparse.ArgumentParser(description="在 dataset/ 上微调 YOLO26n-seg（不接受其他数据源）")
     for k in ("epochs", "imgsz", "batch", "workers", "patience"):
         ap.add_argument(f"--{k}", type=int, default=cfg[k])
-    ap.add_argument("--name", default="p5")
+    ap.add_argument("--name", default=None, help="runs/segment/ 下的运行名（默认 p5 / r1 …）")
+    ap.add_argument("--round", type=int, default=0, help="迭代轮次：0 = P5 初训，1 = P6 回标后重训")
+    ap.add_argument("--force", action="store_true", help="允许覆盖已冻结的 R0 指标")
     args = ap.parse_args()
     cfg.update({k: getattr(args, k) for k in cfg})
+    name = args.name or ("p5" if args.round == 0 else f"r{args.round}")
+    if args.round == 0 and not args.force and os.path.exists(os.path.join(MODEL_DIR, "train_metrics_r0.json")):
+        sys.exit("R0 指标已冻结（model/train_metrics_r0.json，对比基线）。R1 重训请用 --round 1；确需重训 R0 加 --force")
     device = 0 if gpu else "cpu"
-    print(f"设备 {'GPU ' + torch.cuda.get_device_name(0) if gpu else 'CPU'} · 参数 {cfg}")
+    print(f"R{args.round} · 设备 {'GPU ' + torch.cuda.get_device_name(0) if gpu else 'CPU'} · 参数 {cfg}")
 
     check_dataset()
     use_segments_dir()
@@ -122,16 +133,17 @@ def main():
 
     t0 = time.time()
     model = YOLO(INIT_WEIGHTS)
-    model.train(data=DATA_YAML, task="segment", device=device, project=RUNS, name=args.name,
+    model.train(data=DATA_YAML, task="segment", device=device, project=RUNS, name=name,
                 seed=SEED, deterministic=True, plots=True, **cfg)
     run_dir = str(model.trainer.save_dir)
     best = os.path.join(run_dir, "weights", "best.pt")
     os.makedirs(MODEL_DIR, exist_ok=True)
     shutil.copyfile(best, os.path.join(MODEL_DIR, "best.pt"))
+    shutil.copyfile(best, os.path.join(MODEL_DIR, f"best_r{args.round}.pt"))
 
     m = YOLO(os.path.join(MODEL_DIR, "best.pt")).val(data=DATA_YAML, split="val", device=device,
                                                     imgsz=cfg["imgsz"], batch=cfg["batch"], plots=False,
-                                                    project=RUNS, name=args.name + "_val")
+                                                    project=RUNS, name=name + "_val")
     met = metrics_of(m)
     names = m.names
     per_class = [(names[c], float(m.box.maps[c]), float(m.seg.maps[c])) for c in range(len(CLASSES))]
@@ -146,7 +158,7 @@ def main():
         import yaml
         dcfg = yaml.safe_load(f)
     count = lambda s: sum(1 for l in open(os.path.join(DATASET, dcfg[s]), encoding="utf-8") if l.strip())  # noqa: E731
-    info = {"time": time.strftime("%Y-%m-%d %H:%M:%S"), "device": "GPU" if gpu else "CPU",
+    info = {"round": args.round, "time": time.strftime("%Y-%m-%d %H:%M:%S"), "device": "GPU" if gpu else "CPU",
             "minutes": (time.time() - t0) / 60, "epochs_run": len(rows), "run_dir": os.path.relpath(run_dir, BASE),
             "best_epoch": best_epoch, "n_train": count("train"), "n_val": count("val"),
             "metrics": met, "per_class": per_class, **cfg}

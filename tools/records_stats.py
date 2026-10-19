@@ -6,10 +6,11 @@
 - 修正条数 = 修正记录条数（画布每次实际修改写一条；撤销会同步撤掉记录）
 - 图级修正率 = 该图本轮被修正过的不同实例数 / 该图 JSON 实例总数
   （分母 = auto 预标实例 + 人工新建实例，含标记为 deleted 的，即 len(instances)）
-- 整体修正率 = Σ分子 / Σ分母，范围 = 本轮有修正记录或已过审的图
+- 整体修正率 = Σ分子 / Σ分母，范围 = 本轮有修正记录或本轮已过审的图（过审轮次见 JSON reviewed_rounds）
 - 另给 auto 修正率 = 被修正的 auto 实例数 / auto 实例总数（衡量预标草稿质量，P6 对比用）
 
 用法：python tools/records_stats.py [--round 0]
+  round 0 → 修正统计.json/.md；round N≥1 → 修正统计_rN.json/.md
 """
 import os
 import sys
@@ -51,6 +52,13 @@ def rate(a, b):
     return round(a / b, 4) if b else None
 
 
+def reviewed_in(d, round_):
+    """该图是否在 round_ 轮显式过审；R0 旧 JSON 只有 reviewed:true 无 reviewed_rounds，视为 [0]"""
+    if not d.get("reviewed"):
+        return False
+    return round_ in (d.get("reviewed_rounds") or [0])
+
+
 def compute(records, docs, classes, round_=0):
     cname = lambda c: classes[c] if isinstance(c, int) and 0 <= c < len(classes) else None
     rr = [r for r in records if r.get("round", 0) == round_]
@@ -74,13 +82,13 @@ def compute(records, docs, classes, round_=0):
         rec_by_img[r["image"]].append(r)
 
     by_image, tot = [], Counter()
-    scope = sorted(set(rec_by_img) | {n for n, d in docs.items() if d.get("reviewed")})
+    scope = sorted(set(rec_by_img) | {n for n, d in docs.items() if reviewed_in(d, round_)})
     for name in scope:
         d = docs.get(name, {"instances": []})
         insts = d.get("instances", [])
         auto_ids = {i["id"] for i in insts if i.get("auto")}
         subj = {r["subject"] for r in rec_by_img.get(name, [])}
-        row = {"image": name, "reviewed": bool(d.get("reviewed")),
+        row = {"image": name, "reviewed": reviewed_in(d, round_),
                "records": len(rec_by_img.get(name, [])),
                "by_type": dict(Counter(r["type"] for r in rec_by_img.get(name, []))),
                "instances_modified": len(subj), "instances_total": len(insts),
@@ -102,14 +110,14 @@ def compute(records, docs, classes, round_=0):
         "progress": f"{len(rr)}/{TARGET}",
         "reached": len(rr) >= TARGET,
         "images_with_records": len(rec_by_img),
-        "images_reviewed": sum(1 for d in docs.values() if d.get("reviewed")),
+        "images_reviewed": sum(1 for d in docs.values() if reviewed_in(d, round_)),
         "images_total": len(docs),
         "by_type": dict(by_type.most_common()),
         "by_class": dict(by_class.most_common()),
         "classes_involved": [classes[c] for c in sorted(involved)],
         "reclass_pairs": dict(reclass_pairs.most_common()),
         "overall": {
-            "scope": "本轮有修正记录或已过审的图",
+            "scope": "本轮有修正记录或本轮已过审的图",
             "images": len(scope),
             "instances_modified": tot["instances_modified"], "instances_total": tot["instances_total"],
             "rate": rate(tot["instances_modified"], tot["instances_total"]),
@@ -120,7 +128,7 @@ def compute(records, docs, classes, round_=0):
         "definition": {
             "修正条数": "修正记录.json 条数：每次实际修改（新增/删除/移动/改形/换类）一条；仅查看/缩放/切模式/仅确认保存不计",
             "图级修正率": "该图本轮被修正过的不同实例数 / 该图 JSON 实例总数（auto 预标 + 人工新建，含 deleted 标记）",
-            "整体修正率": "Σ分子 / Σ分母，范围 = 本轮有修正记录或已过审的图",
+            "整体修正率": "Σ分子 / Σ分母，范围 = 本轮有修正记录或本轮已过审的图",
             "auto修正率": "被修正的 auto 实例数 / 该范围内 auto 实例总数",
         },
         "by_image": by_image,
@@ -193,13 +201,18 @@ def _atomic_write(path, text):
     os.replace(tmp, path)
 
 
+def stats_name(round_):
+    """R0 沿用 P4 文件名；R1 起分轮落盘，不覆盖已验收的 R0 统计"""
+    return "修正统计" if round_ == 0 else f"修正统计_r{round_}"
+
+
 def write_stats(classes, round_=0, rec_dir=REC_DIR, ann_dir=ANN_DIR, records=None):
     if records is None:
         records = load_records(rec_dir)
     s = compute(records, load_annotations(ann_dir), classes, round_)
     os.makedirs(rec_dir, exist_ok=True)
-    _atomic_write(os.path.join(rec_dir, "修正统计.json"), json.dumps(s, ensure_ascii=False, indent=1))
-    _atomic_write(os.path.join(rec_dir, "修正统计.md"), to_md(s))
+    _atomic_write(os.path.join(rec_dir, stats_name(round_) + ".json"), json.dumps(s, ensure_ascii=False, indent=1))
+    _atomic_write(os.path.join(rec_dir, stats_name(round_) + ".md"), to_md(s))
     return s
 
 
