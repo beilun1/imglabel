@@ -4,14 +4,12 @@
  "height": 640,
  "instances": [
   {
-   "id": "p0",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.881,
-   "src": "reback",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       37.5,
@@ -69,18 +67,18 @@
       0.5,
       324.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p1",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.858,
-   "src": "reback",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       266.5,
@@ -402,18 +400,18 @@
       263.5,
       145.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p2",
-   "cls": 0,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 0,
    "conf": 0.733,
-   "src": "reback",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       359.5,
@@ -723,18 +721,18 @@
       323.5,
       38.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p3",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.63,
-   "src": "reback",
+   "id": "p3",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       235.5,
@@ -784,18 +782,18 @@
       194.5,
       91.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p4",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.601,
-   "src": "reback",
+   "id": "p4",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       479.5,
@@ -1097,95 +1095,95 @@
       479.5,
       378.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p5",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.55,
-   "src": "reback",
+   "id": "p5",
+   "mark": "modified",
    "mask": {
-    "type": "polygon",
     "points": [
      [
-      372.5,
-      293.5
+      361.306202969595,
+      116.09662633817169
      ],
      [
-      376.5,
-      298.5
+      374.261240593919,
+      133.24754234240652
      ],
      [
       377.5,
-      317.5
+      198.4210231584988
      ],
      [
-      369.5,
-      343.5
+      351.589924751352,
+      287.6057863805198
      ],
      [
-      367.5,
-      353.5
+      345.11240593919,
+      321.9076183889895
      ],
      [
-      367.5,
+      345.11240593919,
       366.5
      ],
      [
-      360.5,
+      322.44109009662293,
       366.5
      ],
      [
-      357.5,
-      358.5
+      312.72481187837997,
+      339.05853439322425
      ],
      [
-      341.5,
-      344.5
+      260.9046613810839,
+      291.03596958136677
      ],
      [
-      338.5,
-      335.5
+      251.1883831628409,
+      260.1643207737441
      ],
      [
-      331.5,
-      326.5
+      228.51706732027387,
+      229.29267196612147
      ],
      [
-      325.5,
-      322.5
+      209.08451088378786,
+      215.5719391627336
      ],
      [
-      320.5,
-      316.5
+      192.89071385338283,
+      194.99083995765184
      ],
      [
-      314.5,
-      315.5
+      173.45815741689682,
+      191.56065675680486
      ],
      [
-      314.5,
-      300.5
+      173.45815741689682,
+      140.10790874410043
      ],
      [
-      319.5,
-      293.5
+      189.65195444730185,
+      116.09662633817169
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p6",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.518,
-   "src": "reback",
+   "id": "p6",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       139.5,
@@ -1251,18 +1249,18 @@
       137.5,
       282.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p7",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.438,
-   "src": "reback",
+   "id": "p7",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       139.5,
@@ -1428,18 +1426,18 @@
       136.5,
       281.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p8",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.332,
-   "src": "reback",
+   "id": "p8",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       479.5,
@@ -1713,18 +1711,18 @@
       479.5,
       378.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p9",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.324,
-   "src": "reback",
+   "id": "p9",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       130.5,
@@ -1910,18 +1908,18 @@
       121.5,
       154.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p10",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.28,
-   "src": "reback",
+   "id": "p10",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       445.5,
@@ -1975,18 +1973,18 @@
       412.5,
       127.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p11",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.255,
-   "src": "reback",
+   "id": "p11",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       124.5,
@@ -2104,12 +2102,13 @@
       123.5,
       155.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   }
  ],
- "modified_count": 0,
- "source": "reback",
+ "modified_count": 4,
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -2121,5 +2120,11 @@
    "seg": 8,
    "det": 1
   }
- }
+ },
+ "updated_at": "2026-10-19 12:36:43",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:36:43",
+ "reviewed_rounds": [
+  1
+ ]
 }

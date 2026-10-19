@@ -4,14 +4,12 @@
  "height": 427,
  "instances": [
   {
-   "id": "p0",
-   "cls": 8,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 8,
    "conf": 0.852,
-   "src": "reback",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       258.5,
@@ -109,18 +107,18 @@
       229.5,
       138.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p1",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.836,
-   "src": "reback",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       636.5,
@@ -310,18 +308,18 @@
       405.5,
       110.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p2",
-   "cls": 8,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 8,
    "conf": 0.812,
-   "src": "reback",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       114.5,
@@ -395,18 +393,18 @@
       77.5,
       166.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p3",
-   "cls": 8,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 8,
    "conf": 0.612,
-   "src": "reback",
+   "id": "p3",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       307.5,
@@ -456,18 +454,18 @@
       292.5,
       178.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p4",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.271,
-   "src": "reback",
+   "id": "p4",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       22.5,
@@ -1141,12 +1139,13 @@
       19.5,
       256.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   }
  ],
  "modified_count": 0,
- "source": "reback",
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -1158,5 +1157,11 @@
    "seg": 5,
    "det": 2
   }
- }
+ },
+ "updated_at": "2026-10-19 12:39:02",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:39:02",
+ "reviewed_rounds": [
+  1
+ ]
 }

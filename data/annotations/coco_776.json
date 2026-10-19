@@ -2,9 +2,35 @@
  "image": "coco_776.jpg",
  "width": 428,
  "height": 640,
- "instances": [],
- "modified_count": 0,
- "source": "reback",
+ "instances": [
+  {
+   "id": "imverfu5fp2hl",
+   "cls": 3,
+   "mark": "created",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      14.374298190892068,
+      11.530768028417642
+     ],
+     [
+      418.3787527292577,
+      11.530768028417642
+     ],
+     [
+      418.3787527292577,
+      145.56516781453297
+     ],
+     [
+      14.374298190892068,
+      145.56516781453297
+     ]
+    ]
+   }
+  }
+ ],
+ "modified_count": 1,
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -14,5 +40,11 @@
   "replaced": {
    "instances": 0
   }
- }
+ },
+ "updated_at": "2026-10-19 12:34:39",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:34:39",
+ "reviewed_rounds": [
+  1
+ ]
 }

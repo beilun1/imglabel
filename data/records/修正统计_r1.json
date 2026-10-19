@@ -1,30 +1,31 @@
 {
- "generated_at": "2026-10-19 12:28:43",
+ "generated_at": "2026-10-19 12:47:33",
  "round": 1,
  "target": 60,
- "total": 52,
- "progress": "52/60",
- "reached": false,
- "images_with_records": 25,
- "images_reviewed": 43,
- "images_total": 325,
+ "total": 96,
+ "progress": "96/60",
+ "reached": true,
+ "images_with_records": 50,
+ "images_reviewed": 83,
+ "images_total": 324,
  "by_type": {
-  "delete": 39,
-  "create": 7,
-  "move": 4,
-  "reclass": 2
+  "delete": 70,
+  "create": 10,
+  "reclass": 7,
+  "move": 6,
+  "resize": 3
  },
  "by_class": {
-  "chair": 16,
-  "dining table": 8,
-  "cup": 6,
-  "tv": 4,
-  "person": 4,
-  "potted plant": 3,
-  "couch": 3,
-  "bed": 3,
-  "bottle": 3,
-  "laptop": 2
+  "chair": 32,
+  "cup": 15,
+  "dining table": 10,
+  "person": 9,
+  "laptop": 6,
+  "bed": 6,
+  "tv": 5,
+  "couch": 5,
+  "potted plant": 4,
+  "bottle": 4
  },
  "classes_involved": [
   "person",
@@ -39,22 +40,26 @@
   "bed"
  ],
  "reclass_pairs": {
+  "couch → bed": 2,
   "bed → dining table": 1,
-  "laptop → couch": 1
+  "laptop → couch": 1,
+  "cup → bottle": 1,
+  "tv → laptop": 1,
+  "bottle → cup": 1
  },
  "overall": {
   "scope": "本轮有修正记录或本轮已过审的图",
-  "images": 43,
-  "instances_modified": 50,
-  "instances_total": 265,
-  "rate": 0.1887,
-  "auto_modified": 43,
-  "auto_total": 258,
-  "auto_rate": 0.1667
+  "images": 83,
+  "instances_modified": 93,
+  "instances_total": 611,
+  "rate": 0.1522,
+  "auto_modified": 83,
+  "auto_total": 601,
+  "auto_rate": 0.1381
  },
  "dataset": {
-  "instances_total": 2540,
-  "auto_total": 2466
+  "instances_total": 2539,
+  "auto_total": 2462
  },
  "definition": {
   "修正条数": "修正记录.json 条数：每次实际修改（新增/删除/移动/改形/换类）一条；仅查看/缩放/切模式/仅确认保存不计",
@@ -634,6 +639,541 @@
    "auto_modified": 2,
    "auto_total": 20,
    "auto_rate": 0.1
+  },
+  {
+   "image": "coco_76731.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "create": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 2,
+   "rate": 0.5,
+   "auto_modified": 0,
+   "auto_total": 1,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_77396.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 5,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 5,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_77595.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_776.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "create": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 1,
+   "rate": 1.0,
+   "auto_modified": 0,
+   "auto_total": 0,
+   "auto_rate": null
+  },
+  {
+   "image": "coco_7795.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "reclass": 2,
+    "delete": 1
+   },
+   "instances_modified": 3,
+   "instances_total": 4,
+   "rate": 0.75,
+   "auto_modified": 3,
+   "auto_total": 4,
+   "auto_rate": 0.75
+  },
+  {
+   "image": "coco_78420.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_78426.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "create": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 2,
+   "rate": 0.5,
+   "auto_modified": 0,
+   "auto_total": 1,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_80340.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "resize": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 15,
+   "rate": 0.0667,
+   "auto_modified": 1,
+   "auto_total": 15,
+   "auto_rate": 0.0667
+  },
+  {
+   "image": "coco_80932.jpg",
+   "reviewed": true,
+   "records": 4,
+   "by_type": {
+    "resize": 1,
+    "delete": 3
+   },
+   "instances_modified": 4,
+   "instances_total": 12,
+   "rate": 0.3333,
+   "auto_modified": 4,
+   "auto_total": 12,
+   "auto_rate": 0.3333
+  },
+  {
+   "image": "coco_80949.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "reclass": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 4,
+   "rate": 0.25,
+   "auto_modified": 1,
+   "auto_total": 4,
+   "auto_rate": 0.25
+  },
+  {
+   "image": "coco_82696.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "delete": 2,
+    "resize": 1
+   },
+   "instances_modified": 3,
+   "instances_total": 11,
+   "rate": 0.2727,
+   "auto_modified": 3,
+   "auto_total": 11,
+   "auto_rate": 0.2727
+  },
+  {
+   "image": "coco_82765.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_83531.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 3,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 3,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_85157.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 2
+   },
+   "instances_modified": 2,
+   "instances_total": 19,
+   "rate": 0.1053,
+   "auto_modified": 2,
+   "auto_total": 19,
+   "auto_rate": 0.1053
+  },
+  {
+   "image": "coco_86582.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 5,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 5,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_88040.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 15,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 15,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_89648.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 27,
+   "rate": 0.037,
+   "auto_modified": 1,
+   "auto_total": 27,
+   "auto_rate": 0.037
+  },
+  {
+   "image": "coco_91615.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 2,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 2,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_92053.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 4,
+   "rate": 0.25,
+   "auto_modified": 1,
+   "auto_total": 4,
+   "auto_rate": 0.25
+  },
+  {
+   "image": "coco_92660.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 6,
+   "rate": 0.1667,
+   "auto_modified": 1,
+   "auto_total": 6,
+   "auto_rate": 0.1667
+  },
+  {
+   "image": "coco_92939.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 12,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 12,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_93437.jpg",
+   "reviewed": true,
+   "records": 4,
+   "by_type": {
+    "delete": 2,
+    "move": 2
+   },
+   "instances_modified": 3,
+   "instances_total": 10,
+   "rate": 0.3,
+   "auto_modified": 3,
+   "auto_total": 10,
+   "auto_rate": 0.3
+  },
+  {
+   "image": "coco_9400.jpg",
+   "reviewed": true,
+   "records": 3,
+   "by_type": {
+    "delete": 3
+   },
+   "instances_modified": 3,
+   "instances_total": 31,
+   "rate": 0.0968,
+   "auto_modified": 3,
+   "auto_total": 31,
+   "auto_rate": 0.0968
+  },
+  {
+   "image": "coco_95786.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 3,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 3,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "coco_9590.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 24,
+   "rate": 0.0417,
+   "auto_modified": 1,
+   "auto_total": 24,
+   "auto_rate": 0.0417
+  },
+  {
+   "image": "coco_97994.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "reclass": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 8,
+   "rate": 0.125,
+   "auto_modified": 1,
+   "auto_total": 8,
+   "auto_rate": 0.125
+  },
+  {
+   "image": "coco_99182.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 2
+   },
+   "instances_modified": 2,
+   "instances_total": 5,
+   "rate": 0.4,
+   "auto_modified": 2,
+   "auto_total": 5,
+   "auto_rate": 0.4
+  },
+  {
+   "image": "coco_99428.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 1,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 1,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "voc_2007_000661.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 3,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 3,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "voc_2007_000762.jpg",
+   "reviewed": true,
+   "records": 2,
+   "by_type": {
+    "delete": 2
+   },
+   "instances_modified": 2,
+   "instances_total": 15,
+   "rate": 0.1333,
+   "auto_modified": 2,
+   "auto_total": 15,
+   "auto_rate": 0.1333
+  },
+  {
+   "image": "voc_2007_001027.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 12,
+   "rate": 0.0833,
+   "auto_modified": 1,
+   "auto_total": 12,
+   "auto_rate": 0.0833
+  },
+  {
+   "image": "voc_2007_001149.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 4,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 4,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "voc_2007_001185.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 9,
+   "rate": 0.1111,
+   "auto_modified": 1,
+   "auto_total": 9,
+   "auto_rate": 0.1111
+  },
+  {
+   "image": "voc_2007_001408.jpg",
+   "reviewed": true,
+   "records": 5,
+   "by_type": {
+    "reclass": 1,
+    "delete": 4
+   },
+   "instances_modified": 5,
+   "instances_total": 15,
+   "rate": 0.3333,
+   "auto_modified": 5,
+   "auto_total": 15,
+   "auto_rate": 0.3333
+  },
+  {
+   "image": "voc_2007_001430.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 22,
+   "rate": 0.0455,
+   "auto_modified": 1,
+   "auto_total": 22,
+   "auto_rate": 0.0455
+  },
+  {
+   "image": "voc_2007_001585.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 5,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 5,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "voc_2007_001678.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 5,
+   "rate": 0.2,
+   "auto_modified": 1,
+   "auto_total": 5,
+   "auto_rate": 0.2
+  },
+  {
+   "image": "voc_2007_001717.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 9,
+   "rate": 0.1111,
+   "auto_modified": 1,
+   "auto_total": 9,
+   "auto_rate": 0.1111
+  },
+  {
+   "image": "voc_2007_001901.jpg",
+   "reviewed": true,
+   "records": 0,
+   "by_type": {},
+   "instances_modified": 0,
+   "instances_total": 4,
+   "rate": 0.0,
+   "auto_modified": 0,
+   "auto_total": 4,
+   "auto_rate": 0.0
+  },
+  {
+   "image": "voc_2007_002368.jpg",
+   "reviewed": true,
+   "records": 1,
+   "by_type": {
+    "delete": 1
+   },
+   "instances_modified": 1,
+   "instances_total": 6,
+   "rate": 0.1667,
+   "auto_modified": 1,
+   "auto_total": 6,
+   "auto_rate": 0.1667
   }
  ],
  "consistency": {
