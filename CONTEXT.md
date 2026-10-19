@@ -130,6 +130,7 @@
   - `train.py --round N`：指标另存 `model/train_metrics_r{N}.json`（R0 已冻结，`--round 0` 需 `--force`），`model/best_r{N}.pt` 本地副本（不入库）；起点权重仍为 yolo26n-seg.pt，保证两轮可比
   - `tools/compare_rounds.py` → `data/records/对比结果.csv`（UTF-8 BOM）：R0 行完成（mAP50 det 0.7619 / seg 0.6930，修正率 0.2375 / auto 0.1813）；**R1 行状态「待人工修正」，数值留空**（不伪造）。R1 记录晚于 R1 指标时自动标「待重训」
   - 注意：R1 val 集里未过审图的标签来自 R0 模型回标草稿，R1 mAP 与 R0 并非严格同一测试集；174 张原 R0 草稿 JSON 已被回标覆盖（git 历史 `8108dc8` 之前可找回）
+- [x] **P6 剔除第 2 张非室内图**（2026-10-19，Trae）：R1 过审中发现 `coco_63047.jpg`（公园式户外售货亭：可见天空/树木/开阔人行道，无室内围合），已剔除（图片+标注 JSON，R1 回标 4 实例未过审、无 R0/R1 修正记录），同步 filelist/stats（**数据集现 325 张**）；person 类实例张数 467→463（≥15 满足）；10 类覆盖保留；修正统计_r1 总数仍 326 一致；records 无该图条目
 - [x] **P6 剔除 1 张非室内图**（2026-10-19，Trae）：R1 过审中发现 `coco_60835.jpg`（户外铁丝犬笼+泥土草地，非室内），已剔除（图片+标注 JSON，无 R0/R1 修正记录；该图为 R1 回标空图），同步更新 filelist/stats（**数据集现 326 张**）；修正统计_r1 的 images_total 327→326；对比结果.csv 不含该图数字无需改；person 类仍 60 张（≥15 满足）
 - [x] **P6 R1 真人过审进行中**（2026-10-19，用户）：`IMGLABEL_ROUND=1` 生效中（records 中 round=1 共 32 条：delete 27 · create 1 · move 2 · reclass 2，17 张有修改，27 张已过审）；修正统计_r1.json/.md 已生成；**R1 记录全部 round=1，R0 285 条未受污染**
 - [ ] **下一步待办（必须真人）**：`set IMGLABEL_ROUND=1` 后启动 5000 服务 → Ctrl+F5 → 过审「回标草稿」图（S 保存）→ `python tools/records_stats.py --round 1` → `python export_dataset.py` → `python train.py --round 1 --epochs 1` 冒烟 → `python train.py --round 1` → `python tools/compare_rounds.py` → 提交
