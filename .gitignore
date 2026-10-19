@@ -72,6 +72,9 @@ instance/
 Thumbs.db
 desktop.ini
 
+# ===== AI 工具工作目录缓存 =====
+.workbuddy/
+
 # ===== 日志与临时文件 =====
 *.log
 *.tmp
