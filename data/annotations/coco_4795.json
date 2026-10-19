@@ -4,14 +4,12 @@
  "height": 480,
  "instances": [
   {
-   "id": "p0",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.877,
-   "src": "reback",
+   "id": "p0",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       6.5,
@@ -137,18 +135,18 @@
       0.5,
       209.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p1",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.76,
-   "src": "reback",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       639.5,
@@ -582,18 +580,18 @@
       49.5,
       2.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p2",
-   "cls": 5,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 5,
    "conf": 0.715,
-   "src": "reback",
+   "id": "p2",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       65.5,
@@ -1127,12 +1125,13 @@
       2.5,
       3.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   }
  ],
- "modified_count": 0,
- "source": "reback",
+ "modified_count": 1,
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -1144,5 +1143,11 @@
    "seg": 2,
    "det": 1
   }
- }
+ },
+ "updated_at": "2026-10-19 12:09:58",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:09:58",
+ "reviewed_rounds": [
+  1
+ ]
 }

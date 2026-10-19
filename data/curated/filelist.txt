@@ -48,7 +48,6 @@ coco_41872.jpg
 coco_46048.jpg
 coco_50828.jpg
 coco_51738.jpg
-coco_60835.jpg
 coco_61333.jpg
 coco_632.jpg
 coco_65074.jpg

@@ -1,0 +1,430 @@
+{
+  "generated_at": "2026-10-19 12:12:22",
+  "round": 1,
+  "target": 60,
+  "total": 32,
+  "progress": "32/60",
+  "reached": false,
+  "images_with_records": 17,
+  "images_reviewed": 27,
+  "images_total": 326,
+  "by_type": {
+    "delete": 27,
+    "move": 2,
+    "reclass": 2,
+    "create": 1
+  },
+  "by_class": {
+    "chair": 11,
+    "dining table": 5,
+    "cup": 3,
+    "tv": 3,
+    "potted plant": 3,
+    "couch": 3,
+    "person": 2,
+    "laptop": 1,
+    "bed": 1
+  },
+  "classes_involved": [
+    "person",
+    "chair",
+    "dining table",
+    "couch",
+    "tv",
+    "laptop",
+    "cup",
+    "potted plant",
+    "bed"
+  ],
+  "reclass_pairs": {
+    "bed → dining table": 1,
+    "laptop → couch": 1
+  },
+  "overall": {
+    "scope": "本轮有修正记录或本轮已过审的图",
+    "images": 27,
+    "instances_modified": 30,
+    "instances_total": 182,
+    "rate": 0.1648,
+    "auto_modified": 29,
+    "auto_total": 181,
+    "auto_rate": 0.1602
+  },
+  "dataset": {
+    "instances_total": 2538,
+    "auto_total": 2470
+  },
+  "definition": {
+    "修正条数": "修正记录.json 条数：每次实际修改（新增/删除/移动/改形/换类）一条；仅查看/缩放/切模式/仅确认保存不计",
+    "图级修正率": "该图本轮被修正过的不同实例数 / 该图 JSON 实例总数（auto 预标 + 人工新建，含 deleted 标记）",
+    "整体修正率": "Σ分子 / Σ分母，范围 = 本轮有修正记录或本轮已过审的图",
+    "auto修正率": "被修正的 auto 实例数 / 该范围内 auto 实例总数"
+  },
+  "by_image": [
+    {
+      "image": "coco_36494.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 26,
+      "rate": 0.0385,
+      "auto_modified": 1,
+      "auto_total": 26,
+      "auto_rate": 0.0385
+    },
+    {
+      "image": "coco_3661.jpg",
+      "reviewed": true,
+      "records": 2,
+      "by_type": {
+        "create": 1,
+        "delete": 1
+      },
+      "instances_modified": 2,
+      "instances_total": 4,
+      "rate": 0.5,
+      "auto_modified": 1,
+      "auto_total": 3,
+      "auto_rate": 0.3333
+    },
+    {
+      "image": "coco_36844.jpg",
+      "reviewed": true,
+      "records": 6,
+      "by_type": {
+        "delete": 5,
+        "move": 1
+      },
+      "instances_modified": 5,
+      "instances_total": 14,
+      "rate": 0.3571,
+      "auto_modified": 5,
+      "auto_total": 14,
+      "auto_rate": 0.3571
+    },
+    {
+      "image": "coco_36936.jpg",
+      "reviewed": true,
+      "records": 4,
+      "by_type": {
+        "delete": 3,
+        "move": 1
+      },
+      "instances_modified": 3,
+      "instances_total": 20,
+      "rate": 0.15,
+      "auto_modified": 3,
+      "auto_total": 20,
+      "auto_rate": 0.15
+    },
+    {
+      "image": "coco_37740.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 6,
+      "rate": 0.1667,
+      "auto_modified": 1,
+      "auto_total": 6,
+      "auto_rate": 0.1667
+    },
+    {
+      "image": "coco_3845.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 3,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 3,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_38678.jpg",
+      "reviewed": true,
+      "records": 2,
+      "by_type": {
+        "delete": 2
+      },
+      "instances_modified": 2,
+      "instances_total": 8,
+      "rate": 0.25,
+      "auto_modified": 2,
+      "auto_total": 8,
+      "auto_rate": 0.25
+    },
+    {
+      "image": "coco_3934.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 7,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 7,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_39769.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 1,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 1,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_39956.jpg",
+      "reviewed": true,
+      "records": 2,
+      "by_type": {
+        "delete": 2
+      },
+      "instances_modified": 2,
+      "instances_total": 6,
+      "rate": 0.3333,
+      "auto_modified": 2,
+      "auto_total": 6,
+      "auto_rate": 0.3333
+    },
+    {
+      "image": "coco_40471.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 2,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 2,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_40757.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 2,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 2,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_41872.jpg",
+      "reviewed": true,
+      "records": 2,
+      "by_type": {
+        "delete": 2
+      },
+      "instances_modified": 2,
+      "instances_total": 7,
+      "rate": 0.2857,
+      "auto_modified": 2,
+      "auto_total": 7,
+      "auto_rate": 0.2857
+    },
+    {
+      "image": "coco_46031.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "reclass": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 3,
+      "rate": 0.3333,
+      "auto_modified": 1,
+      "auto_total": 3,
+      "auto_rate": 0.3333
+    },
+    {
+      "image": "coco_46048.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 2,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 2,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_4795.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 3,
+      "rate": 0.3333,
+      "auto_modified": 1,
+      "auto_total": 3,
+      "auto_rate": 0.3333
+    },
+    {
+      "image": "coco_48396.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 5,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 5,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_50828.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 3,
+      "rate": 0.3333,
+      "auto_modified": 1,
+      "auto_total": 3,
+      "auto_rate": 0.3333
+    },
+    {
+      "image": "coco_51008.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "reclass": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 2,
+      "rate": 0.5,
+      "auto_modified": 1,
+      "auto_total": 2,
+      "auto_rate": 0.5
+    },
+    {
+      "image": "coco_51610.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 4,
+      "rate": 0.25,
+      "auto_modified": 1,
+      "auto_total": 4,
+      "auto_rate": 0.25
+    },
+    {
+      "image": "coco_51738.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 2,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 2,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_52413.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 6,
+      "rate": 0.1667,
+      "auto_modified": 1,
+      "auto_total": 6,
+      "auto_rate": 0.1667
+    },
+    {
+      "image": "coco_52996.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 11,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 11,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_54605.jpg",
+      "reviewed": true,
+      "records": 3,
+      "by_type": {
+        "delete": 3
+      },
+      "instances_modified": 3,
+      "instances_total": 16,
+      "rate": 0.1875,
+      "auto_modified": 3,
+      "auto_total": 16,
+      "auto_rate": 0.1875
+    },
+    {
+      "image": "coco_56127.jpg",
+      "reviewed": true,
+      "records": 0,
+      "by_type": {},
+      "instances_modified": 0,
+      "instances_total": 3,
+      "rate": 0.0,
+      "auto_modified": 0,
+      "auto_total": 3,
+      "auto_rate": 0.0
+    },
+    {
+      "image": "coco_59598.jpg",
+      "reviewed": true,
+      "records": 2,
+      "by_type": {
+        "delete": 2
+      },
+      "instances_modified": 2,
+      "instances_total": 11,
+      "rate": 0.1818,
+      "auto_modified": 2,
+      "auto_total": 11,
+      "auto_rate": 0.1818
+    },
+    {
+      "image": "coco_60449.jpg",
+      "reviewed": true,
+      "records": 1,
+      "by_type": {
+        "delete": 1
+      },
+      "instances_modified": 1,
+      "instances_total": 5,
+      "rate": 0.2,
+      "auto_modified": 1,
+      "auto_total": 5,
+      "auto_rate": 0.2
+    }
+  ],
+  "consistency": {
+    "ok": true,
+    "issues": []
+  }
+}

@@ -4,14 +4,12 @@
  "height": 384,
  "instances": [
   {
-   "id": "p0",
-   "cls": 1,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 1,
    "conf": 0.536,
-   "src": "reback",
+   "id": "p0",
+   "mark": "deleted",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       639.5,
@@ -265,18 +263,18 @@
       586.5,
       23.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p1",
-   "cls": 6,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 6,
    "conf": 0.513,
-   "src": "reback",
+   "id": "p1",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       639.5,
@@ -450,18 +448,18 @@
       592.5,
       21.5
      ]
-    ]
-   }
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
   },
   {
-   "id": "p2",
-   "cls": 2,
-   "mark": "unchanged",
    "auto": true,
+   "cls": 2,
    "conf": 0.329,
-   "src": "reback",
+   "id": "p2",
+   "mark": "unchanged",
    "mask": {
-    "type": "polygon",
     "points": [
      [
       86.5,
@@ -595,12 +593,39 @@
       27.5,
       254.5
      ]
+    ],
+    "type": "polygon"
+   },
+   "src": "reback"
+  },
+  {
+   "id": "imveqfyq75hvw",
+   "cls": 4,
+   "mark": "created",
+   "mask": {
+    "type": "polygon",
+    "points": [
+     [
+      0.028517957401275197,
+      0.07415104073831273
+     ],
+     [
+      179.69164958559844,
+      0.07415104073831273
+     ],
+     [
+      179.69164958559844,
+      121.56064957028114
+     ],
+     [
+      0.028517957401275197,
+      121.56064957028114
+     ]
     ]
    }
   }
  ],
- "modified_count": 0,
- "source": "reback",
+ "modified_count": 2,
  "reback": {
   "model": "model/best.pt",
   "model_md5": "2ad0f723afff9b7f964c31cc064bf154",
@@ -612,5 +637,11 @@
    "seg": 2,
    "det": 1
   }
- }
+ },
+ "updated_at": "2026-10-19 12:06:59",
+ "reviewed": true,
+ "reviewed_at": "2026-10-19 12:06:59",
+ "reviewed_rounds": [
+  1
+ ]
 }
