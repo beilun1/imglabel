@@ -146,6 +146,7 @@
   - 交付物校验全过：dataset/ images/labels/segments/semantic 各 324、train 292 / val 32、data.yaml；model/best.pt（R1）+ train_metrics*.json；源码齐全；环境 OK
   - `提交信息.txt` 回填：数据集 328→324 说明（4 张非室内剔除）、类别分布按剔除后重算（laptop 85 / cup 97 / bed 78，合计 652）、迭代轮次、R0/R1 mAP 与修正率（取自 对比结果.csv）及口径说明；**姓名/学号/联系方式仍为占位，待用户本人填写**
   - `ai_log.md` 新建：P0–P7 按时间列出 Trae / Qoder / WorkBuddy 分工（含 P3 账号 B→A、P4/P6 用户人工过审）
+- [x] **预标注限张**（2026-10-19，Qoder，`900a79e`）：`POST /api/prelabel` 可选 `limit`（正整数）= 只处理**无 JSON 的未标图**（按文件名排序）前 limit 张，`total` 为实际处理张数；省略 / 0 / 负数 / 非数字 / true → 全量，行为与旧版一致（已有 JSON 跳过）。列表页「开始预标注」左侧加「本次张数（留空=全部）」输入框。prelabel.py 未改，无暂停/取消。5001 隔离目录自测 8 项全过，真实 data/annotations 与 修正记录.json md5 不变。**改了 templates/，5000 服务需重启 + Ctrl+F5**
 - [ ] **demo/ 待用户录制**：录屏 ≤3 分钟（启动 → 三模式标注 → 导出 → 对比结果）或 3 张关键截图，用户提供后放入 `demo/` 并提交；目录目前不存在，不得用非平台产物占位
 - [ ] **最终 zip 待用户 UI 优化完成后打包**（截止 2026-11-03 22:00 前、由用户定日期）：打包前重新 `export_dataset.py` 生成 dataset/；zip 名 `姓名-人机协同图像标注系统.zip`，zip 根 = 项目根（含 `.git`、根 `.gitignore`）；排除 weights/、runs/、data/images/、data/review/thumbs/、__pycache__/、.workbuddy/、docs/；FTP 上传由用户本人完成
 - [ ] **下一步待办**：用户填姓名/学号/联系方式 → 录 demo → UI 优化 → 打包 zip → 上传 FTP
