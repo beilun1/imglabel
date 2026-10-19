@@ -49,6 +49,20 @@ def dilate(m):
     return cv2.dilate(m.astype(np.uint8), K3).astype(bool)
 
 
+def off_edge(m, points, eps=1e-3):
+    """m 中像素中心不落在多边形任何边上（距离 > eps）的那部分：边上像素的内外判定是平局，舍入可任意翻转"""
+    ys, xs = np.nonzero(m)
+    if not len(xs):
+        return 0
+    c = np.stack([xs + 0.5, ys + 0.5], 1)[:, None, :]
+    a = np.asarray(points, float)
+    b = np.roll(a, -1, 0)
+    ab = b - a
+    t = np.clip(((c - a) * ab).sum(-1) / np.maximum((ab * ab).sum(-1), 1e-12), 0, 1)
+    d = np.linalg.norm(c - (a + t[..., None] * ab), axis=-1).min(1)
+    return int((d > eps).sum())
+
+
 def edge_band(lbl):
     """3x3 邻域内类别不唯一的像素（即轮廓 1px 带）"""
     return cv2.dilate(lbl, K3) != cv2.erode(lbl, K3)
@@ -92,7 +106,7 @@ def main():
     print(f"[1] train {len(tr)} + val {len(va)} = {len(tr) + len(va)}，不重不漏")
 
     cls_count, n_inst, empty, sem_diff, worst, degen, inner_diff = Counter(), 0, [], [], (0, None), [], 0
-    uncovered, lost_exact, filled_px, box_err, ring_err = 0, 0, 0, 0.0, 0.0
+    uncovered, uncovered_off, lost_exact, filled_px, box_err, ring_err = 0, 0, 0, 0, 0.0, 0.0
     for n in names:
         d = docs[n]
         w, h, stem = d["width"], d["height"], os.path.splitext(n)[0]
@@ -127,8 +141,10 @@ def main():
             exact = fill_nonzero(outer_ring(inst["mask"]["points"]), w, h)
             ring = fill_nonzero([[x * w, y * h] for x, y in zip(sx, sy)], w, h)
             lost_exact += int((orig & ~exact).sum())
-            # 顶点落在像素中心，6 位小数舍入会翻转边上像素（细尖刺可翻一串）→ 放宽 1px 后数残差
-            uncovered = max(uncovered, int((orig & ~dilate(ring)).sum()))
+            # 顶点落在像素中心，6 位小数舍入会翻转边上像素（细尖刺可翻一串）→ 放宽 1px 后数残差；中心恰在原边上的像素是平局，另计
+            miss = orig & ~dilate(ring)
+            uncovered = max(uncovered, int(miss.sum()))
+            uncovered_off = max(uncovered_off, off_edge(miss, inst["mask"]["points"]))
             filled_px += int((exact & ~orig).sum())
             ref[raster_ref(inst["mask"]["points"], w, h)] = inst["cls"] + 1
         diff = ref != sem
@@ -148,11 +164,12 @@ def main():
     print(f"[2] 全部 txt 格式合法：cls∈0-9，坐标∈[0,1]，6 位小数")
     print(f"[3] 检测框 vs 掩码外接矩形 最大误差 {box_err:.2e}；分割外轮廓外接矩形 vs 检测框 最大误差 {ring_err:.2e}")
     print(f"[4] 外轮廓（未舍入几何）漏掉原掩码像素 {lost_exact}（全数据集合计，桥边穿像素中心的平局），被填上的孔洞像素合计 {filled_px}；"
-          f"导出文本（6 位小数）放宽 1px 后单实例最多漏 {uncovered} 像素（舍入翻转的细尖刺）")
+          f"导出文本（6 位小数）放宽 1px 后单实例最多漏 {uncovered} 像素（舍入翻转的细尖刺），"
+          f"其中中心不在原多边形边上的 {uncovered_off} 像素")
     print(f"[5] 语义 PNG vs matplotlib 独立重画（同为非零环绕）：总差异 {np.mean(sem_diff) * 100:.4f}%（边上像素判定不同）；"
           f"轮廓 1px 带外差异 {inner_diff} 像素")
     # 允许少量像素：零宽桥边恰好穿过像素中心，剪掉后该像素归属翻转（边上判定的平局）
-    assert lost_exact <= 5 and uncovered <= 10 and inner_diff == 0, "外轮廓或语义 PNG 与掩码不一致"
+    assert lost_exact <= 5 and uncovered_off <= 10 and inner_diff == 0, "外轮廓或语义 PNG 与掩码不一致"
     print(f"[6] 实例守恒：导出 {n_inst} == JSON mark≠deleted {exp_total} − 零面积 {len(degen)}")
     for s in degen:
         print(f"      零面积跳过：{s}")
