@@ -1,92 +1,24 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<title>人机协同图像标注系统 · 图片列表</title>
-<link rel="stylesheet" href="/canvas/style.css">
-</head>
-<body>
-<header class="topbar">
-  <h1>人机协同图像标注系统</h1>
-  <span class="topbar-meta">共 <b>{{ total }}</b> 张 · <span class="badge b-rev">已过审</span> <span class="badge b-pre">预标</span> <span class="badge b-pre">回标草稿</span> <span class="badge b-done">已标</span> <span class="badge b-mod">已修改</span> <span class="badge b-none">未标</span></span>
-  <span class="topbar-meta" title="累计修正 = 本轮修正记录.json 的条数（只计实际修改）">R{{ round }} · 已过审 <b>{{ reviewed }}</b> / {{ total }} 张{% if round %}（本轮过审 <b>{{ round_reviewed }}</b>）{% endif %} · 本轮累计修正 <b class="{{ 'ok' if rec_total >= target else '' }}">{{ rec_total }}</b> / {{ target }} 条</span>
-  <div class="prelabel">
-    <label for="prelabelLimit" style="font-size:12px;color:var(--dim);white-space:nowrap">本次张数</label>
-    <input type="number" id="prelabelLimit" min="1" step="1" placeholder="全部" style="width:90px;padding:4px 6px;font-size:13px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--txt)">
-    <button id="btnPrelabel" class="btn-primary" type="button">开始预标注</button>
-    <div class="pl-bar" id="plBar" hidden><div class="pl-fill" id="plFill"></div></div>
-    <span class="pl-msg" id="plMsg"></span>
-  </div>
-</header>
-
-<main class="list-main">
-  <div class="grid">
-    {% for it in items %}
-    <a class="card" href="/annotate/{{ it.name }}">
-      <img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy" class="thumb">
-      <div class="card-foot">
-        <span class="fname" title="{{ it.name }}">{{ it.name }}</span>
-        <span class="badge {{ {'已过审': 'b-rev', '已修改': 'b-mod', '已标': 'b-done', '预标': 'b-pre', '回标草稿': 'b-pre', '异常': 'b-ex'}.get(it.status, 'b-none') }}">{{ it.status }}</span>
-      </div>
-    </a>
-    {% endfor %}
-  </div>
-</main>
-<script>
-(() => {
-  const btn = document.getElementById("btnPrelabel");
-  const bar = document.getElementById("plBar");
-  const fill = document.getElementById("plFill");
-  const msg = document.getElementById("plMsg");
-  let timer = null, sawRunning = false;
-
-  function render(s) {
-    const pct = s.total ? Math.round(s.done / s.total * 100) : 0;
-    bar.hidden = !(s.running || s.phase === "done" || s.phase === "failed");
-    fill.style.width = pct + "%";
-    btn.disabled = s.running;
-    btn.textContent = s.running ? "预标注运行中…" : "开始预标注";
-    const err = s.errors.length ? ` · 错误 ${s.errors.length}` : "";
-    msg.classList.toggle("pl-err", s.errors.length > 0 || s.phase === "failed");
-    if (s.phase === "loading") msg.textContent = "加载模型中…";
-    else if (s.running) msg.textContent = `${s.done}/${s.total}（新建 ${s.created} · 跳过 ${s.skipped}${err}）${s.current_file || ""}`;
-    else if (s.phase === "failed") msg.textContent = "预标注失败：" + (s.errors[s.errors.length - 1] || "未知错误");
-    else if (s.phase === "done") msg.textContent = `完成 ${s.done}/${s.total}：新建 ${s.created} · 跳过 ${s.skipped} · 实例 ${s.instances}${err}`;
-    else msg.textContent = "";
-    msg.title = s.errors.length ? s.errors.join("\n") : msg.textContent;
-  }
-
-  async function poll() {
-    try {
-      const s = await (await fetch("/api/prelabel/status", { cache: "no-store" })).json();
-      render(s);
-      if (s.running) { sawRunning = true; timer = setTimeout(poll, 700); return; }
-      if (sawRunning) setTimeout(() => location.reload(), 1200);
-    } catch (e) {
-      msg.textContent = "状态查询失败：" + e.message; msg.classList.add("pl-err");
-      timer = setTimeout(poll, 2000);
-    }
-  }
-
-  btn.addEventListener("click", async () => {
-    btn.disabled = true;
-    let wait = 0;
-    const limitVal = (document.getElementById("prelabelLimit").value || "").trim();
-    const n = /^\d+$/.test(limitVal) ? parseInt(limitVal, 10) : 0;
-    const body = n > 0 ? { limit: n } : {};
-    try {
-      const r = await fetch("/api/prelabel", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      const d = await r.json();
-      if (r.status === 409) { msg.textContent = d.msg || "预标注运行中"; msg.classList.add("pl-err"); wait = 1500; }
-      else render(d);
-    } catch (e) {
-      msg.textContent = "启动失败：" + e.message; msg.classList.add("pl-err");
-    }
-    clearTimeout(timer); timer = setTimeout(poll, wait);
-  });
-
-  poll();
-})();
-</script>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}仪表盘 · 人机协同图像标注系统{% endblock %}
+{% block content %}
+<section class="page-intro">
+  <div><h1>数据集总览</h1><p>{{ summary.total }} 张室内图 · 10 类目标 · R0→R1 已闭环</p></div>
+  <div class="intro-actions"><a class="btn-primary" href="/annotate">进入图片列表</a><a class="btn-ghost" href="/compare">迭代对比</a></div>
+</section>
+<section class="stats-grid" id="dashboardStats">
+  <article class="stat-card"><span>总图片数</span><strong>{{ summary.total }}</strong><small>≥ 150 达标</small></article>
+  <article class="stat-card"><span>已过审</span><strong>{{ summary.reviewed }}</strong><small>{{ (summary.reviewed * 100 / summary.total)|round|int if summary.total else 0 }}% 完成度</small></article>
+  <article class="stat-card"><span>累计修正 · 真实记录</span><strong>{{ summary.all_corrections }}</strong><small>≥ {{ summary.target }} 已达标</small></article>
+  <article class="stat-card"><span>人工修正率 · R{{ summary.round }}</span><strong class="green">{{ '%.1f%%'|format(summary.rate * 100) if summary.rate is not none else '—' }}</strong><small>来自平台修正统计</small></article>
+</section>
+<section class="dashboard-grid">
+  <article class="panel"><div class="panel-title">标注进度<a href="/annotate">查看详情 ›</a></div>
+    <div class="progress-row"><div><span>已过审</span><b>{{ summary.reviewed }} / {{ summary.total }}</b></div><div class="progress"><i style="width:{{ summary.reviewed * 100 / summary.total if summary.total else 0 }}%"></i></div></div>
+    <div class="progress-row"><div><span>修正达标</span><b>{{ summary.all_corrections }} / {{ summary.target }}</b></div><div class="progress"><i class="ok" style="width:{{ [summary.all_corrections * 100 / summary.target, 100]|min }}%"></i></div></div>
+    <div class="progress-row"><div><span>预标注覆盖</span><b>{{ summary.prelabel_covered }} / {{ summary.total }}</b></div><div class="progress"><i style="width:{{ summary.prelabel_covered * 100 / summary.total if summary.total else 0 }}%"></i></div></div>
+  </article>
+  <article class="panel"><div class="panel-title">操作入口</div>
+    <div class="quick-list"><a href="/prelabel"><span>↻</span><div><b>模型预标注</b><small>支持一次处理 N 张</small></div></a><a href="/annotate"><span>✎</span><div><b>逐张过审</b><small>检测框 / 掩码 / 语义</small></div></a><a href="/compare"><span>◨</span><div><b>迭代对比</b><small>R0 vs R1 修正率与 mAP</small></div></a></div>
+  </article>
+</section>
+{% endblock %}

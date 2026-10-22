@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}人机协同图像标注系统{% endblock %}</title>
+<link rel="stylesheet" href="/canvas/style.css">
+</head>
+<body>
+<div class="app-shell">
+  {% include '_sidebar.html' %}
+  <main class="page-main">
+    <header class="page-head">
+      <div class="crumb">{% block crumb_group %}工作台{% endblock %} / <b>{% block crumb_page %}仪表盘{% endblock %}</b></div>
+      <div class="head-stats">R{{ summary.round }} · 本轮过审 <b>{{ summary.round_reviewed }}</b> 张 · 累计修正 <b class="accent">{{ summary.all_corrections }}</b> 条</div>
+    </header>
+    <div class="page-content">{% block content %}{% endblock %}</div>
+  </main>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

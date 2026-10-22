@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}图片列表 · 人机协同图像标注系统{% endblock %}
+{% block crumb_group %}标注{% endblock %}{% block crumb_page %}图片列表{% endblock %}
+{% block content %}
+<section class="page-intro compact"><div><h1>图片列表</h1><p>按状态筛选并进入标注画布</p></div><a class="btn-primary" href="/prelabel">开始预标注</a></section>
+<div class="filters" id="filters">
+  <button class="filter on" data-filter="全部">全部 <b>{{ summary.total }}</b></button>
+  {% for status in ['已过审','回标草稿','已修改','未标'] %}<button class="filter" data-filter="{{ status }}">{{ status }} <b>{{ summary.status_counts.get(status, 0) }}</b></button>{% endfor %}
+</div>
+<div class="image-grid" id="imageGrid">
+{% for it in items %}
+  <a class="image-card" href="/annotate/{{ it.name }}" data-status="{{ it.status }}">
+    <div class="image-wrap"><img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy"><span class="status-badge s-{{ {'已过审':'reviewed','已修改':'modified','回标草稿':'reback','预标':'prelabel','已标':'done','已标(空)':'done','异常':'error'}.get(it.status,'none') }}">{{ '已过审 ✓' if it.status == '已过审' else it.status }}</span></div>
+    <div class="image-meta"><span title="{{ it.name }}">{{ it.name }}</span><b>{{ it.instances }} 实例</b></div>
+  </a>
+{% endfor %}
+</div>
+<div class="pagination" id="pagination"></div>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+  const cards = [...document.querySelectorAll('.image-card')], pager = document.getElementById('pagination');
+  const size = 20; let filter = '全部', page = 1;
+  function render() {
+    const rows = cards.filter(c => filter === '全部' || c.dataset.status === filter);
+    const pages = Math.max(1, Math.ceil(rows.length / size)); page = Math.min(page, pages);
+    cards.forEach(c => c.hidden = true); rows.slice((page-1)*size, page*size).forEach(c => c.hidden = false);
+    pager.innerHTML = '';
+    for (let p=1; p<=pages; p++) { const b=document.createElement('button'); b.textContent=p; b.className='page-btn'+(p===page?' on':''); b.onclick=()=>{page=p;render();scrollTo({top:0,behavior:'smooth'})}; pager.appendChild(b); }
+  }
+  document.querySelectorAll('.filter').forEach(b => b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('on'));b.classList.add('on');filter=b.dataset.filter;page=1;render()});
+  render();
+})();
+</script>
+{% endblock %}

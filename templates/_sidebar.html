@@ -1,0 +1,15 @@
+<aside class="sidebar">
+  <a class="sb-logo" href="/"><span class="sb-mark">▣</span><span>标注系统</span><span class="sb-version">v3.0</span></a>
+  <nav class="sb-nav">
+    <div class="sb-group">工作台</div>
+    <a class="sb-item {{ 'on' if active == 'dashboard' else '' }}" href="/"><span class="sb-icon">◧</span>仪表盘</a>
+    <div class="sb-group">标注</div>
+    <a class="sb-item {{ 'on' if active == 'images' else '' }}" href="/annotate"><span class="sb-icon">▤</span>图片列表<span class="sb-count">{{ summary.total }}</span></a>
+    <a class="sb-item {{ 'on' if active == 'canvas' else '' }}" href="{{ '/annotate/' + first_image if first_image else '/annotate' }}"><span class="sb-icon">✎</span>标注画布</a>
+    <a class="sb-item {{ 'on' if active == 'prelabel' else '' }}" href="/prelabel"><span class="sb-icon">↻</span>预标注</a>
+    <div class="sb-group">结果</div>
+    <a class="sb-item {{ 'on' if active == 'compare' else '' }}" href="/compare"><span class="sb-icon">◨</span>迭代对比</a>
+    <a class="sb-item {{ 'on' if active == 'export' else '' }}" href="/export"><span class="sb-icon">⌖</span>数据导出</a>
+  </nav>
+  <div class="sb-foot">人机协同图像标注系统</div>
+</aside>

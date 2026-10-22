@@ -2,89 +2,39 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>标注 · {{ name }}</title>
 <link rel="stylesheet" href="/canvas/style.css">
 </head>
 <body class="page-annotate" data-name="{{ name }}" data-idx="{{ idx }}" data-total="{{ total }}">
-
-<!-- 顶部工具条 -->
-<header class="toolbar">
-  <div class="tb-left">
-    <a href="/" class="btn-ghost" title="返回列表">← 列表</a>
-    <span class="tb-title">{{ name }}</span>
-    <span class="tb-pos">{{ idx + 1 }} / {{ total }}</span>
-  </div>
-
-  <div class="tb-mid">
-    <!-- 模式 Tab（1/2/3） -->
-    <div class="tabs" id="modeTabs">
-      <button data-mode="box" class="tab active" title="快捷键 1">检测框</button>
-      <button data-mode="mask" class="tab" title="快捷键 2">实例掩码</button>
-      <button data-mode="semantic" class="tab" title="快捷键 3">语义</button>
+<div class="app-shell annotate-shell">
+  {% include '_sidebar.html' %}
+  <main class="workbench">
+    <header class="toolbar">
+      <div class="tb-left"><a href="/annotate" class="btn-ghost" title="返回图片列表">← 返回</a><span class="tb-title">{{ name }}</span><span class="tb-pos">{{ idx + 1 }} / {{ total }}</span></div>
+      <div class="tabs" id="modeTabs"><button data-mode="box" class="tab active" title="快捷键 1">检测框</button><button data-mode="mask" class="tab" title="快捷键 2">实例掩码</button><button data-mode="semantic" class="tab" title="快捷键 3">语义</button></div>
+      <div class="tools" id="boxTools"><button data-boxtool="move" class="tool active" title="移动 V">移动</button><button data-boxtool="create" class="tool" title="新建框 N">新建框</button></div>
+      <div class="tools" id="maskTools"><button data-tool="brush" class="tool active" title="画笔 W">画笔</button><button data-tool="eraser" class="tool" title="橡皮擦 E">橡皮</button><button data-tool="polygon" class="tool" title="多边形 P">多边形</button><button data-tool="move" class="tool" title="移动 V">移动</button><label class="lbl" title="快捷键 [ / ]">笔刷 <input type="range" id="brushSize" min="2" max="60" value="10"><span id="brushVal" class="bval">10</span>px</label></div>
+      <button id="btnHand" class="tool hand" title="抓手 H">抓手</button>
+      <select id="classSel" title="类别（顺序即编号，不得改）"></select><span id="selInfo" class="sel-info">新建类别</span>
+      <div class="tb-actions"><button id="btnFit" class="btn-ghost" title="适应窗口">适应</button><button id="btnCompare" class="btn-ghost" title="左原图 / 右标注叠加">双栏</button><button id="btnUndo" class="btn-ghost" title="撤销 Ctrl+Z">↶ 撤销</button><button id="btnRedo" class="btn-ghost" title="重做 Ctrl+Shift+Z">↷ 重做</button><button id="btnSave" class="btn-primary">保存</button><button id="btnSaveNext" class="btn-primary">保存并下一张 (S)</button></div>
+    </header>
+    <div class="workbench-body">
+      <section class="canvas-area" id="canvasArea">
+        <div class="canvas-box" id="boxLeft"><canvas id="cvCompare"></canvas><div class="box-label">原图</div></div>
+        <div class="canvas-box" id="boxMain"><canvas id="cvMain"></canvas><div class="box-label" id="overlayLabel">标注叠加</div><div class="legend" id="legend" hidden></div></div>
+        <div class="color-legend"><h5>颜色图例</h5>{% for c in classes %}<div><i class="swatch c{{ loop.index0 }}"></i>{{ c }}</div>{% endfor %}</div>
+      </section>
+      <aside class="inspector">
+        <h5>选中实例</h5><div class="inspect-box"><div><span>类别</span><b id="insClass">未选择</b></div><div><span>ID</span><b id="insId">—</b></div><div><span>置信度</span><b id="insConf">—</b></div><div><span>掩码点数</span><b id="insPoints">—</b></div></div>
+        <h5>修正计数</h5><div class="counter-copy">本图已修改 <b id="cntMod">0</b> 处<br>累计 <b id="cntTotal">…</b> / <b id="cntTarget">60</b> 条</div>
+        <h5>快捷键</h5><div class="shortcut-box"><div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 切模式</div><div><kbd>W</kbd> 画笔　<kbd>E</kbd> 橡皮</div><div><kbd>P</kbd> 多边形　<kbd>V</kbd> 移动</div><div><kbd>N</kbd> 新建框　<kbd>H</kbd> 抓手</div><div><kbd>Del</kbd> 删除　<kbd>S</kbd> 保存</div><div><kbd>Ctrl+Z</kbd> 撤销</div></div>
+      </aside>
     </div>
-    <button id="btnHand" class="tool hand" title="抓手 H：左键拖动平移画布（再按 H 或 Esc 退出）">✋ 抓手</button>
-  </div>
-
-  <div class="tb-right">
-    <!-- 工具（框模式） -->
-    <div class="tools" id="boxTools">
-      <button data-boxtool="move" class="tool active" title="移动 V：点掩码拖动 / 拖把手缩放，点空白取消选中">🖱️ 移动</button>
-      <button data-boxtool="create" class="tool" title="新建框 N：任意位置拖拽创建新框（含物体上）">➕ 新建框</button>
-    </div>
-    <!-- 工具（掩码模式） -->
-    <div class="tools" id="maskTools">
-      <button data-tool="brush" class="tool active" title="画笔 W">✏ 画笔</button>
-      <button data-tool="eraser" class="tool" title="橡皮擦 E">◐ 橡皮</button>
-      <button data-tool="polygon" class="tool" title="多边形 P">⬟ 多边形</button>
-      <button data-tool="move" class="tool" title="移动 V">✥ 移动</button>
-      <label class="lbl" title="快捷键 [ / ]">粗细 <input type="range" id="brushSize" min="2" max="60" value="10"> <span id="brushVal" class="bval">10</span>px</label>
-    </div>
-
-    <select id="classSel" title="类别（顺序即编号，不得改）"></select>
-    <span id="selInfo" class="sel-info">新建类别</span>
-
-    <button id="btnFit" class="btn-ghost" title="适应窗口">⤢ 适应</button>
-    <button id="btnCompare" class="btn-ghost" title="左原图 / 右标注叠加">⇋ 双栏对比</button>
-    <button id="btnUndo" class="btn-ghost" title="撤销 Ctrl+Z">↶ 撤销</button>
-    <button id="btnRedo" class="btn-ghost" title="重做 Ctrl+Shift+Z">↷ 重做</button>
-    <button id="btnSave" class="btn-primary">保存</button>
-    <button id="btnSaveNext" class="btn-primary">保存并下一张 (S)</button>
-  </div>
-</header>
-
-<!-- 修正统计计数条（常驻） -->
-<div class="counterbar" id="counterBar">
-  <span title="本图：该图全部会话累计的实际修改条数；累计：本轮（round）全部图片已落盘 + 本页未保存的修正条数">本图修改 <b id="cntMod">0</b> 条 · 累计修正 <b id="cntTotal">…</b> / 目标 <b id="cntTarget">60</b> 条</span>
-  <span class="hintbar" id="hintBar">
-    <kbd>空格</kbd>+拖 / <kbd>中键</kbd> / <kbd>H</kbd>抓手 = 平移 · 滚轮缩放 ·
-    <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd>切模式 · 框：<kbd>V</kbd>移动 <kbd>N</kbd>新建框 · 掩码：<kbd>W</kbd>画笔 <kbd>E</kbd>橡皮 <kbd>P</kbd>多边形 <kbd>V</kbd>移动 ·
-    <kbd>[</kbd><kbd>]</kbd>粗细 · <kbd>Del</kbd>删除 · <kbd>S</kbd>保存下一张 · <kbd>Ctrl+Z</kbd>撤销 <kbd>Ctrl+Shift+Z</kbd>重做
-  </span>
+    <footer class="navbar"><button id="btnPrev" class="btn-ghost">← 上一张</button><button id="btnNext" class="btn-ghost">下一张 →</button><button id="btnSaveNext2" class="btn-primary">保存并下一张</button><span class="nav-hint" id="hintBar">空格+拖 / 中键平移 · 滚轮缩放 · 所有修改仅在保存后落盘</span></footer>
+  </main>
 </div>
-
-<!-- 画布区 -->
-<main class="canvas-area" id="canvasArea">
-  <div class="canvas-box" id="boxLeft">
-    <canvas id="cvCompare"></canvas>
-    <div class="box-label">原图</div>
-  </div>
-  <div class="canvas-box" id="boxMain">
-    <canvas id="cvMain"></canvas>
-    <div class="box-label" id="overlayLabel">标注叠加</div>
-    <!-- 语义图例（语义模式显示） -->
-    <div class="legend" id="legend" hidden></div>
-  </div>
-</main>
-
-<!-- 底部导航 -->
-<footer class="navbar">
-  <button id="btnPrev" class="btn-ghost">← 上一张</button>
-  <button id="btnNext" class="btn-ghost">下一张 →</button>
-  <button id="btnSaveNext2" class="btn-primary">保存并下一张</button>
-  <span class="nav-hint">框模式：移动工具(V) 拖掩码=移动 · 拖把手=缩放 · 点空白=取消选中；新建框工具(N) 任意位置拖拽=新建框 · 多边形：单击打点，点首点/双击/Enter 闭合</span>
-</footer>
-
-<script>window.APP_CONF = {name: {{ name|tojson }}, idx: {{ idx }}, total: {{ total }}, classes: {{ classes|tojson }}, round: {{ round }}, target: {{ target }} };</script>
+<script>window.APP_CONF={name:{{ name|tojson }},idx:{{ idx }},total:{{ total }},classes:{{ classes|tojson }},round:{{ round }},target:{{ target }}};</script>
 <script src="/canvas/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}迭代对比 · 人机协同图像标注系统{% endblock %}
+{% block crumb_group %}结果{% endblock %}{% block crumb_page %}迭代对比{% endblock %}
+{% block content %}
+<section class="page-intro compact"><div><h1>R0 vs R1 迭代对比</h1><p>所有指标读取自 data/records/对比结果.csv</p></div></section>
+{% if rows|length >= 2 %}{% set r0=rows[0] %}{% set r1=rows[1] %}
+<div class="metric-grid">
+  <section class="metric-card"><div class="metric-title">人工修正率 <span class="delta good">▼ {{ '%.1f%%'|format((r0['整体修正率']|float-r1['整体修正率']|float)*100) }}</span></div><div class="bar-chart"><div><b>{{ '%.1f%%'|format(r0['整体修正率']|float*100) }}</b><i class="r0" style="height:{{ r0['整体修正率']|float*400 }}px"></i><span>R0</span></div><div><b>{{ '%.1f%%'|format(r1['整体修正率']|float*100) }}</b><i class="r1" style="height:{{ r1['整体修正率']|float*400 }}px"></i><span>R1</span></div></div></section>
+  <section class="metric-card"><div class="metric-title">分割 mAP50-95 <span class="delta good">▲ {{ '%.3f'|format(r1['mAP50-95_seg']|float-r0['mAP50-95_seg']|float) }}</span></div><div class="bar-chart"><div><b>{{ '%.3f'|format(r0['mAP50-95_seg']|float) }}</b><i class="r0" style="height:{{ r0['mAP50-95_seg']|float*180 }}px"></i><span>R0</span></div><div><b>{{ '%.3f'|format(r1['mAP50-95_seg']|float) }}</b><i class="r1" style="height:{{ r1['mAP50-95_seg']|float*180 }}px"></i><span>R1</span></div></div></section>
+  <section class="metric-card"><div class="metric-title">检测 mAP50 <span class="delta flat">≈ 持平</span></div><div class="bar-chart"><div><b>{{ '%.3f'|format(r0['mAP50_det']|float) }}</b><i class="r0" style="height:{{ r0['mAP50_det']|float*120 }}px"></i><span>R0</span></div><div><b>{{ '%.3f'|format(r1['mAP50_det']|float) }}</b><i class="r1" style="height:{{ r1['mAP50_det']|float*120 }}px"></i><span>R1</span></div></div></section>
+  <section class="metric-card"><div class="metric-title">全指标一览</div><div class="metric-table"><div><span>阶段</span><b>R0 → <em>R1</em></b></div><div><span>修正条数</span><b>{{ r0['修正条数'] }} → <em>{{ r1['修正条数'] }}</em></b></div><div><span>过审张数</span><b>{{ r0['过审张数'] }} → <em>{{ r1['过审张数'] }}</em></b></div><div><span>整体修正率</span><b>{{ '%.1f%%'|format(r0['整体修正率']|float*100) }} → <em>{{ '%.1f%%'|format(r1['整体修正率']|float*100) }}</em></b></div><div><span>auto 修正率</span><b>{{ '%.1f%%'|format(r0['auto修正率']|float*100) }} → <em>{{ '%.1f%%'|format(r1['auto修正率']|float*100) }}</em></b></div></div></section>
+</div>
+{% else %}<div class="empty-state">未找到完整的 R0 / R1 对比结果。</div>{% endif %}
+{% endblock %}

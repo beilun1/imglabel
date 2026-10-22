@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}预标注 · 人机协同图像标注系统{% endblock %}
+{% block crumb_group %}标注{% endblock %}{% block crumb_page %}预标注{% endblock %}
+{% block content %}
+<section class="page-intro compact"><div><h1>模型预标注</h1><p>已有 JSON 的图片自动跳过，不覆盖人工成果</p></div></section>
+<div class="config-grid">
+  <div class="stack">
+    <section class="panel form-panel"><div class="panel-title">模型配置</div>
+      <label class="field"><span>检测模型</span><select id="model"><option value="r0">YOLO-World（R0 · 官方权重）</option><option value="r1">YOLO-World（R1 · 微调自训）</option></select></label>
+      <label class="field"><span>实例分割模型</span><input value="YOLO26n-seg" readonly></label>
+      <label class="field"><span>类别词表</span><input value="10 类（标准词表）" readonly title="{{ classes|join(' / ') }}"></label>
+      <label class="field"><span>置信度阈值</span><span class="range-wrap"><input id="conf" type="range" min="0.05" max="0.9" step="0.05" value="0.25"><b id="confVal">0.25</b></span></label>
+      <label class="field"><span>本次张数</span><input id="prelabelLimit" type="number" min="1" step="1" placeholder="全部"></label>
+    </section>
+    <section class="panel"><div class="panel-title">执行操作</div><div class="button-row"><button class="btn-primary" id="btnPrelabel">开始预标注</button></div><p class="form-note">运行中的推理不提供强制中断；离开页面不会停止后台任务。</p></section>
+  </div>
+  <section class="panel result-panel">
+    <div class="panel-title">处理进度 <span id="phaseTag" class="phase-tag">待命</span></div>
+    <div class="progress-head"><span>已完成</span><b id="plCount">0 / 0</b></div><div class="progress large"><i id="plFill"></i></div>
+    <div class="result-stats"><span>新建 <b id="plCreated">0</b></span><span>跳过 <b id="plSkipped">0</b></span><span>实例 <b id="plInstances">0</b></span><span>失败 <b id="plErrors">0</b></span></div>
+    <div class="logbox" id="plLog"><div>等待任务开始…</div></div>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+ const $=id=>document.getElementById(id), btn=$('btnPrelabel'), log=$('plLog'); let timer=null,last='';
+ $('conf').oninput=()=>$('confVal').textContent=Number($('conf').value).toFixed(2);
+ function addLog(text, ok=true){const d=document.createElement('div');d.className=ok?'log-ok':'log-err';d.textContent=(ok?'✓ ':'× ')+text;log.appendChild(d);log.scrollTop=log.scrollHeight}
+ function render(s){const pct=s.total?Math.round(s.done/s.total*100):0;$('plCount').textContent=`${s.done} / ${s.total}`;$('plFill').style.width=pct+'%';$('plCreated').textContent=s.created;$('plSkipped').textContent=s.skipped;$('plInstances').textContent=s.instances;$('plErrors').textContent=s.errors.length;btn.disabled=s.running;$('phaseTag').textContent=s.phase==='loading'?'加载模型':s.running?'运行中':s.phase==='done'?'已完成':s.phase==='failed'?'失败':'待命';if(s.current_file&&s.current_file!==last){addLog(`${s.done+1}/${s.total} ${s.current_file}`);last=s.current_file}if(s.phase==='done'&&last!=='__done'){addLog(`完成：新建 ${s.created}，跳过 ${s.skipped}，实例 ${s.instances}`);last='__done'}if(s.phase==='failed'&&last!=='__failed'){addLog(s.errors.at(-1)||'未知错误',false);last='__failed'}}
+ async function poll(){try{const s=await(await fetch('/api/prelabel/status',{cache:'no-store'})).json();render(s);if(s.running)timer=setTimeout(poll,700)}catch(e){addLog('状态查询失败：'+e.message,false);timer=setTimeout(poll,2000)}}
+ btn.onclick=async()=>{const raw=$('prelabelLimit').value.trim(),n=/^\d+$/.test(raw)?parseInt(raw,10):0;const body={conf:Number($('conf').value),model:$('model').value};if(n>0)body.limit=n;btn.disabled=true;last='';log.innerHTML='';addLog('任务已提交');try{const r=await fetch('/api/prelabel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),d=await r.json();if(!r.ok){addLog(d.msg||'启动失败',false)}render(d)}catch(e){addLog('启动失败：'+e.message,false)}clearTimeout(timer);timer=setTimeout(poll,300)};
+ poll();
+})();
+</script>
+{% endblock %}

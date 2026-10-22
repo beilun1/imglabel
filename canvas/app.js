@@ -94,6 +94,10 @@ const overlayLabel = document.getElementById("overlayLabel");
 const brushInput = document.getElementById("brushSize");
 const brushVal = document.getElementById("brushVal");
 const btnHand = document.getElementById("btnHand");
+const inspector = {
+  cls: document.getElementById("insClass"), id: document.getElementById("insId"),
+  conf: document.getElementById("insConf"), points: document.getElementById("insPoints"),
+};
 
 /* ---------- 类别下拉 ---------- */
 function buildClassSel() {
@@ -745,6 +749,12 @@ function syncClassUI() {
     (state.mode === "box" && state.overlap && state.overlap.id === sel.id ? `（此处 ${state.overlap.n} 个框重叠，单击切换）` : "")
     : "新建类别";
   selInfo.classList.toggle("on", !!sel);
+  if (inspector.cls) {
+    inspector.cls.textContent = sel ? CLASSES[sel.cls] : "未选择";
+    inspector.id.textContent = sel ? sel.id : "—";
+    inspector.conf.textContent = sel && typeof sel.conf === "number" ? `${sel.conf.toFixed(3)} · ${sel.auto ? "自动" : "人工"}` : "—";
+    inspector.points.textContent = sel && sel.mask ? sel.mask.points.length : "—";
+  }
 }
 
 function updateCursor() {

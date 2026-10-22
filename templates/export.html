@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}数据导出 · 人机协同图像标注系统{% endblock %}
+{% block crumb_group %}结果{% endblock %}{% block crumb_page %}数据导出{% endblock %}
+{% block content %}
+<section class="page-intro compact"><div><h1>三格式数据导出</h1><p>临时目录执行完整导出校验，正式 dataset/ 保持只读</p></div></section>
+<div class="config-grid">
+  <div class="stack">
+    <section class="panel"><div class="panel-title">导出格式</div><label class="check-row"><input type="checkbox" checked disabled><span><b>YOLO 目标检测</b><small>labels/*.txt · 外接框</small></span></label><label class="check-row"><input type="checkbox" checked disabled><span><b>实例分割掩码</b><small>segments/*.txt · 多边形坐标</small></span></label><label class="check-row"><input type="checkbox" checked disabled><span><b>语义分割 PNG</b><small>semantic/*.png · 逐像素类别</small></span></label></section>
+    <section class="panel form-panel"><div class="panel-title">划分设置</div><label class="field"><span>train / val 比例</span><input value="90 / 10" readonly></label><label class="field"><span>随机种子</span><input id="seed" type="number" value="42"></label><div class="split-cards"><div><b>{{ export.train }}</b><span>train</span></div><div><b>{{ export.val }}</b><span>val</span></div></div></section>
+    <button class="btn-primary wide" id="btnExport">执行临时导出校验</button><p class="form-note" id="exportMsg">不会覆盖正式 dataset/。</p>
+  </div>
+  <section class="panel result-panel"><div class="panel-title">导出报告 <span class="phase-tag {{ 'pass' if export.valid else '' }}" id="exportState">{{ '校验通过' if export.valid else '待校验' }}</span></div><div class="result-stats"><span>有效实例 <b id="exInstances">{{ export.instances if export.instances is not none else '—' }}</b></span><span>空图 <b id="exEmpty">{{ export.empty if export.empty is not none else '—' }}</b></span></div><div class="export-list" id="exportList"><div><code>dataset/images/</code><b>{{ export.images }} 图 ✓</b></div><div><code>dataset/labels/</code><b>{{ export.labels }} txt ✓</b></div><div><code>dataset/segments/</code><b>{{ export.segments }} txt ✓</b></div><div><code>dataset/semantic/</code><b>{{ export.semantic }} png ✓</b></div><div><code>dataset/train.txt</code><b>{{ export.train }} ✓</b></div><div><code>dataset/val.txt</code><b>{{ export.val }} ✓</b></div><div><code>dataset/data.yaml</code><b>{{ '✓' if export.has_yaml else '缺失' }}</b></div></div></section>
+</div>
+{% endblock %}
+{% block scripts %}<script>
+(() => { const btn=document.getElementById('btnExport'),msg=document.getElementById('exportMsg');btn.onclick=async()=>{btn.disabled=true;btn.textContent='导出校验中…';msg.textContent='正在临时目录生成三种格式，请稍候。';try{const r=await fetch('/api/export',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({seed:Number(document.getElementById('seed').value)||42})}),d=await r.json();if(!r.ok)throw new Error(d.msg||'导出失败');document.getElementById('exInstances').textContent=d.summary.instances??'—';document.getElementById('exEmpty').textContent=d.summary.empty??'—';document.getElementById('exportState').textContent=d.summary.valid?'校验通过':'校验失败';document.getElementById('exportState').classList.toggle('pass',d.summary.valid);msg.textContent=d.msg}catch(e){msg.textContent='导出失败：'+e.message}finally{btn.disabled=false;btn.textContent='执行临时导出校验'}}})();
+</script>{% endblock %}

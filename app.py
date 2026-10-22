@@ -7,9 +7,12 @@
 import os
 import re
 import sys
+import csv
 import json
 import time
 import socket
+import tempfile
+import subprocess
 import threading
 from flask import Flask, render_template, request, jsonify, send_from_directory, abort
 
@@ -19,6 +22,8 @@ ANN_DIR = os.path.join(BASE, "data", "annotations")
 REC_DIR = os.path.join(BASE, "data", "records")
 REC_PATH = os.path.join(REC_DIR, "修正记录.json")
 CANVAS_DIR = os.path.join(BASE, "canvas")
+DATASET_DIR = os.path.join(BASE, "dataset")
+COMPARE_PATH = os.path.join(REC_DIR, "对比结果.csv")
 
 # 十类词表：顺序即类别编号，红线不可改
 CLASSES = ["person", "chair", "dining table", "couch", "tv",
@@ -42,7 +47,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 def no_cache(resp):
     """开发阶段：页面与前端资源禁用缓存，改完代码普通刷新即可生效"""
     p = request.path
-    if p == "/" or p.startswith("/canvas/") or p.startswith("/annotate/"):
+    if (p in ("/", "/annotate", "/prelabel", "/compare", "/export") or
+            p.startswith("/canvas/") or p.startswith("/annotate/")):
         resp.headers["Cache-Control"] = "no-store, max-age=0"
     return resp
 
@@ -185,7 +191,46 @@ def _prelabel_names(limit):
     return pending[:limit]
 
 
-def _prelabel_worker(conf, limit=None):
+def _run_r1_prelabel(names, conf, on_progress):
+    import prelabel
+    import reback
+    names = prelabel.list_images() if names is None else names
+    os.makedirs(prelabel.ANN_DIR, exist_ok=True)
+    stats = {"total": len(names), "done": 0, "created": 0, "skipped": 0,
+             "instances": 0, "errors": []}
+    on_progress("loading", **stats)
+    model = reback.load_model()
+    on_progress("start", **stats)
+    for name in names:
+        on_progress("image", current_file=name, **stats)
+        try:
+            path = prelabel.ann_path(name)
+            if os.path.exists(path):
+                stats["skipped"] += 1
+            else:
+                w, h, instances, dropped = reback.reback_image(
+                    model, os.path.join(prelabel.IMG_DIR, name), conf)
+                doc = {"image": name, "width": w, "height": h, "instances": instances,
+                       "modified_count": 0, "source": "prelabel",
+                       "prelabel": {"seg": "model/best.pt", "det": "model/best.pt",
+                                    "conf": conf, "dropped_fragments": dropped,
+                                    "time": time.strftime("%Y-%m-%d %H:%M:%S")}}
+                try:
+                    with open(path, "x", encoding="utf-8") as f:
+                        json.dump(doc, f, ensure_ascii=False, indent=1)
+                except FileExistsError:
+                    stats["skipped"] += 1
+                else:
+                    stats["created"] += 1
+                    stats["instances"] += len(instances)
+        except Exception as e:
+            stats["errors"].append(f"{name}: {type(e).__name__}: {e}")
+        stats["done"] += 1
+    on_progress("done", current_file=None, **stats)
+    return stats
+
+
+def _prelabel_worker(conf, limit=None, model="r0"):
     def on_progress(event, **s):
         with _prelabel_lock:
             PRELABEL.update({k: s[k] for k in ("done", "total", "created", "skipped", "instances")})
@@ -194,7 +239,11 @@ def _prelabel_worker(conf, limit=None):
             PRELABEL["phase"] = {"loading": "loading", "done": "done"}.get(event, "running")
     try:
         import prelabel                     # 延迟导入：ultralytics 很重，不拖慢服务启动
-        prelabel.run(names=_prelabel_names(limit), conf=conf, on_progress=on_progress)
+        names = _prelabel_names(limit)
+        if model == "r1":
+            _run_r1_prelabel(names, conf, on_progress)
+        else:
+            prelabel.run(names=names, conf=conf, on_progress=on_progress)
     except Exception as e:
         with _prelabel_lock:
             PRELABEL["errors"].append(f"{type(e).__name__}: {e}")
@@ -215,6 +264,7 @@ def api_prelabel_start():
         conf = 0.25
     conf = min(max(conf, 0.01), 0.99)
     limit = _parse_limit(body.get("limit"))
+    model = body.get("model") if body.get("model") in ("r0", "r1") else "r0"
     with _prelabel_lock:
         if PRELABEL["running"]:
             return jsonify({"ok": False, "msg": "预标注运行中，请等待完成", **PRELABEL}), 409
@@ -225,7 +275,7 @@ def api_prelabel_start():
                          "errors": [], "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
                          "finished_at": None})
         snap = dict(PRELABEL)
-    threading.Thread(target=_prelabel_worker, args=(conf, limit), daemon=True).start()
+    threading.Thread(target=_prelabel_worker, args=(conf, limit, model), daemon=True).start()
     return jsonify({"ok": True, **snap})
 
 
@@ -235,28 +285,154 @@ def api_prelabel_status():
         return jsonify(dict(PRELABEL, errors=list(PRELABEL["errors"])))
 
 
+def read_json(path, default=None):
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return default
+
+
+def image_items():
+    items = []
+    for name in list_images():
+        try:
+            doc = load_ann(name)
+            status = ann_status(name)
+            count = sum(1 for inst in doc.get("instances", []) if inst.get("mark") != "deleted")
+        except Exception:
+            status, count = "异常", 0
+        items.append({"name": name, "status": status, "instances": count})
+    return items
+
+
+def site_summary(items=None):
+    items = items or image_items()
+    records = load_records()
+    r1_path = os.path.join(REC_DIR, "修正统计_r1.json")
+    stats = read_json(r1_path, None) or read_json(os.path.join(REC_DIR, "修正统计.json"), {}) or {}
+    round_id = int(stats.get("round", ROUND))
+    round_reviewed = int(stats.get("images_reviewed", 0))
+    round_total = int(stats.get("total", sum(1 for r in records if r.get("round", 0) == round_id)))
+    overall = stats.get("overall") or {}
+    counts = {}
+    for item in items:
+        counts[item["status"]] = counts.get(item["status"], 0) + 1
+    return {"total": len(items), "reviewed": counts.get("已过审", 0),
+            "round": round_id, "round_reviewed": round_reviewed,
+            "round_total": round_total, "all_corrections": len(records), "target": TARGET,
+            "rate": overall.get("rate"), "auto_rate": overall.get("auto_rate"),
+            "prelabel_covered": sum(os.path.exists(ann_path(it["name"])) for it in items),
+            "status_counts": counts}
+
+
+def compare_rows():
+    try:
+        with open(COMPARE_PATH, encoding="utf-8-sig", newline="") as f:
+            return list(csv.DictReader(f))
+    except OSError:
+        return []
+
+
+def export_summary(root=DATASET_DIR):
+    def count(sub, suffix):
+        path = os.path.join(root, sub)
+        return sum(name.lower().endswith(suffix) for name in os.listdir(path)) if os.path.isdir(path) else 0
+
+    def lines(name):
+        path = os.path.join(root, name)
+        try:
+            with open(path, encoding="utf-8") as f:
+                return sum(bool(line.strip()) for line in f)
+        except OSError:
+            return 0
+
+    report_path = os.path.join(root, "export_report.md")
+    try:
+        with open(report_path, encoding="utf-8") as f:
+            report = f.read()
+    except OSError:
+        report = ""
+
+    def report_int(label):
+        m = re.search(rf"\| {re.escape(label)}[^|]*\|\s*(\d+)", report)
+        return int(m.group(1)) if m else None
+
+    data = {"images": count("images", (".jpg", ".jpeg", ".png")),
+            "labels": count("labels", ".txt"), "segments": count("segments", ".txt"),
+            "semantic": count("semantic", ".png"), "train": lines("train.txt"),
+            "val": lines("val.txt"), "has_yaml": os.path.isfile(os.path.join(root, "data.yaml")),
+            "instances": report_int("有效实例"), "empty": report_int("空图"),
+            "report": bool(report)}
+    data["valid"] = (data["images"] > 0 and data["images"] == data["labels"] ==
+                     data["segments"] == data["semantic"] and data["has_yaml"])
+    return data
+
+
+def page_context(active, items=None):
+    items = items or image_items()
+    return {"active": active, "summary": site_summary(items), "first_image": items[0]["name"] if items else None}
+
+
 @app.route("/")
 def index():
-    """列表页：全部图片 + 缩略图 + 状态标记"""
-    names = list_images()
-    items = []
-    round_reviewed = 0
-    for i, n in enumerate(names):
-        try:
-            status = ann_status(n)
-            if ROUND and status == "已过审":
-                round_reviewed += ROUND in (load_ann(n).get("reviewed_rounds") or [0])
-        except Exception:
-            status = "异常"
-        items.append({"name": n, "status": status})
+    items = image_items()
+    return render_template("index.html", **page_context("dashboard", items))
+
+
+@app.route("/annotate")
+def annotate_list():
+    items = image_items()
+    return render_template("images.html", items=items, **page_context("images", items))
+
+
+@app.route("/prelabel")
+def prelabel_page():
+    return render_template("prelabel.html", classes=CLASSES, **page_context("prelabel"))
+
+
+@app.route("/compare")
+def compare_page():
+    rows = compare_rows()
+    return render_template("compare.html", rows=rows, **page_context("compare"))
+
+
+@app.route("/export")
+def export_page():
+    return render_template("export.html", export=export_summary(), **page_context("export"))
+
+
+@app.route("/api/dashboard")
+def dashboard_summary():
+    return jsonify(site_summary())
+
+
+@app.route("/api/compare")
+def compare_api():
+    return jsonify({"rows": compare_rows()})
+
+
+@app.route("/api/export/status")
+def export_status():
+    return jsonify(export_summary())
+
+
+@app.route("/api/export", methods=["POST"])
+def export_validate():
+    body = request.get_json(silent=True) or {}
     try:
-        rec_total = sum(1 for r in load_records() if r.get("round", 0) == ROUND)
-    except Exception:
-        rec_total = 0
-    return render_template("index.html", items=items, total=len(names),
-                           reviewed=sum(1 for it in items if it["status"] == "已过审"),
-                           round=ROUND, round_reviewed=round_reviewed,
-                           rec_total=rec_total, target=TARGET)
+        seed = int(body.get("seed", 42))
+    except (TypeError, ValueError):
+        seed = 42
+    with tempfile.TemporaryDirectory(prefix="imglabel_export_") as tmp:
+        out = os.path.join(tmp, "dataset")
+        proc = subprocess.run([sys.executable, os.path.join(BASE, "export_dataset.py"),
+                               "--out", out, "--seed", str(seed)], cwd=BASE,
+                              capture_output=True, text=True, timeout=300)
+        if proc.returncode:
+            return jsonify({"ok": False, "msg": proc.stderr.strip() or proc.stdout.strip()}), 500
+        return jsonify({"ok": True, "msg": "临时目录导出并校验完成，正式 dataset/ 未改动",
+                        "summary": export_summary(out)})
 
 
 @app.route("/annotate/<name>")
@@ -271,7 +447,8 @@ def annotate(name):
     except ValueError:
         abort(404)
     return render_template("annotate.html", name=name, idx=idx,
-                           total=len(names), classes=CLASSES, round=ROUND, target=TARGET)
+                           total=len(names), classes=CLASSES, round=ROUND, target=TARGET,
+                           **page_context("canvas"))
 
 
 @app.route("/api/images")
