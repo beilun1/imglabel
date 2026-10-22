@@ -293,7 +293,27 @@ def read_json(path, default=None):
         return default
 
 
+_items_cache = {"t": 0.0, "v": None}
+_summary_cache = {"t": 0.0, "v": None}
+
+
+def _cache_get(c):
+    return c["v"] if (time.time() - c["t"]) < 2.0 else None
+
+
+def _cache_set(c, v):
+    c.update(t=time.time(), v=v)
+
+
+def _cache_clear():
+    _items_cache.update(t=0.0, v=None)
+    _summary_cache.update(t=0.0, v=None)
+
+
 def image_items():
+    cached = _cache_get(_items_cache)
+    if cached is not None:
+        return cached
     items = []
     for name in list_images():
         try:
@@ -303,11 +323,17 @@ def image_items():
         except Exception:
             status, count = "异常", 0
         items.append({"name": name, "status": status, "instances": count})
+    _cache_set(_items_cache, items)
     return items
 
 
 def site_summary(items=None):
-    items = items or image_items()
+    use_cache = items is None
+    if use_cache:
+        cached = _cache_get(_summary_cache)
+        if cached is not None:
+            return cached
+        items = image_items()
     records = load_records()
     r1_path = os.path.join(REC_DIR, "修正统计_r1.json")
     stats = read_json(r1_path, None) or read_json(os.path.join(REC_DIR, "修正统计.json"), {}) or {}
@@ -318,12 +344,15 @@ def site_summary(items=None):
     counts = {}
     for item in items:
         counts[item["status"]] = counts.get(item["status"], 0) + 1
-    return {"total": len(items), "reviewed": counts.get("已过审", 0),
-            "round": round_id, "round_reviewed": round_reviewed,
-            "round_total": round_total, "all_corrections": len(records), "target": TARGET,
-            "rate": overall.get("rate"), "auto_rate": overall.get("auto_rate"),
-            "prelabel_covered": sum(os.path.exists(ann_path(it["name"])) for it in items),
-            "status_counts": counts}
+    summary = {"total": len(items), "reviewed": counts.get("已过审", 0),
+               "round": round_id, "round_reviewed": round_reviewed,
+               "round_total": round_total, "all_corrections": len(records), "target": TARGET,
+               "rate": overall.get("rate"), "auto_rate": overall.get("auto_rate"),
+               "prelabel_covered": sum(os.path.exists(ann_path(it["name"])) for it in items),
+               "status_counts": counts}
+    if use_cache:
+        _cache_set(_summary_cache, summary)
+    return summary
 
 
 def compare_rows():
@@ -528,6 +557,7 @@ def save_annotation(name):
         if changed or review:
             update_stats(records)
         round_total = sum(1 for r in records if r.get("round", 0) == ROUND)
+        _cache_clear()
     return jsonify({"ok": True, "round_total": round_total, "reviewed": bool(doc.get("reviewed"))})
 
 
