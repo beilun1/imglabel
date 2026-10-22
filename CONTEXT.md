@@ -150,6 +150,8 @@
 - [x] **预标注标签精简**（2026-10-19，Qoder，`4441751`）：列表页标签「本次张数（留空=全部）」→「本次张数」，输入框 placeholder 仍为「全部」；仅改 templates/index.html 一行，后端与 JS 未动
 - [x] **专业多页面 UI 改版**（2026-10-22，Qoder，`fdf1bc7`）：按 `P7指令/UI设计稿.html` 的 V2 克制风统一六项深色侧栏；新增仪表盘 `/`、图片列表 `/annotate`、预标注 `/prelabel`、R0/R1 对比 `/compare`、三格式导出 `/export`，并重排 `/annotate/<name>` 标注工作台。指标读取真实 JSON/CSV/dataset 报告；新增只读 dashboard/compare/export-status API 与临时目录导出校验 API；预标注可选 R0/R1，既有 API 返回字段不变。`canvas/app.js` 只增加 10 行选中实例检查器显示，不改三模式、工具、`countEdit`、撤销重做和保存加载
   - 5001 浏览器验收六页、筛选/分页、三模式、R1 请求体与真实临时导出均通过，控制台无错；5002 临时目录完成新建框→撤销→重做→保存；项目 Python 真实 R1 推理 1 张成功（9 实例）。保护目录最终校验：annotations 325 / records 18 / curated 327 / dataset 1301，四组 MD5 与改版前完全一致
+- [x] **切页短 TTL 缓存优化**（2026-10-22，Qoder，`1801479`）：`image_items()` 与无显式 `items` 的 `site_summary()` 增加进程内 2 秒弱缓存；显式传入 `items` 时保持不缓存；标注与修正记录事务全部落盘后清空两项缓存，保存后列表/仪表盘立即读新数据。`no_cache`、API 结构、标注行为与数据格式均未改
+  - 5001 临时 annotations/records 副本验收 8 项通过：2 秒内重复调用不再读盘、过期重读；仪表盘/列表连续三轮与十次切页均正常；三模式、新建→撤销→重做→S 保存正常，实例 4→5、modified_count 1→2、修正记录 381→382 且字段不变；预标注/对比/导出数据正确，控制台无错。真实 annotations 325 文件 MD5 `44dbd3c5a2b93209034d24a8d56f01c1`、修正记录 MD5 `df4705e315ed80b29b6377a207fdc767` 前后不变
 - [ ] **demo/ 待用户录制**：录屏 ≤3 分钟（启动 → 三模式标注 → 导出 → 对比结果）或 3 张关键截图，用户提供后放入 `demo/` 并提交；目录目前不存在，不得用非平台产物占位
 - [ ] **最终 zip 待用户确认后打包**（截止 2026-11-03 22:00 前、由用户定日期）：打包前重新 `export_dataset.py` 生成 dataset/；zip 名 `姓名-人机协同图像标注系统.zip`，zip 根 = 项目根（含 `.git`、根 `.gitignore`）；排除 weights/、runs/、data/images/、data/review/thumbs/、__pycache__/、.workbuddy/、docs/；FTP 上传由用户本人完成
 - [ ] **下一步待办**：用户填姓名/学号/联系方式 → 录 demo → 打包 zip → 上传 FTP
