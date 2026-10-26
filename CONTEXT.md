@@ -158,6 +158,8 @@
   - 5001 临时副本验收 6 项通过：4 入口跳转正确且目标均 200；内容区「迭代对比」仅 1 处（侧栏导航为全局导航保留 1 处）；无操作入口面板、标注进度整行；统计卡/三块可视化/骨架屏正常、控制台无错；390/760px 下按钮换行不溢出；列表/预标注/对比/导出/画布三模式回归正常。五组 MD5 前后一致
 - [x] **画布选中面板 ID 栏改为序号展示 + 底层 id 悬停**（2026-10-26，Qoder，`2aca1ea`）：`canvas/app.js` `syncClassUI()` 中 `inspector.id` 由 `sel.id` 改为 `"#" + state.instances.indexOf(sel)`（与画布脚标同源），`title="底层 id: <id>"`；未选中显示 `—` 并清空 title。`sel.id`、`uid()`、落盘 JSON、撤销/修正记录/导出均未动
   - 5001 临时副本验收：coco_10707 人工新建 `imvdm01sfn0m4` 面板 `#16` = 画布 `couch #16`，悬停 `底层 id: imvdm01sfn0m4`；预标注 `p0`/`p5` 显示 `#0`/`#5`；未选中 `—` 且 title 为空；删除为 `mark="deleted"` 保留在数组（落盘也保留），故后续序号**不前移**，但面板与画布始终一致；撤销/重做、保存+刷新后序号与底层 id 不变；控制台无错，各页 200；五组 MD5 前后一致
+- [x] **画布选中面板底层 id 改为始终可见小字**（2026-10-26，Qoder，`0aff986`）：`annotate.html` ID 行下新增 `.ins-sub` 子行（`#insRawId`）；`app.js` `inspector.rawId` + `syncClassUI()` 写入 `sel.id`/`—` 与 title；`style.css` 新增 `.inspect-box>.ins-sub` 灰色 10.5px 等宽小字、max-width 120px 省略号截断（加 `.inspect-box>` 前缀是为压过 `.inspect-box>div` 的特异性）。主行 `#序号` 与悬停 title 保留
+  - 5001 临时副本 + 1440px 无头 Edge 实测：新建实例 `#16` 下方灰字 `imvdm01sfn0m4`，预标注 `#0` 下方 `p0`；未选中两行均 `—`、title 清空；13 位 id 宽 75px 完整显示，超长串 120px 处省略号截断不换行；各状态面板高度恒 133px，置信度/掩码点数行位置不变；删除/撤销/重做后主行与小字同步；控制台无错，各页 200、画布三模式在；五组 MD5 前后一致
 - [ ] **demo/ 待用户录制**：录屏 ≤3 分钟（启动 → 三模式标注 → 导出 → 对比结果）或 3 张关键截图，用户提供后放入 `demo/` 并提交；目录目前不存在，不得用非平台产物占位
 - [ ] **最终 zip 待用户确认后打包**（截止 2026-11-03 22:00 前、由用户定日期）：打包前重新 `export_dataset.py` 生成 dataset/；zip 名 `姓名-人机协同图像标注系统.zip`，zip 根 = 项目根（含 `.git`、根 `.gitignore`）；排除 weights/、runs/、data/images/、data/review/thumbs/、__pycache__/、.workbuddy/、docs/；FTP 上传由用户本人完成
 - [ ] **下一步待办**：用户填姓名/学号/联系方式 → 录 demo → 打包 zip → 上传 FTP
