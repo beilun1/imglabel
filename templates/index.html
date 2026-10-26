@@ -27,7 +27,7 @@
 {% block content %}
 <section class="page-intro">
   <div><h1>数据集总览</h1><p>{{ summary.total }} 张室内图 · 10 类目标 · R0→R1 已闭环</p></div>
-  <div class="intro-actions"><a class="btn-primary" href="/annotate">进入图片列表</a><a class="btn-ghost" href="/compare">迭代对比</a></div>
+  <div class="intro-actions"><a class="btn-primary" href="/annotate">进入图片列表</a><a class="btn-ghost" href="/prelabel">模型预标注</a><a class="btn-ghost" href="/annotate">逐张过审</a><a class="btn-ghost" href="/compare">迭代对比</a></div>
 </section>
 <section class="stats-grid" id="dashboardStats">
   <article class="stat-card"><span>总图片数</span><strong>{{ summary.total }}</strong><small>≥ 150 达标</small></article>
@@ -40,7 +40,7 @@
 {% for h in (summary.get('rate_history') or []) %}{% if h.rate is number %}{% if h.round == 0 and ns.r0 is none %}{% set ns.r0 = h.rate %}{% elif h.round == 1 and ns.r1 is none %}{% set ns.r1 = h.rate %}{% endif %}{% endif %}{% endfor %}
 {% set cc = summary.get('class_counts') or [] %}
 <section class="dashboard-viz" id="dashboardViz">
-  <article class="panel" id="vizRate"><div class="panel-title">人工修正率 · 迭代对比<small>R0 → R1，平台自动统计</small></div>
+  <article class="panel" id="vizRate"><div class="panel-title">人工修正率 · R0 vs R1<small>R0 → R1，平台自动统计</small></div>
   {% if ns.r0 is not none and ns.r1 is not none %}
     {% set m = [ns.r0, ns.r1]|max %}
     {% set h0 = (ns.r0 / m * 78) if m > 0 else 0 %}{% set h1 = (ns.r1 / m * 78) if m > 0 else 0 %}
@@ -93,9 +93,6 @@
     <div class="progress-row"><div><span>已过审</span><b>{{ summary.reviewed }} / {{ summary.total }}</b></div><div class="progress"><i style="width:{{ summary.reviewed * 100 / summary.total if summary.total else 0 }}%"></i></div></div>
     <div class="progress-row"><div><span>修正达标</span><b>{{ summary.all_corrections }} / {{ summary.target }}</b></div><div class="progress"><i class="ok" style="width:{{ [summary.all_corrections * 100 / summary.target, 100]|min }}%"></i></div></div>
     <div class="progress-row"><div><span>预标注覆盖</span><b>{{ summary.prelabel_covered }} / {{ summary.total }}</b></div><div class="progress"><i style="width:{{ summary.prelabel_covered * 100 / summary.total if summary.total else 0 }}%"></i></div></div>
-  </article>
-  <article class="panel"><div class="panel-title">操作入口</div>
-    <div class="quick-list"><a href="/prelabel"><span>↻</span><div><b>模型预标注</b><small>支持一次处理 N 张</small></div></a><a href="/annotate"><span>✎</span><div><b>逐张过审</b><small>检测框 / 掩码 / 语义</small></div></a><a href="/compare"><span>◨</span><div><b>迭代对比</b><small>R0 vs R1 修正率与 mAP</small></div></a></div>
   </article>
 </section>
 {% endblock %}
