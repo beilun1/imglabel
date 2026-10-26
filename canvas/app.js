@@ -751,7 +751,14 @@ function syncClassUI() {
   selInfo.classList.toggle("on", !!sel);
   if (inspector.cls) {
     inspector.cls.textContent = sel ? CLASSES[sel.cls] : "未选择";
-    inspector.id.textContent = sel ? sel.id : "—";
+    if (sel) {
+      const seqIdx = state.instances.indexOf(sel);
+      inspector.id.textContent = "#" + seqIdx;
+      inspector.id.title = "底层 id: " + sel.id;
+    } else {
+      inspector.id.textContent = "—";
+      inspector.id.title = "";
+    }
     inspector.conf.textContent = sel && typeof sel.conf === "number" ? `${sel.conf.toFixed(3)} · ${sel.auto ? "自动" : "人工"}` : "—";
     inspector.points.textContent = sel && sel.mask ? sel.mask.points.length : "—";
   }
