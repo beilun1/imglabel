@@ -8,6 +8,7 @@ import os
 import re
 import sys
 import csv
+import glob
 import json
 import time
 import socket
@@ -295,6 +296,7 @@ def read_json(path, default=None):
 
 _items_cache = {"t": 0.0, "v": None}
 _summary_cache = {"t": 0.0, "v": None}
+_class_cache = {"t": 0.0, "v": None}
 
 
 def _cache_get(c):
@@ -308,6 +310,39 @@ def _cache_set(c, v):
 def _cache_clear():
     _items_cache.update(t=0.0, v=None)
     _summary_cache.update(t=0.0, v=None)
+    _class_cache.update(t=0.0, v=None)
+
+
+def class_counts():
+    cached = _cache_get(_class_cache)
+    if cached is not None:
+        return cached
+    counts = [0] * len(CLASSES)
+    for p in glob.glob(os.path.join(ANN_DIR, "*.json")):
+        doc = read_json(p, {})
+        for inst in (doc.get("instances", []) if isinstance(doc, dict) else []):
+            if inst.get("mark") != "deleted":
+                cls = inst.get("cls")
+                if isinstance(cls, int) and not isinstance(cls, bool) and 0 <= cls < len(CLASSES):
+                    counts[cls] += 1
+    _cache_set(_class_cache, counts)
+    return counts
+
+
+def rate_history():
+    try:
+        out = []
+        for r in compare_rows():
+            rnd = r.get("轮次", r.get("round"))
+            raw = r.get("整体修正率", r.get("overall_rate"))
+            try:
+                rate = float(raw)
+            except (TypeError, ValueError):
+                rate = None
+            out.append({"round": int(rnd), "rate": rate})
+        return out
+    except (TypeError, ValueError):
+        return []
 
 
 def image_items():
@@ -349,7 +384,8 @@ def site_summary(items=None):
                "round_total": round_total, "all_corrections": len(records), "target": TARGET,
                "rate": overall.get("rate"), "auto_rate": overall.get("auto_rate"),
                "prelabel_covered": sum(os.path.exists(ann_path(it["name"])) for it in items),
-               "status_counts": counts}
+               "status_counts": counts,
+               "rate_history": rate_history(), "class_counts": class_counts()}
     if use_cache:
         _cache_set(_summary_cache, summary)
     return summary

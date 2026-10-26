@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}图片列表 · 人机协同图像标注系统{% endblock %}
 {% block crumb_group %}标注{% endblock %}{% block crumb_page %}图片列表{% endblock %}
+{% block head %}
+<style>
+.thumb-placeholder{background:#e6e8ec}
+.thumbs-js .thumb-placeholder img{opacity:0;transition:opacity .3s}
+.thumbs-js .thumb-placeholder.loaded img{opacity:1}
+</style>
+{% endblock %}
 {% block content %}
 <section class="page-intro compact"><div><h1>图片列表</h1><p>按状态筛选并进入标注画布</p></div><a class="btn-primary" href="/prelabel">开始预标注</a></section>
 <div class="filters" id="filters">
@@ -10,7 +17,7 @@
 <div class="image-grid" id="imageGrid">
 {% for it in items %}
   <a class="image-card" href="/annotate/{{ it.name }}" data-status="{{ it.status }}">
-    <div class="image-wrap"><img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy"><span class="status-badge s-{{ {'已过审':'reviewed','已修改':'modified','回标草稿':'reback','预标':'prelabel','已标':'done','已标(空)':'done','异常':'error'}.get(it.status,'none') }}">{{ '已过审 ✓' if it.status == '已过审' else it.status }}</span></div>
+    <div class="image-wrap thumb-placeholder"><img src="/image/{{ it.name }}" alt="{{ it.name }}" loading="lazy"><span class="status-badge s-{{ {'已过审':'reviewed','已修改':'modified','回标草稿':'reback','预标':'prelabel','已标':'done','已标(空)':'done','异常':'error'}.get(it.status,'none') }}">{{ '已过审 ✓' if it.status == '已过审' else it.status }}</span></div>
     <div class="image-meta"><span title="{{ it.name }}">{{ it.name }}</span><b>{{ it.instances }} 实例</b></div>
   </a>
 {% endfor %}
@@ -31,6 +38,15 @@
   }
   document.querySelectorAll('.filter').forEach(b => b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('on'));b.classList.add('on');filter=b.dataset.filter;page=1;render()});
   render();
+})();
+(() => {
+  const grid = document.getElementById('imageGrid');
+  grid.querySelectorAll('.thumb-placeholder img').forEach(img => {
+    const done = () => img.parentElement.classList.add('loaded');
+    if (img.complete) done();
+    else { img.addEventListener('load', done, { once: true }); img.addEventListener('error', done, { once: true }); }
+  });
+  grid.classList.add('thumbs-js');
 })();
 </script>
 {% endblock %}

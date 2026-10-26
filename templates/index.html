@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}仪表盘 · 人机协同图像标注系统{% endblock %}
+{% block head %}
+<style>
+.dashboard-viz{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-bottom:18px}
+.dashboard-viz .viz-wide{grid-column:1 / -1}
+.panel-title small{color:var(--dim);font-weight:400;margin-left:8px;font-size:11.5px}
+.viz-empty{height:140px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12.5px;background:#f8f9fb;border:1px dashed var(--line);border-radius:8px}
+.rate-chart{display:block;width:100%;height:140px}
+.rate-chart .v{font:600 12px var(--mono);fill:#1c2026}
+.rate-chart .t{font-size:11.5px;fill:#7a8296}
+.rate-chart .d{font:700 11.5px var(--mono)}
+.ring-wrap{display:flex;align-items:center;gap:22px;min-height:140px}
+.ring-wrap svg{flex:none}
+.ring-wrap .ring-pct{font:600 19px var(--mono);fill:#1c2026}
+.ring-txt b{display:block;font:600 22px var(--mono);color:#1c2026}
+.ring-txt span{display:block;color:var(--dim);font-size:12px;margin-top:6px;line-height:1.6}
+.cls-bars{display:flex;flex-direction:column;gap:7px}
+.cls-row{display:grid;grid-template-columns:84px 1fr 52px;align-items:center;gap:10px;font-size:12px}
+.cls-row .nm{color:var(--dim);text-align:right}
+.cls-row .track{background:#f0f1f4;border-radius:4px;height:14px;overflow:hidden}
+.cls-row .fill{height:100%;background:var(--acc);border-radius:4px}
+.cls-row .n{font-family:var(--mono);text-align:right;color:#1c2026}
+@media(max-width:760px){.dashboard-viz{grid-template-columns:1fr}}
+</style>
+{% endblock %}
 {% block content %}
 <section class="page-intro">
   <div><h1>数据集总览</h1><p>{{ summary.total }} 张室内图 · 10 类目标 · R0→R1 已闭环</p></div>
@@ -10,6 +34,59 @@
   <article class="stat-card"><span>已过审</span><strong>{{ summary.reviewed }}</strong><small>{{ (summary.reviewed * 100 / summary.total)|round|int if summary.total else 0 }}% 完成度</small></article>
   <article class="stat-card"><span>累计修正 · 真实记录</span><strong>{{ summary.all_corrections }}</strong><small>≥ {{ summary.target }} 已达标</small></article>
   <article class="stat-card"><span>人工修正率 · R{{ summary.round }}</span><strong class="green">{{ '%.1f%%'|format(summary.rate * 100) if summary.rate is not none else '—' }}</strong><small>来自平台修正统计</small></article>
+</section>
+{% set zh = ["人", "椅子", "桌子", "沙发", "电视", "笔记本电脑", "杯子", "瓶子", "盆栽", "床"] %}
+{% set ns = namespace(r0=none, r1=none) %}
+{% for h in (summary.get('rate_history') or []) %}{% if h.rate is number %}{% if h.round == 0 and ns.r0 is none %}{% set ns.r0 = h.rate %}{% elif h.round == 1 and ns.r1 is none %}{% set ns.r1 = h.rate %}{% endif %}{% endif %}{% endfor %}
+{% set cc = summary.get('class_counts') or [] %}
+<section class="dashboard-viz" id="dashboardViz">
+  <article class="panel" id="vizRate"><div class="panel-title">人工修正率 · 迭代对比<small>R0 → R1，平台自动统计</small></div>
+  {% if ns.r0 is not none and ns.r1 is not none %}
+    {% set m = [ns.r0, ns.r1]|max %}
+    {% set h0 = (ns.r0 / m * 78) if m > 0 else 0 %}{% set h1 = (ns.r1 / m * 78) if m > 0 else 0 %}
+    {% set d = (ns.r0 - ns.r1) * 100 %}
+    <svg class="rate-chart" viewBox="0 0 360 140" preserveAspectRatio="xMidYMid meet" role="img" aria-label="R0 修正率 {{ '%.2f'|format(ns.r0 * 100) }}%，R1 修正率 {{ '%.2f'|format(ns.r1 * 100) }}%">
+      <line x1="40" y1="112.5" x2="320" y2="112.5" stroke="#e5e8ee"/>
+      <rect x="82" y="{{ 112 - h0 }}" width="56" height="{{ h0 }}" rx="5" fill="#c9cdd4"/>
+      <text class="v" x="110" y="{{ 104 - h0 }}" text-anchor="middle">{{ '%.2f'|format(ns.r0 * 100) }}%</text>
+      <rect x="222" y="{{ 112 - h1 }}" width="56" height="{{ h1 }}" rx="5" fill="#2f6fe4"/>
+      <text class="v" x="250" y="{{ 104 - h1 }}" text-anchor="middle">{{ '%.2f'|format(ns.r1 * 100) }}%</text>
+      <text class="d" x="250" y="{{ 86 - h1 }}" text-anchor="middle" fill="{{ '#1e9e63' if d >= 0 else '#c03a3a' }}">{{ '▼' if d >= 0 else '▲' }} {{ '%.2f'|format(d|abs) }}pp</text>
+      <text class="t" x="110" y="131" text-anchor="middle">R0 · 官方预标</text>
+      <text class="t" x="250" y="131" text-anchor="middle">R1 · 自训回标</text>
+    </svg>
+  {% else %}
+    <div class="viz-empty">{{ '等待 R1 对比数据' if summary.get('rate_history') else '暂无数据' }}</div>
+  {% endif %}
+  </article>
+  <article class="panel" id="vizRing"><div class="panel-title">已过审进度<small>人工过审覆盖率</small></div>
+  {% if summary.total %}
+    {% set p = summary.reviewed / summary.total %}
+    <div class="ring-wrap">
+      <svg width="116" height="116" viewBox="0 0 116 116" role="img" aria-label="已过审 {{ '%.1f'|format(p * 100) }}%">
+        <circle cx="58" cy="58" r="46" fill="none" stroke="#f0f1f4" stroke-width="11"/>
+        <circle cx="58" cy="58" r="46" fill="none" stroke="#2f6fe4" stroke-width="11" stroke-linecap="{{ 'round' if p > 0 else 'butt' }}"
+                stroke-dasharray="289.03" stroke-dashoffset="{{ '%.2f'|format(289.03 * (1 - p)) }}" transform="rotate(-90 58 58)"/>
+        <text class="ring-pct" x="58" y="64" text-anchor="middle">{{ '%.1f'|format(p * 100) }}%</text>
+      </svg>
+      <div class="ring-txt"><b>{{ summary.reviewed }} / {{ summary.total }}</b><span>已过审 / 总图片数<br>未过审 {{ summary.total - summary.reviewed }} 张</span></div>
+    </div>
+  {% else %}
+    <div class="viz-empty">暂无数据</div>
+  {% endif %}
+  </article>
+  <article class="panel viz-wide" id="vizClass">
+  {% if cc|length == zh|length and cc|max > 0 %}
+    {% set cmax = cc|max %}
+    <div class="panel-title">类别实例分布<small>存活实例 {{ cc|sum }} · {{ zh|length }} 类</small></div>
+    <div class="cls-bars">
+    {% for n in cc %}<div class="cls-row"><span class="nm">{{ zh[loop.index0] }}</span><div class="track"><div class="fill" style="width:{{ '%.1f'|format(n * 100 / cmax) }}%"></div></div><span class="n">{{ n }}</span></div>
+    {% endfor %}</div>
+  {% else %}
+    <div class="panel-title">类别实例分布</div>
+    <div class="viz-empty">暂无数据</div>
+  {% endif %}
+  </article>
 </section>
 <section class="dashboard-grid">
   <article class="panel"><div class="panel-title">标注进度<a href="/annotate">查看详情 ›</a></div>

@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{% block title %}人机协同图像标注系统{% endblock %}</title>
 <link rel="stylesheet" href="/canvas/style.css">
+<style>
+.page-main{position:relative}
+.skeleton-overlay{position:absolute;top:49px;left:0;right:0;bottom:0;z-index:999;background:#f5f6f8;padding:20px;transition:opacity .25s}
+.skeleton-overlay.hidden{opacity:0;pointer-events:none}
+.skeleton-overlay .sk-inner{max-width:1440px;margin:auto}
+.sk{background:linear-gradient(90deg,#e6e8ec 25%,#f0f2f5 37%,#e6e8ec 63%);background-size:400% 100%;animation:shimmer 1.2s linear infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+.sk-title{height:22px;width:32%}.sk-sub{height:13px;width:46%;margin-top:12px}
+.sk-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}.sk-card{height:86px}
+.sk-block{height:190px;margin-top:18px}.sk-block.short{height:140px}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+</style>
+<noscript><style>#pageSkeleton{display:none}</style></noscript>
+{% block head %}{% endblock %}
 </head>
 <body>
 <div class="app-shell">
@@ -14,9 +28,30 @@
       <div class="crumb">{% block crumb_group %}工作台{% endblock %} / <b>{% block crumb_page %}仪表盘{% endblock %}</b></div>
       <div class="head-stats">R{{ summary.round }} · 本轮过审 <b>{{ summary.round_reviewed }}</b> 张 · 累计修正 <b class="accent">{{ summary.all_corrections }}</b> 条</div>
     </header>
+    <div id="pageSkeleton" class="skeleton-overlay" aria-hidden="true"><div class="sk-inner">
+      <div class="sk sk-title"></div><div class="sk sk-sub"></div>
+      <div class="sk-cards"><div class="sk sk-card"></div><div class="sk sk-card"></div><div class="sk sk-card"></div><div class="sk sk-card"></div></div>
+      <div class="sk sk-block"></div><div class="sk sk-block short"></div>
+    </div></div>
     <div class="page-content">{% block content %}{% endblock %}</div>
   </main>
 </div>
+<script>
+(() => {
+  const sk = document.getElementById('pageSkeleton');
+  if (!sk) return;
+  let done = false;
+  const hide = () => {
+    if (done) return; done = true;
+    sk.classList.add('hidden');
+    setTimeout(() => sk.remove(), 260);
+  };
+  const ready = () => requestAnimationFrame(() => requestAnimationFrame(hide));
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
+  else ready();
+  setTimeout(hide, 3000);
+})();
+</script>
 {% block scripts %}{% endblock %}
 </body>
 </html>
