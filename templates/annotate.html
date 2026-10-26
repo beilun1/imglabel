@@ -26,7 +26,7 @@
         <div class="color-legend"><h5>颜色图例</h5>{% for c in classes %}<div><i class="swatch c{{ loop.index0 }}"></i>{{ c }}</div>{% endfor %}</div>
       </section>
       <aside class="inspector">
-        <h5>选中实例</h5><div class="inspect-box"><div><span>类别</span><b id="insClass">未选择</b></div><div><span>ID</span><b id="insId">—</b></div><div><span>置信度</span><b id="insConf">—</b></div><div><span>掩码点数</span><b id="insPoints">—</b></div></div>
+        <h5>选中实例</h5><div class="inspect-box"><div><span>类别</span><b id="insClass">未选择</b></div><div><span>ID</span><b id="insId">—</b></div><div class="ins-sub"><span class="ins-sub-fill"></span><b id="insRawId">—</b></div><div><span>置信度</span><b id="insConf">—</b></div><div><span>掩码点数</span><b id="insPoints">—</b></div></div>
         <h5>修正计数</h5><div class="counter-copy">本图已修改 <b id="cntMod">0</b> 处<br>累计 <b id="cntTotal">…</b> / <b id="cntTarget">60</b> 条</div>
         <h5>快捷键</h5><div class="shortcut-box"><div><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 切模式</div><div><kbd>W</kbd> 画笔　<kbd>E</kbd> 橡皮</div><div><kbd>P</kbd> 多边形　<kbd>V</kbd> 移动</div><div><kbd>N</kbd> 新建框　<kbd>H</kbd> 抓手</div><div><kbd>Del</kbd> 删除　<kbd>S</kbd> 保存</div><div><kbd>Ctrl+Z</kbd> 撤销</div></div>
       </aside>

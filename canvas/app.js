@@ -97,6 +97,7 @@ const btnHand = document.getElementById("btnHand");
 const inspector = {
   cls: document.getElementById("insClass"), id: document.getElementById("insId"),
   conf: document.getElementById("insConf"), points: document.getElementById("insPoints"),
+  rawId: document.getElementById("insRawId"),
 };
 
 /* ---------- 类别下拉 ---------- */
@@ -758,6 +759,10 @@ function syncClassUI() {
     } else {
       inspector.id.textContent = "—";
       inspector.id.title = "";
+    }
+    if (inspector.rawId) {
+      inspector.rawId.textContent = sel ? sel.id : "—";
+      inspector.rawId.title = sel ? "底层 id: " + sel.id : "";
     }
     inspector.conf.textContent = sel && typeof sel.conf === "number" ? `${sel.conf.toFixed(3)} · ${sel.auto ? "自动" : "人工"}` : "—";
     inspector.points.textContent = sel && sel.mask ? sel.mask.points.length : "—";
