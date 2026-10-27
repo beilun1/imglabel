@@ -100,3 +100,4 @@ data/review/preview/page_*.html
 
 # 压缩/处理报告的 json 明细体积较大，只保留 md 摘要
 data/images/_compress_report.json
+P7指令/UI设计稿.html
