@@ -76,4 +76,3 @@ python app.py
 ## 提交
 
 - GitHub 仓库：https://github.com/beilun1/imglabel（公开，评审可直接浏览、单文件下载或整包 zip 下载）
-- 提交方式：主办方通知工坊服务器无法进入内网、宿舍网无法连接 FTP，最终结果以本仓库链接私信提交，不再打包上传 FTP。
