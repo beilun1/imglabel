@@ -47,6 +47,7 @@ python app.py
 ├─ demo/       演示录屏（≤3min）或 3 张关键截图
 ├─ ai_log.md   AI 使用记录（时间|工具|用途）
 ├─ 提交信息.txt  姓名/学号/联系方式、数据来源、迭代轮次与 mAP/修正率
+├─ CONTEXT.md  开发协作交接事实源（多 agent 切换时先读）
 └─ README.md
 ```
 
