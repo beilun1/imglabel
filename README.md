@@ -14,7 +14,7 @@
 | 自训模型 | [model/best.pt](model/best.pt) · [train_report.md](model/train_report.md) | R1 权重 6.3MB，含各轮训练指标 |
 | 迭代结果 | [records/对比结果.csv](records/对比结果.csv) · [修正统计.md](records/修正统计.md) | R0/R1 的 mAP 与人工修正率 |
 | 交付说明 | [提交信息.txt](提交信息.txt) · [ai_log.md](ai_log.md) · [CONTEXT.md](CONTEXT.md) | 数据来源与类别分布、AI 使用记录、开发交接 |
-| 整包下载 | [Download ZIP](https://github.com/beilun1/imglabel/archive/refs/heads/master.zip) | 约 106MB，含全部源码、数据、权重与演示视频 |
+| 整包下载 | [Download ZIP](https://github.com/beilun1/imglabel/archive/refs/heads/master.zip) | 约 100MB，含全部源码、数据、权重与演示视频 |
 
 > 公开仓库，无需登录即可浏览与下载；想在本机跑起来请看下面的「快速开始」。
 
