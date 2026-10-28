@@ -114,4 +114,16 @@ data/review/preview/page_*.html
 
 # 压缩/处理报告的 json 明细体积较大，只保留 md 摘要
 data/images/_compress_report.json
-P7指令/UI设计稿.html
+
+# ===== AI 提示词 / 指令 / 协作过程文档（仅本地保留，不上传 GitHub）=====
+P0指令/
+P1指令/
+P2指令/
+P3指令/
+P4指令/
+P5指令/
+P6指令/
+P7指令/
+CONTEXT.md
+执行打卡看板.html
+人机协同图像标注系统·任务书.docx
