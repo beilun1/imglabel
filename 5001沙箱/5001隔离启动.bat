@@ -10,7 +10,7 @@ set "GALLERY_N=20"
 set "PRELABEL_N=8"
 set "PORT=5001"
 set "PY=C:\Users\H\miniforge3\envs\imglabel\python.exe"
-for %%I in ("%~dp0..\..") do set "SRC=%%~fI"
+for %%I in ("%~dp0..") do set "SRC=%%~fI"
 set "DST=%TEMP%\isolated_5001"
 
 set "MODE=%~1"
