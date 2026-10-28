@@ -1,0 +1,4 @@
+# .bat/.ps1 按二进制原样存储（-text 关闭换行转换），保证仓库里就是 CRLF。
+# 原因：cmd.exe 解析 LF-only 的批处理时 goto/call 标签会失效。
+*.bat -text
+*.ps1 -text
