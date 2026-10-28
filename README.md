@@ -4,6 +4,20 @@
 
 > 结算目标：30 分钟内完成 150 张室内图的三种模式标注。
 
+## 评审从这里看
+
+| 看什么 | 直接打开 | 说明 |
+|---|---|---|
+| 演示视频（主片） | [demo/演示录屏.mp4](demo/演示录屏.mp4) | 2 分 54 秒：启动 → 预标注 → 三模式标注 → 导出 → R0/R1 对比 |
+| 演示视频（5002 短片） | [demo/5002-任意图检测.mp4](demo/5002-任意图检测.mp4) | 43 秒：拖入数据集外的任意图，实时检测并切换三模式 |
+| 三格式数据集 | [dataset/](dataset/) · [export_report.md](dataset/export_report.md) | YOLO txt / 实例掩码 / 语义 PNG，324 张，train:val = 9:1 |
+| 自训模型 | [model/best.pt](model/best.pt) · [train_report.md](model/train_report.md) | R1 权重 6.3MB，含各轮训练指标 |
+| 迭代结果 | [records/对比结果.csv](records/对比结果.csv) · [修正统计.md](records/修正统计.md) | R0/R1 的 mAP 与人工修正率 |
+| 交付说明 | [提交信息.txt](提交信息.txt) · [ai_log.md](ai_log.md) · [CONTEXT.md](CONTEXT.md) | 数据来源与类别分布、AI 使用记录、开发交接 |
+| 整包下载 | [Download ZIP](https://github.com/beilun1/imglabel/archive/refs/heads/master.zip) | 约 106MB，含全部源码、数据、权重与演示视频 |
+
+> 公开仓库，无需登录即可浏览与下载；想在本机跑起来请看下面的「快速开始」。
+
 ## 快速开始（三条命令）
 
 ```bash
