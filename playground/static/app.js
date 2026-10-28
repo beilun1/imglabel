@@ -42,6 +42,7 @@
     files: [], nextFileId: 1, busy: false, taskId: null, snapshot: null,
     images: [], results: new Map(), signatures: new Map(), imageButtons: new Map(),
     activeFilename: null, selectedIndex: -1, view: 'boxes', image: null,
+    clickCycle: { x: null, y: null, indices: [], pos: -1 },
     imageLoading: false, imageLoadError: '', imageToken: 0, transform: null,
     paths: new WeakMap(), inspectorKey: '', taskFailure: '',
     pollTimer: null, pollFailures: 0, runToken: 0, uncertainError: null,
@@ -299,6 +300,7 @@
     if (filename === state.activeFilename && state.image) return;
     state.activeFilename = filename;
     state.selectedIndex = -1;
+    resetClickCycle();
     state.inspectorKey = '';
     state.image = null;
     state.imageLoadError = '';
@@ -622,6 +624,10 @@
     ctx.restore();
   }
 
+  function resetClickCycle() {
+    state.clickCycle = { x: null, y: null, indices: [], pos: -1 };
+  }
+
   function handleCanvasClick(event) {
     if (!state.transform || !state.image || !hitContext) return;
     const rect = ui.canvas.getBoundingClientRect();
@@ -633,25 +639,39 @@
     const y = (screenY - transform.offsetY) / transform.scale;
     if (x < 0 || y < 0 || x > transform.width || y > transform.height) {
       selectInstance(-1);
+      resetClickCycle();
       return;
     }
     const instances = instancesOf(activeResult());
+    const candidates = [];
     hitContext.setTransform(1, 0, 0, 1, 0, 0);
     for (let index = instances.length - 1; index >= 0; index -= 1) {
       const instance = instances[index];
       const path = state.view === 'boxes' ? null : pathOf(instance);
       const box = bboxOf(instance);
       const hit = path ? hitContext.isPointInPath(path, x, y, 'nonzero') : box && x >= box.x && x <= box.x + box.width && y >= box.y && y <= box.y + box.height;
-      if (hit) {
-        selectInstance(index);
-        return;
-      }
+      if (hit) candidates.push(index);
     }
-    selectInstance(-1);
+    if (!candidates.length) {
+      selectInstance(-1);
+      resetClickCycle();
+      return;
+    }
+    const cycle = state.clickCycle;
+    const sameSpot = cycle.x !== null && Math.hypot(event.clientX - cycle.x, event.clientY - cycle.y) <= 8;
+    const sameSet = cycle.indices.join(',') === candidates.join(',');
+    let pos = 0;
+    if (sameSpot && sameSet) {
+      const prev = cycle.indices.indexOf(state.selectedIndex);
+      if (prev >= 0) pos = (prev + 1) % candidates.length;
+    }
+    selectInstance(candidates[pos]);
+    state.clickCycle = { x: event.clientX, y: event.clientY, indices: candidates, pos };
   }
 
   function setView(view) {
     state.view = view;
+    resetClickCycle();
     tabs.forEach((tab) => {
       const active = tab.dataset.view === view;
       tab.classList.toggle('active', active);
@@ -792,6 +812,7 @@
     state.imageButtons.clear();
     state.activeFilename = null;
     state.selectedIndex = -1;
+    resetClickCycle();
     state.image = null;
     state.imageLoading = false;
     state.imageLoadError = '';
