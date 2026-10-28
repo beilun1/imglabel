@@ -1,0 +1,15 @@
+# export_dataset.py 生成；不写 path，ultralytics 以本文件所在目录为数据集根
+train: train.txt
+val: val.txt
+nc: 10
+names:
+  0: person
+  1: chair
+  2: dining table
+  3: couch
+  4: tv
+  5: laptop
+  6: cup
+  7: bottle
+  8: potted plant
+  9: bed
