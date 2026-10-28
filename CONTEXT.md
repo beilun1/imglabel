@@ -1,6 +1,6 @@
 # CONTEXT.md — 多 Agent 交接事实源
 
-> 本文件是多个 AI 工具（Trae / Qoder / WorkBuddy / CodeBuddy）之间的唯一事实源。
+> 本文件是多个 AI 工具（Trae / Qoder / WorkBuddy）之间的唯一事实源。其中 WorkBuddy 仅用于 P1 数据准备，P2 及之后均由 Trae 与 Qoder 完成。
 > **任何工具开工前必须先读本文件**；本文件只写"事实"，不写"情绪"。
 > 每次换工具、每完成一个重要节点，都必须更新本文件并 git commit。
 
