@@ -44,7 +44,7 @@ python app.py
 ├─ model/      自训权重 best.pt + 各轮训练指标
 ├─ weights/    预标注所用官方权重（yolo26n-seg.pt / yolov8s-worldv2.pt）
 ├─ records/    根目录交付版修正记录 + 对比结果.csv
-├─ demo/       演示录屏（≤3min）或 3 张关键截图
+├─ demo/       演示录屏：演示录屏.mp4（2:54，启动→预标注→三模式→导出→对比）+ 5002-任意图检测.mp4（0:43）
 ├─ ai_log.md   AI 使用记录（时间|工具|用途）
 ├─ 提交信息.txt  姓名/学号/联系方式、数据来源、迭代轮次与 mAP/修正率
 ├─ CONTEXT.md  开发协作交接事实源（多 agent 切换时先读）
