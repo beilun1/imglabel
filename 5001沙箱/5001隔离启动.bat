@@ -69,7 +69,8 @@ if errorlevel 8 goto :weights_fail
 if not exist "%DST%\weights\yolo26n-seg.pt" goto :weights_fail
 if not exist "%DST%\weights\yolov8s-worldv2.pt" goto :weights_fail
 if not exist "%DST%\weights\clip\ViT-B-32.pt" echo       缺少 clip\ViT-B-32.pt：首次使用 YOLO-World 时将联网自动下载（约 338MB）
-echo       已拷 weights\yolo26n-seg.pt、yolov8s-worldv2.pt、clip\ViT-B-32.pt
+if exist "%DST%\weights\clip\ViT-B-32.pt" echo       已拷 weights\yolo26n-seg.pt、yolov8s-worldv2.pt、clip\ViT-B-32.pt
+if not exist "%DST%\weights\clip\ViT-B-32.pt" echo       已拷 weights\yolo26n-seg.pt、yolov8s-worldv2.pt
 
 :launch
 echo [5/5] 启动副本服务...
