@@ -283,7 +283,7 @@ git push                 # 推到私有仓库异地备份
 | | data/images/、data/review/、source_log.md | ✅ 保持 data/（images 在 P3-P5 复用） |
 | P2 | app.py、canvas/、启动.bat、requirements.txt | ❌ 提交包结构，留源码根 |
 | P3 | prelabel.py；权重 weights/yolov8s-worldv2.pt（=yoloworld.pt）/ yolo26n-seg.pt / clip/ViT-B-32.pt（不进 git） | ❌ 源码留根；权重路径记于本文件 |
-| P4 | data/records/（修正记录.json / 修正统计.json/.md，验收示例/）、tools/records_stats.py、P4指令/ | ❌ 提交包结构（P7 拷到根 records/） |
+| P4 | data/records/（修正记录.json / 修正统计.json/.md，验收示例/）、tools/records_stats.py | ❌ 提交包结构（P7 拷到根 records/） |
 | P5 | export_dataset.py、tools/verify_export.py、train.py、dataset/（三格式，不进 git，脚本再生成；P7 打包时导出）、model/best.pt + train_report.md | ❌ 提交包结构 |
 | P6 | R1 对比结果（平台导出） | ❌ 归 records/ 或提交包 |
 | P7 | demo/、ai_log.md、提交信息.txt、README.md 最终版 | ❌ 提交包结构 |
