@@ -1,0 +1,4 @@
+uploads/
+_tmp_results/
+__pycache__/
+*.py[cod]
