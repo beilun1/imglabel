@@ -10,6 +10,7 @@ set "GALLERY_N=20"
 set "PRELABEL_N=8"
 set "PORT=5001"
 set "PY=C:\Users\H\miniforge3\envs\imglabel\python.exe"
+if not exist "%PY%" set "PY=python"
 for %%I in ("%~dp0..") do set "SRC=%%~fI"
 set "DST=%TEMP%\isolated_5001"
 
@@ -67,7 +68,7 @@ robocopy "%SRC%\weights" "%DST%\weights" /MIR /R:1 /W:1 /NFL /NDL /NJH /NJS /NP 
 if errorlevel 8 goto :weights_fail
 if not exist "%DST%\weights\yolo26n-seg.pt" goto :weights_fail
 if not exist "%DST%\weights\yolov8s-worldv2.pt" goto :weights_fail
-if not exist "%DST%\weights\clip\ViT-B-32.pt" goto :weights_fail
+if not exist "%DST%\weights\clip\ViT-B-32.pt" echo       缺少 clip\ViT-B-32.pt：首次使用 YOLO-World 时将联网自动下载（约 338MB）
 echo       已拷 weights\yolo26n-seg.pt、yolov8s-worldv2.pt、clip\ViT-B-32.pt
 
 :launch
