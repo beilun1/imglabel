@@ -7,6 +7,10 @@
 *.tflite
 # 例外：自训最终权重必须提交（任务书明确要求纳入压缩包）
 !model/best.pt
+# 例外：预标注所需官方权重随仓库提供，保证克隆后可直接运行
+# （CLIP 文本编码器 354MB 超 GitHub 单文件上限，不入库，首次运行自动下载）
+!weights/yolo26n-seg.pt
+!weights/yolov8s-worldv2.pt
 
 # ===== 原始图片压缩包 / 数据中间包 =====
 *.zip

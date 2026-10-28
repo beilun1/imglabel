@@ -2,11 +2,7 @@
 setlocal
 cd /d "%~dp0"
 set "PY=C:\Users\H\miniforge3\envs\imglabel\python.exe"
-if not exist "%PY%" (
-  echo Python environment not found: %PY%
-  pause
-  exit /b 1
-)
+if not exist "%PY%" set "PY=python"
 netstat -ano | findstr /R /C:":5002 .*LISTENING" >nul
 if not errorlevel 1 (
   echo Port 5002 is busy. No process will be stopped.
