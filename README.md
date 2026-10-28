@@ -42,7 +42,8 @@ python app.py
 ## 目录结构
 
 ```
-├─ app.py │ canvas/ │ prelabel.py │ 启动.bat │ requirements.txt  主程序源码
+├─ app.py │ prelabel.py │ reback.py │ train.py │ export_dataset.py   主程序源码
+├─ canvas/ │ templates/ │ 启动.bat │ requirements.txt                 画布 / 页面 / 启动 / 依赖
 ├─ 5002演示台/  5002 任意图检测演示台（独立 Flask 应用，端口 5002）
 ├─ 5001沙箱/    5001 隔离沙箱脚本（%TEMP% 项目副本，真实数据零污染）
 ├─ data/
@@ -54,9 +55,11 @@ python app.py
 ├─ weights/    预标注所用官方权重（yolo26n-seg.pt / yolov8s-worldv2.pt）
 ├─ records/    根目录交付版修正记录 + 对比结果.csv
 ├─ demo/       演示录屏：演示录屏.mp4（2:54，启动→预标注→三模式→导出→对比）+ 5002-任意图检测.mp4（0:43）
+├─ tools/      数据准备 / 导出校验 / 统计对比脚本（extract_*、finalize_dataset、verify_export、records_stats、compare_rounds 等）
 ├─ ai_log.md   AI 使用记录（时间|工具|用途）
 ├─ 提交信息.txt  姓名/学号/联系方式、数据来源、迭代轮次与 mAP/修正率
 ├─ CONTEXT.md  开发协作交接事实源（多 agent 切换时先读）
+├─ .gitattributes  *.bat / *.ps1 按原样存储，保证仓库内为 CRLF
 └─ README.md
 ```
 
